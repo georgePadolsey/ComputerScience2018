@@ -9,8 +9,8 @@ node_js:
 cache:
   yarn: true
   directories:
-    - node_modules
-    - app/node_modules
+    - src/node_modules
+    - src/app/node_modules
 
 addons:
   apt:
@@ -24,6 +24,7 @@ addons:
       - xorriso
 
 install:
+  - cd src/
   - export CXX="g++-4.8"
   - yarn
   - cd app && yarn && cd ..
