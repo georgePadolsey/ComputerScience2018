@@ -1,1 +1,1 @@
-# ComputerScience2018 [![Travis CI](https://travis-ci.com/georgePadolsey/ComputerScience2018)]()
+# ComputerScience2018 [![Build Status](https://travis-ci.com/georgePadolsey/ComputerScience2018.svg?token=qWiFuFjqoqpyaJ2A1aQp&branch=master)](https://travis-ci.com/georgePadolsey/ComputerScience2018)
