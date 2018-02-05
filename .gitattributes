@@ -1,7 +1,8 @@
-*.docx diff=pandoc
-* text eol=lf
-*.png binary
-*.jpg binary
-*.jpeg binary
-*.ico binary
-*.icns binary
+*.doc binary
+*.DOC binary
+*.docx binary
+*.DOCX binary
+*.vsd binary
+*.VSD binary
+*.pdf binary
+*.PDF binary
