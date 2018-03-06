@@ -58,6 +58,8 @@ app.on('ready', async () => {
     show: false,
     width: 1024,
     height: 728,
+    backgroundColor: '#2e2c29',
+    title: "Cryptolium",
     webPreferences: {
       // Electron Security Checklist - pg 11
       // contextIsolation: true
