@@ -1,3 +1,4 @@
+text eol=lf
 *.doc binary
 *.DOC binary
 *.docx binary
