@@ -24,8 +24,16 @@ const mapStateToProps = ({ profile, lastDataUpdate }) => {
   return { profile: defaultProfile, lastDataUpdate };
 };
 
+const mapDispatchToProps = ()
+
 class SidePanel extends Component<Props> {
   props: Props;
+
+  constructor(props) {
+    super(props);
+    const {dispatch} = props;
+
+  }
 
   render() {
     return (

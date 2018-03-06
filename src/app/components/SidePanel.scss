@@ -3,10 +3,11 @@
   width: 25vw;
   min-width: 280px;
   background-color: #1c1745;
-  color: #d7cdf2;
   padding: 1.2em;
+  color: #d7cdf2;
   border-right: 2px solid black;
   float: left;
+  overflow-y: scroll;
 }
 
 .sidePanel * {

@@ -2,7 +2,7 @@
   "name": "cryptolium",
   "productName": "Cryptolium",
   "version": "0.0.1",
-  "description": "Electron application boilerplate based on React, React Router, Webpack, React Hot Loader for rapid application development",
+  "description": "Cryptocurrency profile app.",
   "main": "./main.prod.js",
   "author": {
     "name": "George Padolsey",

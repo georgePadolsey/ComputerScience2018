@@ -1,10 +1,13 @@
+
+
 .mainPanel {
   float: left;
   color: rgb(18, 18, 18);
   // width: 80%;
   width: 74vw;
+  margin-top: 2vh;
   padding: 2vh 2vw 2vh 2vw;
-  height: 100%;
+  height: 100vh;
 }
 
 .header {
@@ -28,23 +31,16 @@
 }
 
 .mainBody {
+  overflow-y: scroll;
   background-color: rgb(240, 240, 240);
-  height: 100%;
+  height: calc(100% - 5em);
   width: 100%;
   margin-top: 3vh;
-  display: grid;
-  grid-column-gap: 5%;
-  grid-template-columns: 1fr 1fr;
+  // padding: 1em;
 }
 
-.x2box {
-  grid-column-start: 1;
-  grid-column-end: 3;
-  height: 40vh;
-  background-color: red;
-}
-
-.x1box {
-  height: 40vh;
-  background-color: red;
+.mainBody div {
+  background-color: rgb(220, 220, 220);
+  // background-color: red;
+  margin-bottom: 1vh;
 }
