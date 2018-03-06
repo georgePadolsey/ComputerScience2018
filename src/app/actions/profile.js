@@ -1,21 +1,25 @@
-//@flow
-
+// @flow
+import { ipcRenderer } from 'electron';
+import { send } from 'redux-electron-ipc';
 
 type actionType = {
-    +type: string
+  +type: string
+};
+
+export const LOAD_PROFILES = 'LOAD_PROFILES';
+export const UPDATE_PROFILE = 'UPDATE_PROFILE';
+
+export function loadProfiles() {
+  return async dispatch => {
+    dispatch(send('main', {
+      type: LOAD_PROFILES
+    }));
+  };
 }
 
-export const LOAD_PROFILE = "LOAD_PROFILE";
-export const UPDATE_PROFILE = "UPDATE_PROFILE";
-
-export function loadProfile() {
-    return {
-        type: LOAD_PROFILE
-    }
-}
-
-export function updateProfile() {
-    return {
-        type: UPDATE_PROFILE
-    }
+export function updateProfile(evt, args) {
+  return {
+    type: UPDATE_PROFILE,
+    args
+  };
 }

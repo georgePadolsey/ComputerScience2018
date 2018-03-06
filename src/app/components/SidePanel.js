@@ -3,6 +3,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import styles from './SidePanel.scss';
 import moment from 'moment';
+import { bindActionCreators } from 'redux';
+import * as profileActions from '../actions/profile';
 import type { ProfileType } from '../_types/Profile';
 import SpinOnHoverFontAwesome from './SpinOnHoverFontAwesome';
 
@@ -24,20 +26,16 @@ const mapStateToProps = ({ profile, lastDataUpdate }) => {
   return { profile: defaultProfile, lastDataUpdate };
 };
 
-// const mapDispatchToProps = ()
+const mapDispatchToProps = (dispatch, props) => ({
+  profileActions: bindActionCreators(profileActions, dispatch)
+});
 
 class SidePanel extends Component<Props> {
   props: Props;
 
-  constructor(props) {
-    super(props);
-    const {dispatch} = props;
+  componentDidMount() {}
 
-  }
-
-  componentDidMount() {
-  
-  }
+  refreshData() {}
 
   render() {
     return (
@@ -62,4 +60,4 @@ class SidePanel extends Component<Props> {
   }
 }
 
-export default connect(mapStateToProps)(SidePanel);
+export default connect(mapStateToProps, mapDispatchToProps)(SidePanel);

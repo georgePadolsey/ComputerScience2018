@@ -4,6 +4,7 @@ import { createHashHistory } from 'history';
 import { routerMiddleware, routerActions } from 'react-router-redux';
 import { createLogger } from 'redux-logger';
 import rootReducer from '../reducers';
+import { ipc } from '../reducers/ipc';
 import * as counterActions from '../actions/counter';
 // import type { counterStateType } from '../reducers/counter';
 
@@ -27,6 +28,8 @@ const configureStore = (initialState?: counterStateType) => {
   if (process.env.NODE_ENV !== 'test') {
     middleware.push(logger);
   }
+
+  middleware.push(ipc);
 
   // Router Middleware
   const router = routerMiddleware(history);

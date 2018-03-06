@@ -10,8 +10,9 @@
  *
  * @flow
  */
-import { app, BrowserWindow } from 'electron';
+import { app, BrowserWindow, ipcMain } from 'electron';
 import MenuBuilder from './menu';
+import clientAppReducer from './_app_node/ClientAppReducer.js';
 
 let mainWindow = null;
 
@@ -59,7 +60,7 @@ app.on('ready', async () => {
     width: 1024,
     height: 728,
     backgroundColor: '#2e2c29',
-    title: "Cryptolium",
+    title: 'Cryptolium',
     webPreferences: {
       // Electron Security Checklist - pg 11
       // contextIsolation: true
@@ -90,4 +91,9 @@ app.on('ready', async () => {
 
   const menuBuilder = new MenuBuilder(mainWindow);
   menuBuilder.buildMenu();
+
+  ipcMain.on('main', async (evt, ...args) => {
+    const reply = await clientAppReducer(...args);
+    evt.sender.send(...reply);
+  });
 });
