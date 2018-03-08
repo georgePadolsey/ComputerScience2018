@@ -13,6 +13,7 @@
 import { app, BrowserWindow, ipcMain } from 'electron';
 import MenuBuilder from './menu';
 import clientAppReducer from './_app_node/ClientAppReducer.js';
+import path from 'path';
 
 let mainWindow = null;
 
@@ -61,6 +62,7 @@ app.on('ready', async () => {
     height: 728,
     backgroundColor: '#2e2c29',
     title: 'Cryptolium',
+    icon: path.join(__dirname, '/../resources/Cryptocurrency_Logo.png'),
     webPreferences: {
       // Electron Security Checklist - pg 11
       // contextIsolation: true
