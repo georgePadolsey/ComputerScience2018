@@ -5,6 +5,7 @@ import styles from './SidePanel.scss';
 import moment from 'moment';
 import { bindActionCreators } from 'redux';
 import * as profileActions from '../actions/profile';
+import * as cryptActions from '../actions/crypt';
 import type { ProfileType } from '../_types/Profile';
 import SpinOnHoverFontAwesome from './SpinOnHoverFontAwesome';
 
@@ -19,15 +20,11 @@ const defaultProfile: ProfileType = {
   uuid: '_'
 };
 
-const mapStateToProps = ({ profile, lastDataUpdate }) => {
-  if (profile != null) {
-    return { profile, lastDataUpdate };
-  }
-  return { profile: defaultProfile, lastDataUpdate };
-};
+const mapStateToProps = ({ profileData, cryptData }) => ({ profileData, cryptData });
 
 const mapDispatchToProps = (dispatch, props) => ({
-  profileActions: bindActionCreators(profileActions, dispatch)
+  profileActions: bindActionCreators(profileActions, dispatch),
+  cryptData: bindActionCreators(cryptActions, dispatch)
 });
 
 class SidePanel extends Component<Props> {
@@ -37,24 +34,37 @@ class SidePanel extends Component<Props> {
 
   refreshData() {}
 
+  getCurrentProfile() {
+    if (this.props.profileData.currentProfile == null) {
+      return null;
+    }
+    return this.props.profileData.loadedProfiles[this.props.profileData.currentProfile];
+  }
+
+  getProfileName() {
+    const profile = this.getCurrentProfile();
+    return profile ? profile.displayName : 'Default';
+  }
+
+  getLastDataUpdate() {
+    // todo
+    return +new Date();
+  }
+
   render() {
     return (
       <div className={styles.sidePanel}>
-        {!this.props.profile.isReal ? (
-          <div className={styles.topContainer}>
-            <div className={styles.profileName}>{this.props.profile.displayName}</div>
-            <span>
-              updated {moment(this.props.lastDataUpdate).fromNow()}{' '}
-              <SpinOnHoverFontAwesome
-                className={styles.refreshButton}
-                name="sync"
-                onClick={() => this.refreshData()}
-              />
-            </span>
-          </div>
-        ) : (
-          <h1>Setup Account</h1>
-        )}
+        <div className={styles.topContainer}>
+          <div className={styles.profileName}>{this.getProfileName()}</div>
+          <span>
+            updated {moment(this.getLastDataUpdate()).fromNow()}{' '}
+            <SpinOnHoverFontAwesome
+              className={styles.refreshButton}
+              name="sync"
+              onClick={() => this.refreshData()}
+            />
+          </span>
+        </div>
       </div>
     );
   }

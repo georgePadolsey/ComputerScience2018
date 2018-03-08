@@ -5,9 +5,7 @@ import type { ProfileType } from '../_types/Profile';
 
 const profilesStore = new Store({
   name: 'profiles',
-  defaults: {
-    profiles: {}
-  },
+  defaults: {},
   /**
    * Only encrypt the profile store when in production
    * This is to prevent users manually editing the file
@@ -16,7 +14,11 @@ const profilesStore = new Store({
   encryptionKey: process.env.NODE_ENV === 'production' ? CONFIG_KEY : undefined
 });
 
-export default async function profileProvider(): { [string]: ProfileType } {
+export default async function profileProvider(): any {
   console.log('loading-profiles');
-  return profilesStore.get('profiles');
+  return profilesStore.store;
+}
+
+export function setProfileData(data): any {
+  profilesStore.store = data;
 }

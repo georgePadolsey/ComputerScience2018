@@ -1,15 +1,14 @@
 // @flow
-import getProfiles from '../utils/ProfileProvider';
+import getProfileData from '../utils/ProfileProvider';
 import type { ProfileType } from '../_types/Profile';
+import type { actionType } from '../_types/ActionType';
 
-type actionType = {
-  +type: string,
-  payload: any
-};
-
-export const LOAD_PROFILES = 'LOAD_PROFILES';
-export const LOADED_PROFILES = 'LOADED_PROFILES';
+export const HYDRATE_PROFILE_DATA = 'HYDRATE_PROFILE_DATA';
+export const LOADED_PROFILE_DATA = 'LOADED_PROFILE_DATA';
 export const CHANGE_PROFILE = 'CHANGE_PROFILE';
+export const SET_OFFERED_CREATOR = 'SET_OFFERED_CREATOR';
+export const SHOW_PROFILE_CREATOR = 'SHOW_PROFILE_CREATOR';
+export const HIDE_PROFILE_CREATOR = 'HIDE_PROFILE_CREATOR';
 
 export function changeProfile(newProfileUUID: string): actionType {
   return {
@@ -20,13 +19,33 @@ export function changeProfile(newProfileUUID: string): actionType {
   };
 }
 
-export function loadProfiles() {
-  return async (dispatch: actionType => mixed) => dispatch(loadedProfiles(await getProfiles()));
+export function setOfferedCreator(shown: boolean): actionType {
+  return {
+    type: SET_OFFERED_CREATOR,
+    payload: shown
+  };
 }
 
-export function loadedProfiles(profiles: { [string]: ProfileType }): actionType {
+export function loadProfileData() {
+  return async (dispatch: actionType => mixed) =>
+    dispatch(loadedProfileData(await getProfileData()));
+}
+
+export function showProfileCreator() {
   return {
-    type: LOADED_PROFILES,
-    payload: profiles
+    type: SHOW_PROFILE_CREATOR
+  };
+}
+
+export function hideProfileCreator() {
+  return {
+    type: HIDE_PROFILE_CREATOR
+  };
+}
+
+export function loadedProfileData(profileData: any): actionType {
+  return {
+    type: LOADED_PROFILE_DATA,
+    payload: profileData
   };
 }

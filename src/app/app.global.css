@@ -27,6 +27,9 @@ body {
     Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
   overflow-y: hidden;
 }
+button {
+  user-select: none;
+}
 
 h2 {
   margin: 0;

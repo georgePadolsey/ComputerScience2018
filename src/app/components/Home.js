@@ -11,6 +11,7 @@ import CryptoAPI from '../utils/CryptoAPI';
 import matches from 'lodash/matches';
 import type { ProfileType } from '../_types/Profile';
 import swal from 'sweetalert2';
+import ProfileCreator from '../components/ProfileCreator';
 
 type Props = {
   profileActions: {
@@ -31,18 +32,14 @@ class Home extends Component<Props> {
   };
 
   componentDidMount() {
-    this.props.profileActions.loadProfiles();
+    this.props.profileActions.loadProfileData();
   }
 
-  offerToMakeProfile() {
-    this.setState({
-      profileCreate: true
-    });
+  componentDidCatch(error, info) {
     swal({
-      title: 'ERror',
-      text: 'hmm',
-      type: 'error',
-      confirmButtonText: 'cool'
+      title: 'Error',
+      html: `<b>Contact the developer with this error</b><br>${error}`,
+      type: 'error'
     });
   }
 
@@ -53,8 +50,9 @@ class Home extends Component<Props> {
       if (!matches(this.props.profileData, nextProps.profileData)) {
         console.log('Profile data updated', nextProps.profileData);
       }
-      if (!nextProps.profileData.offeredToMakeProfile) {
-        this.offerToMakeProfile();
+      if (!nextProps.profileData.offeredCreator) {
+        this.props.profileActions.showProfileCreator();
+        this.props.profileActions.setOfferedCreator(true);
       }
     }
   }
@@ -62,9 +60,12 @@ class Home extends Component<Props> {
   // <div className={styles.container} data-tid="container" />
   render() {
     return (
-      <div className={styles.mainContainer}>
-        <SidePanel />
-        <MainPanel />
+      <div className={styles.root}>
+        <div className={styles.container}>
+          <SidePanel />
+          <MainPanel />
+        </div>
+        {this.props.profileData.showProfileCreator ? <ProfileCreator /> : null}
       </div>
     );
   }
