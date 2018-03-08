@@ -1,13 +1,17 @@
 // @flow
 
-import { UPDATE_PROFILE, LOAD_PROFILES } from '../actions/profile';
+import { LOADED_PROFILES } from '../actions/profile';
+// import uuidv1 from '
 
-const defaultProfile = { isReal: false, displayName: 'George' };
+const defaultProfile = {
+  currentProfile: null,
+  loadedProfiles: {}
+};
 export default function profileReducer(state = defaultProfile, action) {
   // console.log(state);
   switch (action.type) {
-    case UPDATE_PROFILE:
-      return Object.assign({}, state, { args: action.args });
+    case LOADED_PROFILES:
+      return Object.assign({}, state, { loadedProfiles: action.payload });
   }
   return state;
 }

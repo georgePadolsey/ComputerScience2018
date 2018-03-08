@@ -54,6 +54,7 @@ app.on('ready', async () => {
     await installExtensions();
   }
 
+  app.setName('Cryptolium');
   // Electron security checklist:
   // https://www.blackhat.com/docs/us-17/thursday/us-17-Carettoni-Electronegativity-A-Study-Of-Electron-Security-wp.pdf
   mainWindow = new BrowserWindow({

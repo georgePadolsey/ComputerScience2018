@@ -29,6 +29,7 @@ const configureStore = (initialState?: counterStateType) => {
     middleware.push(logger);
   }
 
+  // Redux-electron-ipc
   middleware.push(ipc);
 
   // Router Middleware

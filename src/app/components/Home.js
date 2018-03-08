@@ -8,22 +8,55 @@ import styles from './Home.scss';
 import SidePanel from './SidePanel';
 import MainPanel from './MainPanel';
 import CryptoAPI from '../utils/CryptoAPI';
+import matches from 'lodash/matches';
+import type { ProfileType } from '../_types/Profile';
+import swal from 'sweetalert2';
 
-type Props = {};
+type Props = {
+  profileActions: {
+    [string]: Function
+  }
+};
 
-const mapStateToProps = state => {};
+const mapStateToProps = ({ profileData }) => ({ profileData });
 
-const mapDispatchToProps = (dispatch, props) => ({ profileActions: bindActionCreators(profileActions, dispatch) });
+const mapDispatchToProps = (dispatch, props) => ({
+  profileActions: bindActionCreators(profileActions, dispatch)
+});
 
 class Home extends Component<Props> {
   props: Props;
-
-  constructor(props) {
-    super(props);
-  }
+  state = {
+    profileCreate: false
+  };
 
   componentDidMount() {
     this.props.profileActions.loadProfiles();
+  }
+
+  offerToMakeProfile() {
+    this.setState({
+      profileCreate: true
+    });
+    swal({
+      title: 'ERror',
+      text: 'hmm',
+      type: 'error',
+      confirmButtonText: 'cool'
+    });
+  }
+
+  componentWillReceiveProps(nextProps) {
+    console.log('Reciving props', nextProps);
+    if (nextProps.profileData) {
+      console.log('ProfileData defined ?');
+      if (!matches(this.props.profileData, nextProps.profileData)) {
+        console.log('Profile data updated', nextProps.profileData);
+      }
+      if (!nextProps.profileData.offeredToMakeProfile) {
+        this.offerToMakeProfile();
+      }
+    }
   }
 
   // <div className={styles.container} data-tid="container" />
@@ -37,4 +70,4 @@ class Home extends Component<Props> {
   }
 }
 
-export default connect(mapDispatchToProps, mapDispatchToProps)(Home);
+export default connect(mapStateToProps, mapDispatchToProps)(Home);

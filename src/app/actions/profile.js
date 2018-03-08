@@ -1,25 +1,32 @@
 // @flow
-import { ipcRenderer } from 'electron';
-import { send } from 'redux-electron-ipc';
+import getProfiles from '../utils/ProfileProvider';
+import type { ProfileType } from '../_types/Profile';
 
 type actionType = {
-  +type: string
+  +type: string,
+  payload: any
 };
 
 export const LOAD_PROFILES = 'LOAD_PROFILES';
-export const UPDATE_PROFILE = 'UPDATE_PROFILE';
+export const LOADED_PROFILES = 'LOADED_PROFILES';
+export const CHANGE_PROFILE = 'CHANGE_PROFILE';
 
-export function loadProfiles() {
-  return async dispatch => {
-    dispatch(send('main', {
-      type: LOAD_PROFILES
-    }));
+export function changeProfile(newProfileUUID: string): actionType {
+  return {
+    type: CHANGE_PROFILE,
+    payload: {
+      newProfileUUID
+    }
   };
 }
 
-export function updateProfile(evt, args) {
+export function loadProfiles() {
+  return async (dispatch: actionType => mixed) => dispatch(loadedProfiles(await getProfiles()));
+}
+
+export function loadedProfiles(profiles: { [string]: ProfileType }): actionType {
   return {
-    type: UPDATE_PROFILE,
-    args
+    type: LOADED_PROFILES,
+    payload: profiles
   };
 }
