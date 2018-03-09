@@ -9,6 +9,7 @@ export const CHANGE_PROFILE = 'CHANGE_PROFILE';
 export const SET_OFFERED_CREATOR = 'SET_OFFERED_CREATOR';
 export const SHOW_PROFILE_CREATOR = 'SHOW_PROFILE_CREATOR';
 export const HIDE_PROFILE_CREATOR = 'HIDE_PROFILE_CREATOR';
+export const SET_PROFILE_CREATOR_STAGE = 'SET_PROFILE_CREATOR_STAGE';
 
 export function changeProfile(newProfileUUID: string): actionType {
   return {
@@ -23,6 +24,13 @@ export function setOfferedCreator(shown: boolean): actionType {
   return {
     type: SET_OFFERED_CREATOR,
     payload: shown
+  };
+}
+
+export function setProfileCreatorStage(stage: string): actionType {
+  return {
+    type: SET_PROFILE_CREATOR_STAGE,
+    payload: stage
   };
 }
 
