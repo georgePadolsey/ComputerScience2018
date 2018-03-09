@@ -8,106 +8,124 @@ import {
   faExchangeAlt,
   faCreditCard,
   faTimes,
-  faHandPointRight
+  faHandPointRight,
+  faArrowLeft
 } from '@fortawesome/fontawesome-free-solid';
 import { connect } from 'react-redux';
+import { STAGES } from '../reducers/profile';
 import { bindActionCreators } from 'redux';
 import * as profileActions from '../actions/profile';
 
-const mapStateToProps = ({ profileData }) => profileData;
+const mapStateToProps = ({ profileData }) => ({ profileData });
 
 const mapDispatchToProps = (dispatch, props) => ({
   profileActions: bindActionCreators(profileActions, dispatch)
 });
 
-const STAGES = {
-  ACCOUNT_ADDER: 'ACCOUNT_ADDER',
-  ADD_BALANCE: 'ADD_BALANCE',
-  ADD_EXCHANGE: 'ADD_EXCHANGE',
-  ADD_WALLET: 'ADD_WALLET'
-};
-
 class ProfileCreator extends Component {
-  componentDidMount() {
-    this.props.profileActions.setProfileCreatorStage(STAGES.ACCOUNT_ADDER);
-  }
+  componentDidMount() {}
 
   dismiss() {
     this.props.profileActions.hideProfileCreator();
   }
 
-  nextStage() {}
+  setStage(stage) {
+    this.props.profileActions.setProfileCreatorStage(stage);
+  }
+
+  getAccountAdderStage() {
+    return (
+      <div className={styles.body} key={STAGES.ACCOUNT_ADDER}>
+        <button className={styles.exit} onClick={() => this.dismiss()}>
+          <FontAwesomeIcon icon={faTimes} />
+        </button>
+        <div className={styles.titleContainer}>
+          <p className={styles.title}>Create a profile</p>
+          <p className={styles.metaTitle}>Let's add an account.</p>
+        </div>
+        <button className={styles.button}>
+          <span className={styles.icon}>
+            <FontAwesomeIcon icon={faBalanceScale} />
+          </span>
+          <span className={styles.meta}> Crypto Coin Balance</span>
+        </button>
+        <button className={styles.button}>
+          <span className={styles.icon}>
+            <FontAwesomeIcon icon={faExchangeAlt} />
+          </span>
+          <span className={styles.meta}> Exchange</span>
+        </button>
+        <button className={styles.button}>
+          <span className={styles.icon}>
+            <FontAwesomeIcon icon={faCreditCard} />
+          </span>
+          <span className={styles.meta}>Crypto Wallet (BTC or ETH)</span>
+        </button>
+        <span className={styles.next} onClick={() => this.setStage(STAGES.ADD_BALANCE)}>
+          {"I don't want to add a balance..."}
+        </span>
+      </div>
+    );
+  }
+
+  getAddBalanceStage() {
+    return (
+      <div className={styles.body} key={STAGES.ADD_BALANCE}>
+        <button className={styles.exit} onClick={() => this.dismiss()}>
+          <FontAwesomeIcon icon={faTimes} />
+        </button>
+        <button className={styles.back} onClick={() => this.setStage(STAGES.ACCOUNT_ADDER)}>
+          <FontAwesomeIcon icon={faArrowLeft} />
+        </button>
+        <div className={styles.titleContainer}>
+          <p className={styles.title}>Add Balance</p>
+          <p className={styles.metaTitle}>Let's add an account.</p>
+        </div>
+        <div className={styles.buttonContainer}>
+          <button className={styles.button}>
+            <span className={styles.icon}>
+              <FontAwesomeIcon icon={faBalanceScale} />
+            </span>
+            <span className={styles.meta}> Crypto Coin Balance</span>
+          </button>
+          <button className={styles.button}>
+            <span className={styles.icon}>
+              <FontAwesomeIcon icon={faExchangeAlt} />
+            </span>
+            <span className={styles.meta}> Exchange</span>
+          </button>
+          <button className={styles.button}>
+            <span className={styles.icon}>
+              <FontAwesomeIcon icon={faCreditCard} />
+            </span>
+            <span className={styles.meta}>Crypto Wallet (BTC or ETH)</span>
+          </button>
+        </div>
+        <span className={styles.next} onClick={() => this.setStage(STAGES.ADD_BALANCE)}>
+          {"I don't want to add a balance..."}
+        </span>
+      </div>
+    );
+  }
+
+  getStages() {
+    const stages = {};
+    stages[STAGES.ACCOUNT_ADDER] = this.getAccountAdderStage();
+    stages[STAGES.ADD_BALANCE] = this.getAddBalanceStage();
+    return stages[this.props.profileData.profileCreatorStage];
+  }
   render() {
     return (
       <div className={styles.container}>
         <div className={styles.dimmedBackground} onClick={() => this.dismiss()} aria-hidden />
         <CSSTransitionGroup
           transitionName="example"
-          transitionEnterTimeout={500}
-          transitionLeaveTimeout={300}
+          transitionAppear
+          transitionAppearTimeout={500}
+          transitionEnter={false}
+          transitionLeave={false}
         >
-          {this.props.profileData.profileCreator.stage === STAGES.ACCOUNT_ADDER ? (
-            <div className={styles.body}>
-              <button className={styles.exit} onClick={() => this.dismiss()}>
-                <FontAwesomeIcon icon={faTimes} />
-              </button>
-              <div className={styles.titleContainer}>
-                <p className={styles.title}>Create a profile</p>
-                <p className={styles.metaTitle}>Let's add an account.</p>
-              </div>
-              <button className={styles.button}>
-                <span className={styles.icon}>
-                  <FontAwesomeIcon icon={faBalanceScale} />
-                </span>
-                <span className={styles.meta}> Crypto Coin Balance</span>
-              </button>
-              <button className={styles.button}>
-                <span className={styles.icon}>
-                  <FontAwesomeIcon icon={faExchangeAlt} />
-                </span>
-                <span className={styles.meta}> Exchange</span>
-              </button>
-              <button className={styles.button}>
-                <span className={styles.icon}>
-                  <FontAwesomeIcon icon={faCreditCard} />
-                </span>
-                <span className={styles.meta}>Crypto Wallet (BTC or ETH)</span>
-              </button>
-              <span className={styles.next} onClick={() => this.nextStage()}>
-                I don't want to add a balance...
-              </span>
-            </div>
-          ) : null}
-          (this.state.stage === 2 ?
-          <div className={styles.body}>
-            <button className={styles.exit} onClick={() => this.dismiss()}>
-              <FontAwesomeIcon icon={faTimes} />
-            </button>
-            <div className={styles.titleContainer}>
-              <p className={styles.title}>Create a profile</p>
-              <p className={styles.metaTitle}>Let's add an account.</p>
-            </div>
-            <button className={styles.button}>
-              <span className={styles.icon}>
-                <FontAwesomeIcon icon={faBalanceScale} />
-              </span>
-              <span className={styles.meta}> Crypto Coin Balance</span>
-            </button>
-            <button className={styles.button}>
-              <span className={styles.icon}>
-                <FontAwesomeIcon icon={faExchangeAlt} />
-              </span>
-              <span className={styles.meta}> Exchange</span>
-            </button>
-            <button className={styles.button}>
-              <span className={styles.icon}>
-                <FontAwesomeIcon icon={faCreditCard} />
-              </span>
-              <span className={styles.meta}>Crypto Wallet (BTC or ETH)</span>
-            </button>
-            <span className={styles.next}>I don't want to add a balance...</span>
-          </div>
-          : null)
+          {this.getStages()}
         </CSSTransitionGroup>
       </div>
     );
