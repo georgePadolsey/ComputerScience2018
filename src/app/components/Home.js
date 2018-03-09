@@ -35,14 +35,6 @@ class Home extends Component<Props> {
     this.props.profileActions.loadProfileData();
   }
 
-  componentDidCatch(error, info) {
-    swal({
-      title: 'Error',
-      html: `<b>Contact the developer with this error</b><br>${error}`,
-      type: 'error'
-    });
-  }
-
   componentWillReceiveProps(nextProps) {
     console.log('Reciving props', nextProps);
     if (nextProps.profileData) {
@@ -55,6 +47,14 @@ class Home extends Component<Props> {
         this.props.profileActions.setOfferedCreator(true);
       }
     }
+  }
+  // eslint-disable-next-line class-methods-use-this
+  componentDidCatch(error) {
+    swal({
+      title: 'Error',
+      html: `<b>Contact the developer with this error</b><br>${error}`,
+      type: 'error'
+    });
   }
 
   // <div className={styles.container} data-tid="container" />
