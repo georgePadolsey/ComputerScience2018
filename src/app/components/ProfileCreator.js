@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import styles from './ProfileCreator.scss';
 import FontAwesomeIcon from '@fortawesome/react-fontawesome';
 import { CSSTransitionGroup } from 'react-transition-group';
+import logo from '../../resources/icon.png';
 import {
   faBalanceScale,
   faExchangeAlt,
@@ -40,30 +41,46 @@ class ProfileCreator extends Component {
           <FontAwesomeIcon icon={faTimes} />
         </button>
         <div className={styles.titleContainer}>
-          <p className={styles.title}>Create a profile</p>
+          {this.props.profileData.firstTime ? (
+            <div className={styles.firstTime}>
+              <img src={logo} alt="Cryptolium logo" title="Cryptolium logo" />
+              <span>Welcome to Cryptolium</span>
+            </div>
+          ) : (
+            <p className={styles.title}>Create a profile</p>
+          )}
           <p className={styles.metaTitle}>Let's add an account.</p>
         </div>
-        <button className={styles.button}>
-          <span className={styles.icon}>
-            <FontAwesomeIcon icon={faBalanceScale} />
+        <CSSTransitionGroup
+          transitionName="fadeIn"
+          transitionAppear
+          transitionAppearTimeout={2000}
+          transitionEnter={false}
+          // transitionEnterTimeout={500}
+          transitionLeave={false}
+        >
+          <button className={styles.button}>
+            <span className={styles.icon}>
+              <FontAwesomeIcon icon={faBalanceScale} />
+            </span>
+            <span className={styles.meta}> Crypto Coin Balance</span>
+          </button>
+          <button className={styles.button}>
+            <span className={styles.icon}>
+              <FontAwesomeIcon icon={faExchangeAlt} />
+            </span>
+            <span className={styles.meta}> Exchange</span>
+          </button>
+          <button className={styles.button}>
+            <span className={styles.icon}>
+              <FontAwesomeIcon icon={faCreditCard} />
+            </span>
+            <span className={styles.meta}>Crypto Wallet (BTC or ETH)</span>
+          </button>
+          <span className={styles.next} onClick={() => this.setStage(STAGES.ADD_BALANCE)}>
+            {"I don't want to add a balance..."}
           </span>
-          <span className={styles.meta}> Crypto Coin Balance</span>
-        </button>
-        <button className={styles.button}>
-          <span className={styles.icon}>
-            <FontAwesomeIcon icon={faExchangeAlt} />
-          </span>
-          <span className={styles.meta}> Exchange</span>
-        </button>
-        <button className={styles.button}>
-          <span className={styles.icon}>
-            <FontAwesomeIcon icon={faCreditCard} />
-          </span>
-          <span className={styles.meta}>Crypto Wallet (BTC or ETH)</span>
-        </button>
-        <span className={styles.next} onClick={() => this.setStage(STAGES.ADD_BALANCE)}>
-          {"I don't want to add a balance..."}
-        </span>
+        </CSSTransitionGroup>
       </div>
     );
   }
@@ -101,9 +118,6 @@ class ProfileCreator extends Component {
             <span className={styles.meta}>Crypto Wallet (BTC or ETH)</span>
           </button>
         </div>
-        <span className={styles.next} onClick={() => this.setStage(STAGES.ADD_BALANCE)}>
-          {"I don't want to add a balance..."}
-        </span>
       </div>
     );
   }
@@ -118,15 +132,15 @@ class ProfileCreator extends Component {
     return (
       <div className={styles.container}>
         <div className={styles.dimmedBackground} onClick={() => this.dismiss()} aria-hidden />
-        <CSSTransitionGroup
+        {/* <CSSTransitionGroup
           transitionName="example"
           transitionAppear
           transitionAppearTimeout={500}
           transitionEnter={false}
           transitionLeave={false}
-        >
-          {this.getStages()}
-        </CSSTransitionGroup>
+        > */}
+        {this.getStages()}
+        {/* </CSSTransitionGroup> */}
       </div>
     );
   }

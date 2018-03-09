@@ -5,7 +5,7 @@ import { routerMiddleware, routerActions } from 'react-router-redux';
 import { createLogger } from 'redux-logger';
 import rootReducer from '../reducers';
 import { ipc } from '../reducers/ipc';
-import * as counterActions from '../actions/counter';
+import * as profileActions from '../actions/profile';
 // import type { counterStateType } from '../reducers/counter';
 
 const history = createHashHistory();
@@ -38,7 +38,7 @@ const configureStore = (initialState?: counterStateType) => {
 
   // Redux DevTools Configuration
   const actionCreators = {
-    ...counterActions,
+    ...profileActions,
     ...routerActions
   };
   // If Redux DevTools Extension is installed use it, otherwise use Redux compose

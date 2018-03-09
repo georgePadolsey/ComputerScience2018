@@ -20,6 +20,7 @@ export const STAGES = {
 const defaultProfileData = {
   currentProfile: null,
   loadedProfiles: {},
+  firstTime: true,
   profileCreatorStage: STAGES.ACCOUNT_ADDER
 };
 export default function profileReducer(state = defaultProfileData, action) {
@@ -44,7 +45,7 @@ export default function profileReducer(state = defaultProfileData, action) {
       saveData();
       break;
     case HIDE_PROFILE_CREATOR:
-      ret = Object.assign({}, state, { showProfileCreator: false });
+      ret = Object.assign({}, state, { showProfileCreator: false, firstTime: false });
       saveData();
       break;
     case SET_PROFILE_CREATOR_STAGE:

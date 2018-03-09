@@ -114,29 +114,32 @@ $containerColor: rgb(250, 250, 250);
 }
 
 :global {
-  .example-enter {
+  .fadeIn-appear {
     opacity: 0.01;
+    margin-top: 50vh;
+    height: 0;
+    transition: all 1000ms ease-in;
+    // ansition: mar 1000ms ease-in;
   }
 
-  .example-enter.example-enter-active {
+  .fadeIn-appear.fadeIn-appear-active {
+    margin-top: 0;
+    height: auto;
     opacity: 1;
-    transition: opacity 500ms ease-in;
   }
+}
 
-  .example-leave {
-    opacity: 1;
+.firstTime {
+  img {
+    height: 15vh;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 0;
+    display: block;
   }
-
-  .example-leave.example-leave-active {
-    opacity: 0.01;
-    transition: opacity 300ms ease-in;
-  }
-  .example-appear {
-    opacity: 0.01;
-  }
-
-  .example-appear.example-appear-active {
-    opacity: 1;
-    transition: opacity 0.5s ease-in;
+  span {
+    margin-top: 1em;
+    line-height: 15vh;
+    font-size: 2.5em;
   }
 }
