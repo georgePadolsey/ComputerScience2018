@@ -32,6 +32,7 @@ class Home extends Component<Props> {
   };
 
   componentDidMount() {
+    CryptoAPI.run();
     this.props.profileActions.loadProfileData();
   }
 

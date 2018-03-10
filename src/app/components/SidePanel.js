@@ -5,7 +5,7 @@ import styles from './SidePanel.scss';
 import moment from 'moment';
 import { bindActionCreators } from 'redux';
 import * as profileActions from '../actions/profile';
-import * as cryptActions from '../actions/crypt';
+import * as cryptoActions from '../actions/crypto';
 import type { ProfileType } from '../_types/Profile';
 import SpinOnHoverFontAwesome from './SpinOnHoverFontAwesome';
 
@@ -20,11 +20,11 @@ const defaultProfile: ProfileType = {
   uuid: '_'
 };
 
-const mapStateToProps = ({ profileData, cryptData }) => ({ profileData, cryptData });
+const mapStateToProps = ({ profileData, cryptoData }) => ({ profileData, cryptoData });
 
 const mapDispatchToProps = (dispatch, props) => ({
   profileActions: bindActionCreators(profileActions, dispatch),
-  cryptData: bindActionCreators(cryptActions, dispatch)
+  cryptoData: bindActionCreators(cryptoActions, dispatch)
 });
 
 class SidePanel extends Component<Props> {
