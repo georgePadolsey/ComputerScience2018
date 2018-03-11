@@ -24,13 +24,15 @@ const defaultProfileData = {
   profileCreatorStage: STAGES.ACCOUNT_ADDER
 };
 export default function profileReducer(state = defaultProfileData, action) {
-  function saveData() {
+  let ret = state;
+
+  const saveData = () => {
     // save profile data to config
     setProfileData(ret);
-  }
+  };
 
   // console.log(state);
-  let ret = state;
+
   switch (action.type) {
     case LOADED_PROFILE_DATA:
       ret = Object.assign({}, state, action.payload);
@@ -53,7 +55,7 @@ export default function profileReducer(state = defaultProfileData, action) {
       saveData();
       break;
     default:
-      ret = state;
+      return state;
   }
 
   return ret;

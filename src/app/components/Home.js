@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as profileActions from '../actions/profile';
+import * as uiActions from '../actions/ui';
 // import { Link } from 'react-router-dom';
 import styles from './Home.scss';
 import SidePanel from './SidePanel';
@@ -22,7 +23,8 @@ type Props = {
 const mapStateToProps = ({ profileData }) => ({ profileData });
 
 const mapDispatchToProps = (dispatch, props) => ({
-  profileActions: bindActionCreators(profileActions, dispatch)
+  profileActions: bindActionCreators(profileActions, dispatch),
+  uiActions: bindActionCreators(uiActions, dispatch)
 });
 
 class Home extends Component<Props> {
@@ -32,8 +34,9 @@ class Home extends Component<Props> {
   };
 
   componentDidMount() {
-    CryptoAPI.run();
+    CryptoAPI.loadMarkets();
     this.props.profileActions.loadProfileData();
+    this.props.uiActions.loadUIData();
   }
 
   componentWillReceiveProps(nextProps) {
