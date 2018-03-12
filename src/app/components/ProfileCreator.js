@@ -16,6 +16,7 @@ import { connect } from 'react-redux';
 import { STAGES } from '../reducers/profile';
 import { bindActionCreators } from 'redux';
 import * as profileActions from '../actions/profile';
+import type { ProfileCreatorStage } from '../reducers/profile';
 
 const mapStateToProps = ({ profileData }) => ({ profileData });
 
@@ -30,7 +31,7 @@ class ProfileCreator extends Component {
     this.props.profileActions.hideProfileCreator();
   }
 
-  setStage(stage) {
+  setStage(stage: ProfileCreatorStage) {
     this.props.profileActions.setProfileCreatorStage(stage);
   }
 

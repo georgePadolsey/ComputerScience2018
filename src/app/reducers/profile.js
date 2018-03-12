@@ -17,6 +17,8 @@ export const STAGES = {
   ADD_WALLET: 'ADD_WALLET'
 };
 
+export type ProfileCreatorStage = $Keys<typeof STAGES>;
+
 const defaultProfileData = {
   currentProfile: null,
   loadedProfiles: {},
