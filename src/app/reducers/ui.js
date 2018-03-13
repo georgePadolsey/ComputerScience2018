@@ -1,7 +1,11 @@
 // @flow
-import type { actionType } from '../_types/ActionType';
-import { SET_MAIN_PANEL_EDIT_MODE, UPDATE_MAIN_LAYOUTS, LOADED_UI_DATA } from '../actions/ui';
-import { setUIData } from '../utils/UIProvider';
+import type { actionType } from "../_types/ActionType";
+import {
+  SET_MAIN_PANEL_EDIT_MODE,
+  UPDATE_MAIN_LAYOUTS,
+  LOADED_UI_DATA
+} from "../actions/ui";
+import { setUIData } from "../utils/UIProvider";
 
 const defaultUIState = {
   mainPanelEditMode: false,
