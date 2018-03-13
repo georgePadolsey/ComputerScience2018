@@ -1,0 +1,25 @@
+.sidePanel {
+  height: 100%;
+  width: 25vw;
+  min-width: 10px;
+  background-color: #1c1745;
+  padding: 1.2em;
+  color: #d7cdf2;
+  border-right: 2px solid black;
+  float: left;
+  overflow-y: auto;
+}
+
+.sidePanel * {
+  user-select: none;
+  cursor: default;
+}
+
+.profileName {
+  color: rgb(253, 253, 253);
+  font-size: 2em;
+}
+
+.refreshButton {
+  cursor: pointer;
+}

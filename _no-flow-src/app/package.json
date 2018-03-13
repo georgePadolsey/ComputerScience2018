@@ -1,0 +1,18 @@
+{
+  "name": "cryptolium",
+  "productName": "Cryptolium",
+  "version": "0.0.1",
+  "description": "Cryptocurrency profile app.",
+  "main": "./main.prod.js",
+  "author": {
+    "name": "George Padolsey",
+    "email": "george@padolsey.co.uk",
+    "url": "https://github.com/georgePadolsey"
+  },
+  "scripts": {
+    "electron-rebuild": "node -r babel-register ../internals/scripts/ElectronRebuild.js",
+    "postinstall": "npm run electron-rebuild"
+  },
+  "license": "MIT",
+  "dependencies": {}
+}
