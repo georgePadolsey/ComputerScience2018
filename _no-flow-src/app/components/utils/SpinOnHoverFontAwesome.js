@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import FontAwesomeIcon from '@fortawesome/react-fontawesome';
-import { faSync } from '@fortawesome/fontawesome-free-solid';
 
 export default class SpinOnHoverFontAwesome extends Component {
   constructor(props) {
@@ -11,12 +10,14 @@ export default class SpinOnHoverFontAwesome extends Component {
   }
 
   render() {
+    const { icon, ...rest } = this.props;
+
     // Composition > Extension :)
     return (
       <FontAwesomeIcon
-        {...this.props}
+        {...rest}
         spin={this.state.mouseOver}
-        icon={faSync}
+        icon={icon}
         onMouseOver={() => this.setState({ mouseOver: true })}
         onMouseOut={() => this.setState({ mouseOver: false })}
       />

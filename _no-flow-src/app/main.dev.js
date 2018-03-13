@@ -61,7 +61,7 @@ app.on('ready', async () => {
     show: false,
     width: 1024,
     height: 728,
-    backgroundColor: '#2e2c29',
+    backgroundColor: '#1c1745',
     title: 'Cryptolium',
     icon: path.join(__dirname, '/../resources/Cryptocurrency_Logo.png'),
     webPreferences: {

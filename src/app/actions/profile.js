@@ -1,7 +1,6 @@
 // @flow
 import getProfileData from '../utils/ProfileProvider';
-import type { ProfileType } from '../_types/Profile';
-import type { actionType } from '../_types/ActionType';
+import type { ProfileCreatorStage, ProfileAction, PromiseProfileAction } from '../_types/Profile';
 
 export const HYDRATE_PROFILE_DATA = 'HYDRATE_PROFILE_DATA';
 export const LOADED_PROFILE_DATA = 'LOADED_PROFILE_DATA';
@@ -10,36 +9,44 @@ export const SET_OFFERED_CREATOR = 'SET_OFFERED_CREATOR';
 export const SHOW_PROFILE_CREATOR = 'SHOW_PROFILE_CREATOR';
 export const HIDE_PROFILE_CREATOR = 'HIDE_PROFILE_CREATOR';
 export const SET_PROFILE_CREATOR_STAGE = 'SET_PROFILE_CREATOR_STAGE';
+export const CHANGE_PROFILE_NAME = 'CHANGE_PROFILE_NAME';
 
-export function changeProfile(newProfileUUID: string): actionType {
+export function changeProfile(uuid: string): ProfileAction {
   return {
     type: CHANGE_PROFILE,
+    payload: uuid
+  };
+}
+
+export function changeProfileName(uuid: string, displayName: string): ProfileAction {
+  return {
+    type: CHANGE_PROFILE_NAME,
     payload: {
-      newProfileUUID
+      uuid,
+      displayName
     }
   };
 }
 
-export function setOfferedCreator(shown: boolean): actionType {
+export function setOfferedCreator(shown: boolean): ProfileAction {
   return {
     type: SET_OFFERED_CREATOR,
     payload: shown
   };
 }
 
-export function setProfileCreatorStage(stage: string): actionType {
+export function setProfileCreatorStage(stage: ProfileCreatorStage): ProfileAction {
   return {
     type: SET_PROFILE_CREATOR_STAGE,
     payload: stage
   };
 }
 
-export function loadProfileData() {
-  return async (dispatch: actionType => mixed) =>
-    dispatch(loadedProfileData(await getProfileData()));
+export function loadProfileData(): any {
+  return async dispatch => dispatch(loadedProfileData(await getProfileData()));
 }
 
-export function showProfileCreator() {
+export function showProfileCreator(): ProfileAction {
   return {
     type: SHOW_PROFILE_CREATOR
   };
@@ -51,7 +58,7 @@ export function hideProfileCreator() {
   };
 }
 
-export function loadedProfileData(profileData: any): actionType {
+export function loadedProfileData(profileData: any): ProfileAction {
   return {
     type: LOADED_PROFILE_DATA,
     payload: profileData

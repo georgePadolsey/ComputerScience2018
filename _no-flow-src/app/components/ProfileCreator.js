@@ -12,7 +12,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { CSSTransitionGroup } from 'react-transition-group';
 // Actions/reducers
-import { STAGES } from '../reducers/profile';
+import { PROFILE_CREATOR_STAGES } from '../_types/Profile';
 import * as profileActions from '../actions/profile';
 // Styles:
 import styles from './ProfileCreator.scss';
@@ -40,7 +40,7 @@ class ProfileCreator extends Component {
 
   getAccountAdderStage() {
     return (
-      <div className={styles.body} key={STAGES.ACCOUNT_ADDER}>
+      <div className={styles.body} key={PROFILE_CREATOR_STAGES.ACCOUNT_ADDER}>
         <button className={styles.exit} onClick={() => this.dismiss()}>
           <FontAwesomeIcon icon={faTimes} />
         </button>
@@ -81,7 +81,10 @@ class ProfileCreator extends Component {
             </span>
             <span className={styles.meta}>Crypto Wallet (BTC or ETH)</span>
           </button>
-          <span className={styles.next} onClick={() => this.setStage(STAGES.ADD_BALANCE)}>
+          <span
+            className={styles.next}
+            onClick={() => this.setStage(PROFILE_CREATOR_STAGES.ADD_BALANCE)}
+          >
             {"I don't want to add a balance..."}
           </span>
         </CSSTransitionGroup>
@@ -91,11 +94,14 @@ class ProfileCreator extends Component {
 
   getAddBalanceStage() {
     return (
-      <div className={styles.body} key={STAGES.ADD_BALANCE}>
+      <div className={styles.body} key={PROFILE_CREATOR_STAGES.ADD_BALANCE}>
         <button className={styles.exit} onClick={() => this.dismiss()}>
           <FontAwesomeIcon icon={faTimes} />
         </button>
-        <button className={styles.back} onClick={() => this.setStage(STAGES.ACCOUNT_ADDER)}>
+        <button
+          className={styles.back}
+          onClick={() => this.setStage(PROFILE_CREATOR_STAGES.ACCOUNT_ADDER)}
+        >
           <FontAwesomeIcon icon={faArrowLeft} />
         </button>
         <div className={styles.titleContainer}>
@@ -128,8 +134,8 @@ class ProfileCreator extends Component {
 
   getStages() {
     const stages = {};
-    stages[STAGES.ACCOUNT_ADDER] = this.getAccountAdderStage();
-    stages[STAGES.ADD_BALANCE] = this.getAddBalanceStage();
+    stages[PROFILE_CREATOR_STAGES.ACCOUNT_ADDER] = this.getAccountAdderStage();
+    stages[PROFILE_CREATOR_STAGES.ADD_BALANCE] = this.getAddBalanceStage();
     return stages[this.props.profileData.profileCreatorStage];
   }
   render() {

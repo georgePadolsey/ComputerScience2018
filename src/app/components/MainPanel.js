@@ -35,6 +35,10 @@ class MainPanel extends Component {
     if (!this.testDiv) return;
 
     const OHLCVdata = await CryptoAPI.loadOHLCV();
+    if (OHLCVdata == null) {
+      return;
+    }
+
     console.log(OHLCVdata);
     const xVals = [];
     const closeVals = [];

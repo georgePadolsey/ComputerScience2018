@@ -172,6 +172,7 @@ export default new class CryptoAPI {
   }
 
   async loadMarkets() {
+    return;
     if (!confirm('load market')) return;
     await forEach(CCXT.exchanges, async exchangeName => {
       // internal exchange names

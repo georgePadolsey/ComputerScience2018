@@ -5,6 +5,23 @@
   <meta charset="utf-8">
   <title>Cryptolium</title>
   <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+  <style>
+    body {
+      overflow: hidden;
+      background-color: #1c1745;
+    }
+
+    #loadCover {
+      position: fixed;
+      opacity: 1;
+      background-color: #1c1745;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 100000;
+    }
+  </style>
   <script>
     (function () {
       if (!process.env.HOT) {
@@ -19,6 +36,7 @@
 </head>
 
 <body>
+  <div id="loadCover"></div>
   <div id="root"></div>
   <script>
     {

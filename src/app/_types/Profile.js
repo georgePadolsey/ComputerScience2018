@@ -1,4 +1,11 @@
 // @flow
+import {
+  CHANGE_PROFILE,
+  CHANGE_PROFILE_NAME,
+  SET_OFFERED_CREATOR,
+  SET_PROFILE_CREATOR_STAGE,
+  SHOW_PROFILE_CREATOR
+} from '../actions/profile';
 
 /**
  * # Enums
@@ -10,17 +17,17 @@
  * @todo description
  */
 export const PROFILE_CREATOR_STAGES = {
-  ACCOUNT_ADDER: "ACCOUNT_ADDER",
-  ADD_BALANCE: "ADD_BALANCE",
-  ADD_EXCHANGE: "ADD_EXCHANGE",
-  ADD_WALLET: "ADD_WALLET"
+  ACCOUNT_ADDER: 'ACCOUNT_ADDER',
+  ADD_BALANCE: 'ADD_BALANCE',
+  ADD_EXCHANGE: 'ADD_EXCHANGE',
+  ADD_WALLET: 'ADD_WALLET'
 };
 
 /**
  * # Types
  */
 
-export type ProfileType = {
+export type Profile = {
   displayName: string,
   uuid: string,
   isReal: boolean
@@ -34,3 +41,14 @@ export type ProfileData = {
   firstTime: boolean,
   profileCreatorStage: ProfileCreatorStage
 };
+
+export type ProfileAction =
+  | { type: typeof CHANGE_PROFILE, payload: { uuid: string } }
+  | { type: typeof CHANGE_PROFILE_NAME, payload: { uuid: string, displayName: string } }
+  | { type: typeof SET_OFFERED_CREATOR, payload: boolean }
+  | { type: typeof SET_PROFILE_CREATOR_STAGE, payload: ProfileCreatorStage }
+  | { type: typeof SHOW_PROFILE_CREATOR }
+  | { type: typeof LOADED_PROFILE_DATA, payload: any };
+
+export type GetState = () => ProfileData;
+export type PromiseProfileAction = Promise<ProfileAction>;
