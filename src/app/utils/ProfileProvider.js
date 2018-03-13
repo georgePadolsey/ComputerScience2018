@@ -19,6 +19,6 @@ export default async function profileProvider(): any {
   return profilesStore.store;
 }
 
-export function setProfileData(data: ProfileData): any {
+export function setProfileData(data: ProfileData) {
   profilesStore.store = data;
 }

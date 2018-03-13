@@ -1,21 +1,24 @@
 // @flow
 import React, { Component } from 'react';
-import styles from './ProfileCreator.scss';
 import FontAwesomeIcon from '@fortawesome/react-fontawesome';
-import { CSSTransitionGroup } from 'react-transition-group';
-import logo from '../../resources/icon.png';
 import {
   faBalanceScale,
   faExchangeAlt,
   faCreditCard,
   faTimes,
-  faHandPointRight,
   faArrowLeft
 } from '@fortawesome/fontawesome-free-solid';
-import { connect } from 'react-redux';
-import { STAGES } from '../reducers/profile';
 import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+import { CSSTransitionGroup } from 'react-transition-group';
+// Actions/reducers
+import { STAGES } from '../reducers/profile';
 import * as profileActions from '../actions/profile';
+// Styles:
+import styles from './ProfileCreator.scss';
+// Logo
+import logo from '../../resources/icon.png';
+// Types:
 import type { ProfileCreatorStage } from '../reducers/profile';
 
 const mapStateToProps = ({ profileData }) => ({ profileData });
