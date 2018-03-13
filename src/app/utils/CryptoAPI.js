@@ -7,6 +7,9 @@ import { CONFIG_KEY } from "../enc_keys";
 import moment from "moment";
 import Store from "electron-store";
 
+import { store } from '../index';
+import { CONFIG_KEY } from '../enc_keys';
+
 const cryptoStore = new Store({
   name: "cryptoData",
   defaults: {},
