@@ -1,15 +1,15 @@
-// @flow
+//      
 import React, { Component } from 'react';
 
-type Props = {
-  html: string,
-  onChange?: string => void | Promise<string>,
-  onBlur?: string => void | Promise<string>,
-  disabled?: boolean
-};
+              
+               
+                                              
+                                            
+                    
+  
 
-export default class EditableText extends Component<Props> {
-  shouldComponentUpdate(nextProps: ?Props) {
+export default class EditableText extends Component        {
+  shouldComponentUpdate(nextProps        ) {
     return this.el != null && nextProps.html !== this.el.innerHTML;
   }
 
@@ -18,10 +18,10 @@ export default class EditableText extends Component<Props> {
       this.el.innerHTML = this.props.html;
     }
   }
-  lastHTML: ?string = null;
-  el: ?HTMLSpanElement = null;
+  lastHTML          = null;
+  el                   = null;
 
-  emitChange(blur: boolean) {
+  emitChange(blur         ) {
     if (!this.el) return;
 
     const html = this.el.innerHTML;
@@ -45,6 +45,7 @@ export default class EditableText extends Component<Props> {
     const {
       onChange, html, onBlur, disabled, ...rest
     } = this.props;
+
     return (
       <span
         {...rest}
@@ -52,7 +53,7 @@ export default class EditableText extends Component<Props> {
         onInput={() => this.emitChange(false)}
         onBlur={() => this.emitChange(true)}
         dangerouslySetInnerHTML={{ __html: html }}
-        ref={(x: ?HTMLSpanElement) => (this.el = x)}
+        ref={(x                  ) => (this.el = x)}
       />
     );
   }

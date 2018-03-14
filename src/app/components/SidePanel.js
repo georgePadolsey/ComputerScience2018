@@ -10,10 +10,10 @@ import { faSync } from '@fortawesome/fontawesome-free-solid';
 import Dropdown from 'react-dropdown';
 import * as profileActions from '../actions/profile';
 import * as cryptoActions from '../actions/crypto';
-import type { ProfileType } from '../_types/Profile';
-import SpinOnHoverFontAwesome from './utils/SpinOnHoverFontAwesome';
+import type { Profile } from '../_types/Profile';
+import SpinOnHoverFontAwesome from './SpinOnHoverFontAwesome';
 import styles from './SidePanel.scss';
-import EditableText from './utils/EditableText';
+import EditableText from './EditableText';
 
 const mySwal = withReactContent(swal);
 

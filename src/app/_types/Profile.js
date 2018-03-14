@@ -4,7 +4,8 @@ import {
   CHANGE_PROFILE_NAME,
   SET_OFFERED_CREATOR,
   SET_PROFILE_CREATOR_STAGE,
-  SHOW_PROFILE_CREATOR
+  SHOW_PROFILE_CREATOR,
+  LOADED_PROFILE_DATA
 } from '../actions/profile';
 
 /**
@@ -37,7 +38,7 @@ export type ProfileCreatorStage = $Keys<typeof PROFILE_CREATOR_STAGES>;
 
 export type ProfileData = {
   currentProfile: ?string,
-  loadedProfiles: { [string]: ProfileType },
+  loadedProfiles: { [string]: Profile },
   firstTime: boolean,
   profileCreatorStage: ProfileCreatorStage
 };
