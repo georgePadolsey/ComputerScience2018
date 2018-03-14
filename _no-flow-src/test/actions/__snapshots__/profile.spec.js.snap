@@ -1,0 +1,60 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`profileActions should create changeProfile action 1`] = `
+Object {
+  "payload": "testUID",
+  "type": "CHANGE_PROFILE",
+}
+`;
+
+exports[`profileActions should create changeProfileName action 1`] = `
+Object {
+  "payload": Object {
+    "displayName": "testName",
+    "uuid": "testUID",
+  },
+  "type": "CHANGE_PROFILE_NAME",
+}
+`;
+
+exports[`profileActions should create setOfferedCreator action 1`] = `
+Object {
+  "payload": true,
+  "type": "SET_OFFERED_CREATOR",
+}
+`;
+
+exports[`profileActions should create setOfferedCreator action 2`] = `
+Object {
+  "payload": false,
+  "type": "SET_OFFERED_CREATOR",
+}
+`;
+
+exports[`profileActions should create setProfileCreatorStage action 1`] = `
+Object {
+  "payload": "ACCOUNT_ADDER",
+  "type": "SET_PROFILE_CREATOR_STAGE",
+}
+`;
+
+exports[`profileActions should create setProfileCreatorStage action 2`] = `
+Object {
+  "payload": "ADD_BALANCE",
+  "type": "SET_PROFILE_CREATOR_STAGE",
+}
+`;
+
+exports[`profileActions should create setProfileCreatorStage action 3`] = `
+Object {
+  "payload": "ADD_EXCHANGE",
+  "type": "SET_PROFILE_CREATOR_STAGE",
+}
+`;
+
+exports[`profileActions should create setProfileCreatorStage action 4`] = `
+Object {
+  "payload": "ADD_WALLET",
+  "type": "SET_PROFILE_CREATOR_STAGE",
+}
+`;

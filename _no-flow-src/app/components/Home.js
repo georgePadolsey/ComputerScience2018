@@ -12,7 +12,10 @@ import CryptoAPI from '../utils/CryptoAPI';
 import matches from 'lodash/matches';
                                                      
 import swal from 'sweetalert2';
+import withReactContent from 'sweetalert2-react-content';
 import ProfileCreator from '../components/ProfileCreator';
+
+const mySwal = withReactContent(swal);
 
               
                    
@@ -47,16 +50,27 @@ class Home extends Component        {
         console.log('Profile data updated', nextProps.profileData);
       }
       if (!nextProps.profileData.offeredCreator) {
-        this.props.profileActions.showProfileCreator();
+        this.props.profileActions.setShowProfileCreator(true);
         this.props.profileActions.setOfferedCreator(true);
       }
     }
   }
+
+  /**
+   * Catch any error within the component stack
+   * @param {Error} error - the error thrown
+   */
   // eslint-disable-next-line class-methods-use-this
-  componentDidCatch(error) {
-    swal({
+  componentDidCatch(error       ) {
+    mySwal({
       title: 'Error',
-      html: `<b>Contact the developer with this error</b><br>${error}`,
+      html: (
+        <div style={{ textAlign: 'center' }}>
+          <b>Contact the developer with this error</b>
+          <br />
+          {error.toString()}
+        </div>
+      ),
       type: 'error'
     });
   }

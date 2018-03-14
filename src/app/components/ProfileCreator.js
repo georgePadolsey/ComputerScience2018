@@ -31,7 +31,7 @@ class ProfileCreator extends Component {
   componentDidMount() {}
 
   dismiss() {
-    this.props.profileActions.hideProfileCreator();
+    this.props.profileActions.setShowProfileCreator(false);
   }
 
   setStage(stage: ProfileCreatorStage) {

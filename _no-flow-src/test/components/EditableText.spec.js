@@ -1,9 +1,7 @@
 import { spy } from 'sinon';
 import React from 'react';
-import Enzyme, { shallow, render, mount } from 'enzyme';
+import Enzyme, { render, mount } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
-import { BrowserRouter as Router } from 'react-router-dom';
-import renderer from 'react-test-renderer';
 import EditableText from '../../app/components/EditableText';
 
 Enzyme.configure({ adapter: new Adapter() });

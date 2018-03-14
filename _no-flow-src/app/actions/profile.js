@@ -6,10 +6,9 @@ export const HYDRATE_PROFILE_DATA = 'HYDRATE_PROFILE_DATA';
 export const LOADED_PROFILE_DATA = 'LOADED_PROFILE_DATA';
 export const CHANGE_PROFILE = 'CHANGE_PROFILE';
 export const SET_OFFERED_CREATOR = 'SET_OFFERED_CREATOR';
-export const SHOW_PROFILE_CREATOR = 'SHOW_PROFILE_CREATOR';
-export const HIDE_PROFILE_CREATOR = 'HIDE_PROFILE_CREATOR';
 export const SET_PROFILE_CREATOR_STAGE = 'SET_PROFILE_CREATOR_STAGE';
 export const CHANGE_PROFILE_NAME = 'CHANGE_PROFILE_NAME';
+export const SET_SHOW_PROFILE_CREATOR = 'SET_SHOW_PROFILE_CREATOR';
 
 export function changeProfile(uuid        )                {
   return {
@@ -46,15 +45,10 @@ export function loadProfileData()      {
   return async dispatch => dispatch(loadedProfileData(await getProfileData()));
 }
 
-export function showProfileCreator()                {
+export function setShowProfileCreator(show         )                {
   return {
-    type: SHOW_PROFILE_CREATOR
-  };
-}
-
-export function hideProfileCreator() {
-  return {
-    type: HIDE_PROFILE_CREATOR
+    type: SET_SHOW_PROFILE_CREATOR,
+    payload: show
   };
 }
 
