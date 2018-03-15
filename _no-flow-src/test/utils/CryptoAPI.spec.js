@@ -5,13 +5,13 @@
 /**
  * @jest-environment node
  */
-describe('CryptoAPI', () => {
+describe("CryptoAPI", () => {
   beforeAll(() => {
-    global.fetch = require('fetch-ponyfill')().fetch;
-    global.CryptoAPI = require('../../app/utils/CryptoAPI');
+    global.fetch = require("fetch-ponyfill")().fetch;
+    global.CryptoAPI = require("../../app/utils/CryptoAPI");
   });
 
-  it('Should be able to load markets', async () => {
+  it("Should be able to load markets", async () => {
     // const cryptoAPI = new CryptoAPI();
     // await cryptoAPI.loadMarkets();
     // expect(cryptoAPI.loadedExchanges.length).toBeGreaterThan(0);

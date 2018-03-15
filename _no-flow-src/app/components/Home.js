@@ -1,27 +1,21 @@
-//      
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import * as profileActions from '../actions/profile';
-import * as uiActions from '../actions/ui';
+//
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
+import * as profileActions from "../actions/profile";
+import * as uiActions from "../actions/ui";
 // import { Link } from 'react-router-dom';
-import styles from './Home.scss';
-import SidePanel from './SidePanel';
-import MainPanel from './MainPanel';
-import CryptoAPI from '../utils/CryptoAPI';
-import matches from 'lodash/matches';
-                                                     
-import swal from 'sweetalert2';
-import withReactContent from 'sweetalert2-react-content';
-import ProfileCreator from '../components/ProfileCreator';
+import styles from "./Home.scss";
+import SidePanel from "./SidePanel";
+import MainPanel from "./MainPanel";
+import CryptoAPI from "../utils/CryptoAPI";
+import matches from "lodash/matches";
+
+import swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
+import ProfileCreator from "../components/ProfileCreator";
 
 const mySwal = withReactContent(swal);
-
-              
-                   
-                      
-   
-  
 
 const mapStateToProps = ({ profileData }) => ({ profileData });
 
@@ -30,8 +24,7 @@ const mapDispatchToProps = (dispatch, props) => ({
   uiActions: bindActionCreators(uiActions, dispatch)
 });
 
-class Home extends Component        {
-               
+class Home extends Component {
   state = {
     profileCreate: false
   };
@@ -43,11 +36,11 @@ class Home extends Component        {
   }
 
   componentWillReceiveProps(nextProps) {
-    console.log('Reciving props', nextProps);
+    console.log("Reciving props", nextProps);
     if (nextProps.profileData) {
-      console.log('ProfileData defined ?');
+      console.log("ProfileData defined ?");
       if (!matches(this.props.profileData, nextProps.profileData)) {
-        console.log('Profile data updated', nextProps.profileData);
+        console.log("Profile data updated", nextProps.profileData);
       }
       if (!nextProps.profileData.offeredCreator) {
         this.props.profileActions.setShowProfileCreator(true);
@@ -61,17 +54,17 @@ class Home extends Component        {
    * @param {Error} error - the error thrown
    */
   // eslint-disable-next-line class-methods-use-this
-  componentDidCatch(error       ) {
+  componentDidCatch(error) {
     mySwal({
-      title: 'Error',
+      title: "Error",
       html: (
-        <div style={{ textAlign: 'center' }}>
+        <div style={{ textAlign: "center" }}>
           <b>Contact the developer with this error</b>
           <br />
           {error.toString()}
         </div>
       ),
-      type: 'error'
+      type: "error"
     });
   }
 

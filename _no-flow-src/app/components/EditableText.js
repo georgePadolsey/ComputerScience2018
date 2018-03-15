@@ -1,15 +1,8 @@
-//      
-import React, { Component } from 'react';
+//
+import React, { Component } from "react";
 
-              
-               
-                                              
-                                            
-                    
-  
-
-export default class EditableText extends Component        {
-  shouldComponentUpdate(nextProps        ) {
+export default class EditableText extends Component {
+  shouldComponentUpdate(nextProps) {
     return this.el != null && nextProps.html !== this.el.innerHTML;
   }
 
@@ -18,10 +11,10 @@ export default class EditableText extends Component        {
       this.el.innerHTML = this.props.html;
     }
   }
-  lastHTML          = null;
-  el                   = null;
+  lastHTML = null;
+  el = null;
 
-  emitChange(blur         ) {
+  emitChange(blur) {
     if (!this.el) return;
 
     const html = this.el.innerHTML;
@@ -42,9 +35,7 @@ export default class EditableText extends Component        {
   }
 
   render() {
-    const {
-      onChange, html, onBlur, disabled, ...rest
-    } = this.props;
+    const { onChange, html, onBlur, disabled, ...rest } = this.props;
 
     return (
       <span
@@ -53,7 +44,7 @@ export default class EditableText extends Component        {
         onInput={() => this.emitChange(false)}
         onBlur={() => this.emitChange(true)}
         dangerouslySetInnerHTML={{ __html: html }}
-        ref={(x                  ) => (this.el = x)}
+        ref={x => (this.el = x)}
       />
     );
   }

@@ -1,5 +1,5 @@
-//      
-import uuid from 'uuid/v1';
+//
+import uuid from "uuid/v1";
 
 import {
   SET_OFFERED_CREATOR,
@@ -8,37 +8,33 @@ import {
   CHANGE_PROFILE_NAME,
   SET_SHOW_PROFILE_CREATOR,
   CHANGE_PROFILE
-} from '../actions/profile';
-import { setProfileData } from '../utils/ProfileProvider';
-import { PROFILE_CREATOR_STAGES } from '../_types/Profile';
+} from "../actions/profile";
+import { setProfileData } from "../utils/ProfileProvider";
+import { PROFILE_CREATOR_STAGES } from "../_types/Profile";
 
 // Type imports:
-                                                                             
 
 const defaultUUID = uuid();
-const defaultProfileData              = {
+const defaultProfileData = {
   currentProfile: defaultUUID,
   loadedProfiles: {},
   firstTime: true,
   profileCreatorStage: PROFILE_CREATOR_STAGES.ACCOUNT_ADDER
 };
 defaultProfileData.loadedProfiles[defaultUUID] = {
-  displayName: 'Default',
+  displayName: "Default",
   uuid: defaultUUID
 };
 
-export default function profileReducer(
-  state              = defaultProfileData,
-  action               
-) {
-  let ret              = state;
+export default function profileReducer(state = defaultProfileData, action) {
+  let ret = state;
 
   const saveData = () => {
     // save profile data to config
     setProfileData(ret);
   };
 
-  let loadedProfiles                        = {};
+  let loadedProfiles = {};
 
   switch (action.type) {
     case CHANGE_PROFILE:
@@ -69,7 +65,9 @@ export default function profileReducer(
       break;
     case CHANGE_PROFILE_NAME:
       loadedProfiles = {};
-      loadedProfiles[action.payload.uuid] = { displayName: action.payload.displayName };
+      loadedProfiles[action.payload.uuid] = {
+        displayName: action.payload.displayName
+      };
       console.log(loadedProfiles);
       ret = Object.assign({}, state, { loadedProfiles });
       saveData();

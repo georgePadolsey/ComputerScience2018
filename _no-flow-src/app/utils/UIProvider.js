@@ -1,4 +1,4 @@
-//      
+//
 import Store from "electron-store";
 import { CONFIG_KEY } from "../enc_keys";
 
@@ -13,11 +13,11 @@ const profilesStore = new Store({
   encryptionKey: process.env.NODE_ENV === "production" ? CONFIG_KEY : undefined
 });
 
-export default async function uiProvider()      {
+export default async function uiProvider() {
   console.log("loading-ui");
   return profilesStore.store;
 }
 
-export function setUIData(data)      {
+export function setUIData(data) {
   profilesStore.store = data;
 }

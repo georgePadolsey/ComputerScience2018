@@ -1,14 +1,18 @@
-//      
-                                                       
-import { SET_MAIN_PANEL_EDIT_MODE, UPDATE_MAIN_LAYOUTS, LOADED_UI_DATA } from '../actions/ui';
-import { setUIData } from '../utils/UIProvider';
+//
+
+import {
+  SET_MAIN_PANEL_EDIT_MODE,
+  UPDATE_MAIN_LAYOUTS,
+  LOADED_UI_DATA
+} from "../actions/ui";
+import { setUIData } from "../utils/UIProvider";
 
 const defaultUIState = {
   mainPanelEditMode: false,
   mainPanelLayouts: {}
 };
 
-export default function uiReducer(state = defaultUIState, action            ) {
+export default function uiReducer(state = defaultUIState, action) {
   let ret = state;
   const saveData = () => {
     setUIData(ret);

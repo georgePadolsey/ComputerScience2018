@@ -1,12 +1,12 @@
-//      
-                                                       
-import getUIData from '../utils/UIProvider';
+//
 
-export const SET_MAIN_PANEL_EDIT_MODE = 'SET_MAIN_PANEL_EDIT_MODE';
-export const UPDATE_MAIN_LAYOUTS = 'UPDATE_MAIN_LAYOUTS';
-export const LOADED_UI_DATA = 'LOADED_UI_DATA';
+import getUIData from "../utils/UIProvider";
 
-export function setMainPanelEditMode(isEditMode         )             {
+export const SET_MAIN_PANEL_EDIT_MODE = "SET_MAIN_PANEL_EDIT_MODE";
+export const UPDATE_MAIN_LAYOUTS = "UPDATE_MAIN_LAYOUTS";
+export const LOADED_UI_DATA = "LOADED_UI_DATA";
+
+export function setMainPanelEditMode(isEditMode) {
   return {
     type: SET_MAIN_PANEL_EDIT_MODE,
     payload: isEditMode
@@ -28,7 +28,7 @@ export function loadedUIData(data) {
 }
 
 export function loadUIData() {
-  return async (dispatch                     ) => {
+  return async dispatch => {
     dispatch(loadedUIData(await getUIData()));
   };
 }

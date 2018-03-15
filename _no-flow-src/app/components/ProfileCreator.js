@@ -1,25 +1,24 @@
-//      
-import React, { Component } from 'react';
-import FontAwesomeIcon from '@fortawesome/react-fontawesome';
+//
+import React, { Component } from "react";
+import FontAwesomeIcon from "@fortawesome/react-fontawesome";
 import {
   faBalanceScale,
   faExchangeAlt,
   faCreditCard,
   faTimes,
   faArrowLeft
-} from '@fortawesome/fontawesome-free-solid';
-import { bindActionCreators } from 'redux';
-import { connect } from 'react-redux';
-import { CSSTransitionGroup } from 'react-transition-group';
+} from "@fortawesome/fontawesome-free-solid";
+import { bindActionCreators } from "redux";
+import { connect } from "react-redux";
+import { CSSTransitionGroup } from "react-transition-group";
 // Actions/reducers
-import { PROFILE_CREATOR_STAGES } from '../_types/Profile';
-import * as profileActions from '../actions/profile';
+import { PROFILE_CREATOR_STAGES } from "../_types/Profile";
+import * as profileActions from "../actions/profile";
 // Styles:
-import styles from './ProfileCreator.scss';
+import styles from "./ProfileCreator.scss";
 // Logo
-import logo from '../../resources/icon.png';
+import logo from "../../resources/icon.png";
 // Types:
-                                                               
 
 const mapStateToProps = ({ profileData }) => ({ profileData });
 
@@ -34,7 +33,7 @@ class ProfileCreator extends Component {
     this.props.profileActions.setShowProfileCreator(false);
   }
 
-  setStage(stage                     ) {
+  setStage(stage) {
     this.props.profileActions.setProfileCreatorStage(stage);
   }
 
@@ -141,7 +140,11 @@ class ProfileCreator extends Component {
   render() {
     return (
       <div className={styles.container}>
-        <div className={styles.dimmedBackground} onClick={() => this.dismiss()} aria-hidden />
+        <div
+          className={styles.dimmedBackground}
+          onClick={() => this.dismiss()}
+          aria-hidden
+        />
         {/* <CSSTransitionGroup
           transitionName="example"
           transitionAppear

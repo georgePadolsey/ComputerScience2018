@@ -1,16 +1,16 @@
-import { Application } from 'spectron';
-import electronPath from 'electron';
-import path from 'path';
+import { Application } from "spectron";
+import electronPath from "electron";
+import path from "path";
 
 jasmine.DEFAULT_TIMEOUT_INTERVAL = 15000;
 
 const delay = time => new Promise(resolve => setTimeout(resolve, time));
 
-describe('main window', function spec() {
+describe("main window", function spec() {
   beforeAll(async () => {
     this.app = new Application({
       path: electronPath,
-      args: [path.join(__dirname, '..', '..', 'app')],
+      args: [path.join(__dirname, "..", "..", "app")]
     });
 
     return this.app.start();
@@ -29,16 +29,16 @@ describe('main window', function spec() {
     return value.map(btn => btn.ELEMENT);
   };
 
-  it('should open window', async () => {
+  it("should open window", async () => {
     const { client, browserWindow } = this.app;
 
     await client.waitUntilWindowLoaded();
     await delay(500);
     const title = await browserWindow.getTitle();
-    expect(title).toBe('Hello Electron React!');
+    expect(title).toBe("Hello Electron React!");
   });
 
-  it('should haven\'t any logs in console of main window', async () => {
+  it("should haven't any logs in console of main window", async () => {
     const { client } = this.app;
     const logs = await client.getRenderProcessLogs();
     // Print renderer process logs
@@ -53,54 +53,54 @@ describe('main window', function spec() {
   it('should to Counter with click "to Counter" link', async () => {
     const { client } = this.app;
 
-    await client.click('[data-tid=container] > a');
-    expect(await findCounter().getText()).toBe('0');
+    await client.click("[data-tid=container] > a");
+    expect(await findCounter().getText()).toBe("0");
   });
 
-  it('should display updated count after increment button click', async () => {
+  it("should display updated count after increment button click", async () => {
     const { client } = this.app;
 
     const buttons = await findButtons();
     await client.elementIdClick(buttons[0]); // +
-    expect(await findCounter().getText()).toBe('1');
+    expect(await findCounter().getText()).toBe("1");
   });
 
-  it('should display updated count after descrement button click', async () => {
+  it("should display updated count after descrement button click", async () => {
     const { client } = this.app;
 
     const buttons = await findButtons();
     await client.elementIdClick(buttons[1]); // -
-    expect(await findCounter().getText()).toBe('0');
+    expect(await findCounter().getText()).toBe("0");
   });
 
-  it('shouldnt change if even and if odd button clicked', async () => {
+  it("shouldnt change if even and if odd button clicked", async () => {
     const { client } = this.app;
 
     const buttons = await findButtons();
     await client.elementIdClick(buttons[2]); // odd
-    expect(await findCounter().getText()).toBe('0');
+    expect(await findCounter().getText()).toBe("0");
   });
 
-  it('should change if odd and if odd button clicked', async () => {
+  it("should change if odd and if odd button clicked", async () => {
     const { client } = this.app;
 
     const buttons = await findButtons();
     await client.elementIdClick(buttons[0]); // +
     await client.elementIdClick(buttons[2]); // odd
-    expect(await findCounter().getText()).toBe('2');
+    expect(await findCounter().getText()).toBe("2");
   });
 
-  it('should change if async button clicked and a second later', async () => {
+  it("should change if async button clicked and a second later", async () => {
     const { client } = this.app;
 
     const buttons = await findButtons();
     await client.elementIdClick(buttons[3]); // async
-    expect(await findCounter().getText()).toBe('2');
+    expect(await findCounter().getText()).toBe("2");
     await delay(1500);
-    expect(await findCounter().getText()).toBe('3');
+    expect(await findCounter().getText()).toBe("3");
   });
 
-  it('should back to home if back button clicked', async () => {
+  it("should back to home if back button clicked", async () => {
     const { client } = this.app;
     await client.element('[data-tid="backButton"] > a').click();
 

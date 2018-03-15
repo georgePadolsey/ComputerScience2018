@@ -1,43 +1,39 @@
-//      
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import moment from 'moment';
-import { bindActionCreators } from 'redux';
-import swal from 'sweetalert2';
-import withReactContent from 'sweetalert2-react-content';
-import { faSync } from '@fortawesome/fontawesome-free-solid';
+//
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import moment from "moment";
+import { bindActionCreators } from "redux";
+import swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
+import { faSync } from "@fortawesome/fontawesome-free-solid";
 
-import Dropdown from 'react-dropdown';
-import * as profileActions from '../actions/profile';
-import * as cryptoActions from '../actions/crypto';
-                                                 
-import SpinOnHoverFontAwesome from './SpinOnHoverFontAwesome';
-import styles from './SidePanel.scss';
-import EditableText from './EditableText';
+import Dropdown from "react-dropdown";
+import * as profileActions from "../actions/profile";
+import * as cryptoActions from "../actions/crypto";
+
+import SpinOnHoverFontAwesome from "./SpinOnHoverFontAwesome";
+import styles from "./SidePanel.scss";
+import EditableText from "./EditableText";
 
 const mySwal = withReactContent(swal);
 
-              
-                       
-                         
-  
-
-const defaultProfile              = {
-  displayName: 'Unnamed User',
+const defaultProfile = {
+  displayName: "Unnamed User",
   isReal: false,
-  uuid: '_'
+  uuid: "_"
 };
 
-const mapStateToProps = ({ profileData, cryptoData }) => ({ profileData, cryptoData });
+const mapStateToProps = ({ profileData, cryptoData }) => ({
+  profileData,
+  cryptoData
+});
 
 const mapDispatchToProps = (dispatch, props) => ({
   profileActions: bindActionCreators(profileActions, dispatch),
   cryptoData: bindActionCreators(cryptoActions, dispatch)
 });
 
-class SidePanel extends Component        {
-               
-
+class SidePanel extends Component {
   componentDidMount() {}
 
   refreshData() {
@@ -46,11 +42,13 @@ class SidePanel extends Component        {
 
   getCurrentProfile() {
     // check if currentProfile is valid
-    return this.props.profileData.loadedProfiles[this.props.profileData.currentProfile];
+    return this.props.profileData.loadedProfiles[
+      this.props.profileData.currentProfile
+    ];
   }
 
-  getProfileName()         {
-    return this.getCurrentProfile().displayName || 'Default';
+  getProfileName() {
+    return this.getCurrentProfile().displayName || "Default";
   }
 
   getLastDataUpdate() {
@@ -64,17 +62,20 @@ class SidePanel extends Component        {
     }
 
     const result = await mySwal({
-      type: 'warning',
+      type: "warning",
       title: `Change profile name to '${newName}'?`,
       showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
-      confirmButtonText: 'Yes, change it!',
-      cancelButtonText: 'No, cancel!',
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, change it!",
+      cancelButtonText: "No, cancel!",
       reverseButtons: true
     });
     if (result.value) {
-      this.props.profileActions.changeProfileName(this.props.profileData.currentProfile, newName);
+      this.props.profileActions.changeProfileName(
+        this.props.profileData.currentProfile,
+        newName
+      );
     }
   }
 
@@ -90,7 +91,7 @@ class SidePanel extends Component        {
           </div>
 
           <span>
-            updated {moment(this.getLastDataUpdate()).fromNow()}{' '}
+            updated {moment(this.getLastDataUpdate()).fromNow()}{" "}
             <SpinOnHoverFontAwesome
               className={styles.refreshButton}
               icon={faSync}
@@ -98,7 +99,7 @@ class SidePanel extends Component        {
             />
           </span>
           <Dropdown
-            options={[1, 2, 'argsnkl']}
+            options={[1, 2, "argsnkl"]}
             onChange={(...args) => console.log(args)}
             value={1}
             placeholder="V"

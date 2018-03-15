@@ -1,6 +1,6 @@
-import React, { Component } from 'react';
-import FontAwesomeIcon from '@fortawesome/react-fontawesome';
-import * as solidIcons from '@fortawesome/fontawesome-free-solid';
+import React, { Component } from "react";
+import FontAwesomeIcon from "@fortawesome/react-fontawesome";
+import * as solidIcons from "@fortawesome/fontawesome-free-solid";
 
 type Props = {
   icon: typeof solidIcons

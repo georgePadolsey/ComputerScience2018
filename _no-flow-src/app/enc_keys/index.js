@@ -1,1 +1,1 @@
-export const CONFIG_KEY = 'Cryptolium';
+export const CONFIG_KEY = "Cryptolium";

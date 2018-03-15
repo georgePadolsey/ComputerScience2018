@@ -1,15 +1,15 @@
-import React, { Component } from 'react';
-import { bindActionCreators } from 'redux';
-import { connect } from 'react-redux';
-import styles from './MainPanel.scss';
-import FontAwesomeIcon from '@fortawesome/react-fontawesome';
-import { faEdit } from '@fortawesome/fontawesome-free-solid';
-import { Responsive } from 'react-grid-layout';
-import sizeMe from 'react-sizeme';
-import moment from 'moment';
+import React, { Component } from "react";
+import { bindActionCreators } from "redux";
+import { connect } from "react-redux";
+import styles from "./MainPanel.scss";
+import FontAwesomeIcon from "@fortawesome/react-fontawesome";
+import { faEdit } from "@fortawesome/fontawesome-free-solid";
+import { Responsive } from "react-grid-layout";
+import sizeMe from "react-sizeme";
+import moment from "moment";
 
-import * as uiActions from '../actions/ui';
-import CryptoAPI from '../utils/CryptoAPI';
+import * as uiActions from "../actions/ui";
+import CryptoAPI from "../utils/CryptoAPI";
 
 const ResponsiveReactGridLayout = sizeMe()(props => (
   <Responsive {...props} width={props.size.width} />
@@ -46,46 +46,55 @@ class MainPanel extends Component {
     const lowVals = [];
     const openVals = [];
 
-    OHLCVdata.forEach(([dateInUTC, openPrice, highestPrice, lowestPrice, closingPrice, volume]) => {
-      xVals.push(moment(dateInUTC).format('YYYY-MM-DD'));
-      closeVals.push(closingPrice);
-      highVals.push(highestPrice);
-      lowVals.push(lowestPrice);
-      openVals.push(openPrice);
-    });
+    OHLCVdata.forEach(
+      ([
+        dateInUTC,
+        openPrice,
+        highestPrice,
+        lowestPrice,
+        closingPrice,
+        volume
+      ]) => {
+        xVals.push(moment(dateInUTC).format("YYYY-MM-DD"));
+        closeVals.push(closingPrice);
+        highVals.push(highestPrice);
+        lowVals.push(lowestPrice);
+        openVals.push(openPrice);
+      }
+    );
 
     const d3 = Plotly.d3;
     let WIDTH_IN_PERCENT_OF_PARENT = 100,
       HEIGHT_IN_PERCENT_OF_PARENT = 100;
     const gd3 = d3
       .select(this.testDiv)
-      .append('div')
+      .append("div")
       .style({
-        position: 'absolute',
+        position: "absolute",
         top: 0,
         left: 0,
         width: `${WIDTH_IN_PERCENT_OF_PARENT}%`,
-        'margin-left': `${(100 - WIDTH_IN_PERCENT_OF_PARENT) / 2}%`,
+        "margin-left": `${(100 - WIDTH_IN_PERCENT_OF_PARENT) / 2}%`,
         height: `${HEIGHT_IN_PERCENT_OF_PARENT}%`,
-        'margin-top': `${(100 - HEIGHT_IN_PERCENT_OF_PARENT) / 2}vh`
+        "margin-top": `${(100 - HEIGHT_IN_PERCENT_OF_PARENT) / 2}vh`
       });
     const gd = gd3.node();
     const trace1 = {
       x: xVals,
       close: closeVals,
-      decreasing: { line: { color: '#7F7F7F' } },
+      decreasing: { line: { color: "#7F7F7F" } },
       high: highVals,
-      increasing: { line: { color: '#17BECF' } },
-      line: { color: 'rgba(31,119,180,1)' },
+      increasing: { line: { color: "#17BECF" } },
+      line: { color: "rgba(31,119,180,1)" },
       low: lowVals,
       open: openVals,
-      type: 'ohlc',
-      xaxis: 'x',
-      yaxis: 'y'
+      type: "ohlc",
+      xaxis: "x",
+      yaxis: "y"
     };
     const data = [trace1];
     const layout = {
-      dragmode: 'zoom',
+      dragmode: "zoom",
       margin: {
         r: 10,
         t: 25,
@@ -96,13 +105,13 @@ class MainPanel extends Component {
       xaxis: {
         autorange: true,
         // @todo
-        rangeslider: { range: ['2017-01-17 12:00', '2017-02-10 12:00'] },
-        title: 'Date',
-        type: 'date'
+        rangeslider: { range: ["2017-01-17 12:00", "2017-02-10 12:00"] },
+        title: "Date",
+        type: "date"
       },
       yaxis: {
         autorange: true,
-        type: 'linear'
+        type: "linear"
       }
     };
     Plotly.plot(gd, data, layout);
@@ -126,11 +135,13 @@ class MainPanel extends Component {
             className={[
               styles.editLayout,
               this.props.uiData.mainPanelEditMode ? styles.activeEdit : null
-            ].join(' ')}
-            onClick={() => this.setEditMode(!this.props.uiData.mainPanelEditMode)}
+            ].join(" ")}
+            onClick={() =>
+              this.setEditMode(!this.props.uiData.mainPanelEditMode)
+            }
           >
             <span className={styles.editText}>
-              {this.props.uiData.mainPanelEditMode ? 'Edit Mode' : null}
+              {this.props.uiData.mainPanelEditMode ? "Edit Mode" : null}
             </span>
             <FontAwesomeIcon icon={faEdit} />
           </span>
@@ -140,7 +151,7 @@ class MainPanel extends Component {
           className={[
             styles.mainBody,
             this.props.uiData.mainPanelEditMode ? styles.editContainer : null
-          ].join(' ')}
+          ].join(" ")}
           rowHeight={480}
           layouts={this.props.uiData.mainPanelLayouts}
           cols={{
@@ -150,7 +161,9 @@ class MainPanel extends Component {
             xs: 3,
             xxs: 2
           }}
-          onLayoutChange={(layout, layouts) => this.onLayoutChange(layout, layouts)}
+          onLayoutChange={(layout, layouts) =>
+            this.onLayoutChange(layout, layouts)
+          }
           compactType="horizontal"
           // preventCollision
           isDraggable={this.props.uiData.mainPanelEditMode}

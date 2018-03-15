@@ -1,4 +1,4 @@
-import createIpc from 'redux-electron-ipc';
+import createIpc from "redux-electron-ipc";
 
 const map = {};
 

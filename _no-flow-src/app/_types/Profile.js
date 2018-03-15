@@ -1,4 +1,4 @@
-//      
+//
 import {
   CHANGE_PROFILE,
   CHANGE_PROFILE_NAME,
@@ -6,7 +6,7 @@ import {
   SET_PROFILE_CREATOR_STAGE,
   SET_SHOW_PROFILE_CREATOR,
   LOADED_PROFILE_DATA
-} from '../actions/profile';
+} from "../actions/profile";
 
 /**
  * # Enums
@@ -18,40 +18,12 @@ import {
  * @todo description
  */
 export const PROFILE_CREATOR_STAGES = {
-  ACCOUNT_ADDER: 'ACCOUNT_ADDER',
-  ADD_BALANCE: 'ADD_BALANCE',
-  ADD_EXCHANGE: 'ADD_EXCHANGE',
-  ADD_WALLET: 'ADD_WALLET'
+  ACCOUNT_ADDER: "ACCOUNT_ADDER",
+  ADD_BALANCE: "ADD_BALANCE",
+  ADD_EXCHANGE: "ADD_EXCHANGE",
+  ADD_WALLET: "ADD_WALLET"
 };
 
 /**
  * # Types
  */
-
-                       
-                      
-              
-  
-
-                                                                       
-
-                           
-                          
-                                        
-                     
-                                          
-  
-
-                                       
-
-                           
-                                                     
-                                                                                         
-                                                           
-                                                                             
-                                                                
-                                                       
-           
-
-                                         
-                                                          
