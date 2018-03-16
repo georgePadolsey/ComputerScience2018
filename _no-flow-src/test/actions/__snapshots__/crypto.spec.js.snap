@@ -1,0 +1,45 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Crypto actions should be able to make cache OHLCV data action 1`] = `
+Object {
+  "payload": Object {
+    "exchangeId": "fakeId",
+    "symbol": "USD/BTC",
+    "timedCandleData": Array [
+      Object {
+        "data": Array [
+          Array [
+            5,
+            5,
+            5,
+            5,
+            5,
+            5,
+          ],
+        ],
+        "expires": 6,
+        "from": 0,
+        "resolution": "HOUR",
+        "to": 5,
+      },
+      Object {
+        "data": Array [
+          Array [
+            6,
+            6,
+            6,
+            6,
+            6,
+            6,
+          ],
+        ],
+        "expires": 6,
+        "from": 0,
+        "resolution": "DAY",
+        "to": 5,
+      },
+    ],
+  },
+  "type": "CACHE_OHLCV_DATA",
+}
+`;

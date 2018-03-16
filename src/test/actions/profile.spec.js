@@ -5,9 +5,6 @@ import * as actions from '../../app/actions/profile';
 
 jest.mock('../../app/utils/ProfileProvider.js', () => async () => ({ loadedProfileData: 'true' }));
 jest.mock('electron-store');
-beforeEach(() => {
-  // getProfileData.mockClear();
-});
 
 describe('profileActions', () => {
   it('should create changeProfile action', () => {

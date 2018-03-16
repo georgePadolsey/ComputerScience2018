@@ -5,8 +5,12 @@ import { forEach } from 'p-iteration';
 import moment from 'moment';
 import Store from 'electron-store';
 
-import { store } from '../index';
+import { store as reduxStore } from '../store/getStore';
 import { CONFIG_KEY } from '../enc_keys';
+import * as cryptoActions from '../actions/crypto';
+
+import { Resolutions } from '../_types/Crypto';
+import type { TimedCandleData } from '../_types/Crypto';
 
 const cryptoStore = new Store({
   name: 'cryptoData',
@@ -21,83 +25,6 @@ const cryptoStore = new Store({
 
 const MIN_EXCHANGES_ALLOWED = 3;
 const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
-
-type OHLCVCandle = [
-  number, // UTC timestamp in milliseconds, integer
-  number, // (O)pen price, float
-  number, // (H)ighest price, float
-  number, // (L)owest price, float
-  number, // (C)losing price, float
-  number // (V)olume (in terms of the base currency), float
-];
-
-type ResolutionTypes = {
-  [string]: {
-    since: () => ?number,
-    resolution: () => string,
-    id: () => string,
-    expires: () => number
-  }
-};
-
-const Resolutions: ResolutionTypes = {
-  HOUR: {
-    id() {
-      return 'HOUR';
-    },
-    since() {
-      return +moment().subtract('1', 'day');
-    },
-    resolution() {
-      return '1h';
-    },
-    expires() {
-      return +moment()
-        .minute(0)
-        .add(1, 'hour');
-    }
-  },
-  DAY: {
-    id() {
-      return 'DAY';
-    },
-    since() {
-      return +moment().subtract('1', 'month');
-    },
-    resolution() {
-      return '1d';
-    },
-    expires() {
-      return +moment()
-        .hour(0)
-        .add(1, 'day');
-    }
-  },
-  MONTH: {
-    id() {
-      return 'MONTH';
-    },
-    since() {
-      return null;
-    },
-    resolution() {
-      return '1M';
-    },
-    expires() {
-      return +moment()
-        .date(1)
-        .add(1, 'month');
-    }
-  }
-};
-
-type TimedCandleData = {
-  data: OHLCVCandle[],
-  from: number,
-  to: number,
-  expires: number,
-  resolution: $Keys<typeof Resolutions>
-};
 
 /**
  * Opted for singleton design pattern
@@ -114,7 +41,15 @@ export default new class CryptoAPI {
 
   neededResolutions = [Resolutions.HOUR, Resolutions.DAY, Resolutions.MONTH];
 
-  async _loadExchange(exchange) {
+  constructor(store) {
+    this.store = store;
+  }
+
+  saveCryptoData(cryptoData) {
+    this.store.store = cryptoData;
+  }
+
+  async loadExchange(exchange) {
     await exchange.loadMarkets();
 
     Object.keys(exchange.currencies).forEach(currencyName => {
@@ -126,16 +61,12 @@ export default new class CryptoAPI {
       this.loadedCurrencies[currencyName] = exchange.currencies[currencyName];
     });
   }
+
   cacheOHLCVData(exchangeId: string, symbol: string, timedCandleData: TimedCandleData[]) {
-    const data = {
-      lastUpdated: +moment(),
-      timedCandleData
-    };
-    cryptoStore.set(`${exchangeId}.${symbol}`, data);
+    reduxStore.dispatch(cryptoActions.cacheOHLCVData(exchangeId, symbol, timedCandleData));
   }
 
   async loadOHLCV(): Promise<?(OHLCVCandle[])> {
-    console.log(this.loadedExchanges);
     const exchange = this.loadedExchanges[0];
     if (exchange == null) return;
     const symbol = 'BTC/USD';
@@ -164,6 +95,12 @@ export default new class CryptoAPI {
         resolution: resolution.id()
       });
 
+      /**
+       * We can happily/safetly use await in a loop here
+       * as we want this loop to be blocking to prevent
+       * over requesting the exchange.
+       */
+      // eslint-disable-next-line no-await-in-loop
       await sleep(exchange.rateLimit * 2);
     }
 
@@ -172,7 +109,6 @@ export default new class CryptoAPI {
   }
 
   async loadMarkets() {
-    return;
     if (!confirm('load market')) return;
     await forEach(CCXT.exchanges, async exchangeName => {
       // internal exchange names
@@ -183,7 +119,7 @@ export default new class CryptoAPI {
           return;
         }
         exchange = new CCXT[exchangeName]();
-        await this._loadExchange(exchange);
+        await this.loadExchange(exchange);
       } catch (e) {
         console.error(
           `[CryptoAPI] Exchange load market failed: ${(exchange && exchange.name) || exchangeName}`,
@@ -201,8 +137,8 @@ export default new class CryptoAPI {
   }
 
   async getConversion(origCurrency: string, quoteCurrency: string) {
-    forEach(this.loadedExchanges, async exchange => {
-      exchange.markets;
-    });
+    // forEach(this.loadedExchanges, async exchange => {
+    //   exchange.markets;
+    // });
   }
-}();
+}(cryptoStore);
