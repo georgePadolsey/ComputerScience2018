@@ -5,11 +5,13 @@ import { forEach } from "p-iteration";
 import moment from "moment";
 import Store from "electron-store";
 
-import { store as reduxStore } from "../store/getStore";
+import getStore from "../store/getStore";
 import { CONFIG_KEY } from "../enc_keys";
 import * as cryptoActions from "../actions/crypto";
 
 import { Resolutions } from "../_types/Crypto";
+
+const reduxStore = getStore();
 
 const cryptoStore = new Store({
   name: "cryptoData",

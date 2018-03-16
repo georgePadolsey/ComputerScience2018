@@ -1,6 +1,15 @@
 // @flow
 import moment from 'moment';
 
+export type ResolutionTypes = {
+  [string]: {
+    since: () => ?number,
+    resolution: () => string,
+    id: () => string,
+    expires: () => number
+  }
+};
+
 export const Resolutions: ResolutionTypes = {
   HOUR: {
     id() {
@@ -49,15 +58,6 @@ export const Resolutions: ResolutionTypes = {
         .date(1)
         .add(1, 'month');
     }
-  }
-};
-
-export type ResolutionTypes = {
-  [string]: {
-    since: () => ?number,
-    resolution: () => string,
-    id: () => string,
-    expires: () => number
   }
 };
 
