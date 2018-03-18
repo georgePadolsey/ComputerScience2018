@@ -1,8 +1,13 @@
 import React, { Component } from 'react';
+import DialogComponent from './DialogComponent';
 
 class AddMainChartDialog extends Component {
   render() {
-    return <div>cake</div>;
+    return (
+      <DialogComponent>
+        <div>cake</div>
+      </DialogComponent>
+    );
   }
 }
 

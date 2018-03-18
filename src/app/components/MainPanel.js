@@ -124,10 +124,22 @@ class MainPanel extends Component<Props> {
         <div
           key="addBox"
           className={styles.addBox}
-          onClick={this.props.uiActions.showAddMainChart}
-          onKeyDown={this.props.uiActions.showAddMainChart}
+          onClick={evt => {
+            this.props.uiActions.showAddMainChart();
+            evt.preventDefault();
+          }}
+          onKeyDown={evt => {
+            this.props.uiActions.showAddMainChart();
+            evt.preventDefault();
+          }}
           role="button"
           tabIndex={-1}
+          data-grid={{
+            x: 1000,
+            y: 1000,
+            w: 1,
+            h: 1
+          }}
         >
           <span className={styles.midCenter}>
             <FontAwesomeIcon icon={faPlusCircle} />

@@ -44,7 +44,7 @@ export function setShowAddMainChart(showMainChart: boolean): actionType {
   };
 }
 
-export function updateMainLayouts(layouts): actionType {
+export function updateMainLayouts(layouts: MainLayout): actionType {
   return {
     type: UPDATE_MAIN_LAYOUTS,
     payload: layouts

@@ -10,19 +10,21 @@ const PROFILE_CREATOR_STAGES = {
 
 export type ProfileCreatorStage = $Keys<typeof PROFILE_CREATOR_STAGES>;
 
+export type MainLayout = {
+  [string]: Array<{
+    w: number,
+    h: number,
+    x: number,
+    y: number,
+    i: string,
+    moved: boolean,
+    static: boolean
+  }>
+};
+
 export type UIData = {|
   mainPanelEditMode: boolean,
-  mainPanelLayouts: {
-    [string]: Array<{
-      w: number,
-      h: number,
-      x: number,
-      y: number,
-      i: string,
-      moved: boolean,
-      static: boolean
-    }>
-  },
+  mainPanelLayouts: MainLayout,
   showAddMainChart: boolean,
   offeredCreator: boolean,
   showProfileCreator: boolean,

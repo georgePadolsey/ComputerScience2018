@@ -11,6 +11,8 @@ import {
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { CSSTransitionGroup } from 'react-transition-group';
+
+import DialogComponent from './DialogComponent';
 // Actions/reducers
 import * as uiActions from '../actions/ui';
 import * as profileActions from '../actions/profile';
@@ -45,7 +47,7 @@ class ProfileCreator extends Component<Props> {
 
   getAccountAdderStage() {
     return (
-      <div className={styles.body} key={PROFILE_CREATOR_STAGES.ACCOUNT_ADDER}>
+      <div key={PROFILE_CREATOR_STAGES.ACCOUNT_ADDER}>
         <button className={styles.exit} onClick={() => this.dismiss()}>
           <FontAwesomeIcon icon={faTimes} />
         </button>
@@ -99,7 +101,7 @@ class ProfileCreator extends Component<Props> {
 
   getAddBalanceStage() {
     return (
-      <div className={styles.body} key={PROFILE_CREATOR_STAGES.ADD_BALANCE}>
+      <div key={PROFILE_CREATOR_STAGES.ADD_BALANCE}>
         <button className={styles.exit} onClick={() => this.dismiss()}>
           <FontAwesomeIcon icon={faTimes} />
         </button>
@@ -144,20 +146,7 @@ class ProfileCreator extends Component<Props> {
     return stages[this.props.uiData.profileCreatorStage];
   }
   render() {
-    return (
-      <div className={styles.container}>
-        <div className={styles.dimmedBackground} onClick={() => this.dismiss()} aria-hidden />
-        {/* <CSSTransitionGroup
-          transitionName="example"
-          transitionAppear
-          transitionAppearTimeout={500}
-          transitionEnter={false}
-          transitionLeave={false}
-        > */}
-        {this.getStages()}
-        {/* </CSSTransitionGroup> */}
-      </div>
-    );
+    return <DialogComponent>{this.getStages()}</DialogComponent>;
   }
 }
 
