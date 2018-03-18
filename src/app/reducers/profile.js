@@ -1,26 +1,17 @@
 // @flow
 import uuid from 'uuid/v1';
 
-import {
-  SET_OFFERED_CREATOR,
-  LOADED_PROFILE_DATA,
-  SET_PROFILE_CREATOR_STAGE,
-  CHANGE_PROFILE_NAME,
-  SET_SHOW_PROFILE_CREATOR,
-  CHANGE_PROFILE
-} from '../actions/profile';
+import { LOADED_PROFILE_DATA, CHANGE_PROFILE_NAME, CHANGE_PROFILE } from '../actions/profile';
 import { setProfileData } from '../utils/ProfileProvider';
-import { PROFILE_CREATOR_STAGES } from '../_types/Profile';
 
 // Type imports:
-import type { ProfileData, Profile, ProfileAction } from '../_types/Profile';
+import type { actionType } from '../_types/ActionType';
+import type { ProfileData, Profile } from '../_types/Profile';
 
 const defaultUUID = uuid();
 const defaultProfileData: ProfileData = {
   currentProfile: defaultUUID,
-  loadedProfiles: {},
-  firstTime: true,
-  profileCreatorStage: PROFILE_CREATOR_STAGES.ACCOUNT_ADDER
+  loadedProfiles: {}
 };
 defaultProfileData.loadedProfiles[defaultUUID] = {
   displayName: 'Default',
@@ -29,7 +20,7 @@ defaultProfileData.loadedProfiles[defaultUUID] = {
 
 export default function profileReducer(
   state: ProfileData = defaultProfileData,
-  action: ProfileAction
+  action: actionType
 ) {
   let ret: ProfileData = state;
 
@@ -47,24 +38,6 @@ export default function profileReducer(
       break;
     case LOADED_PROFILE_DATA:
       ret = Object.assign({}, state, action.payload);
-      saveData();
-      break;
-    case SET_OFFERED_CREATOR:
-      ret = Object.assign({}, state, { offeredCreator: action.payload });
-      saveData();
-      break;
-    case SET_SHOW_PROFILE_CREATOR:
-      let newObj = {
-        showProfileCreator: action.payload
-      };
-      if (!action.payload) {
-        newObj = { ...newObj, firstTime: false };
-      }
-      ret = { ...state, ...newObj };
-      saveData();
-      break;
-    case SET_PROFILE_CREATOR_STAGE:
-      ret = Object.assign({}, state, { profileCreatorStage: action.payload });
       saveData();
       break;
     case CHANGE_PROFILE_NAME:

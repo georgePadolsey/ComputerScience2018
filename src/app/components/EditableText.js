@@ -3,8 +3,8 @@ import React, { Component } from 'react';
 
 type Props = {
   html: string,
-  onChange?: string => void | Promise<string>,
-  onBlur?: string => void | Promise<string>,
+  onChange?: string => void | Promise<void>,
+  onBlur?: string => void | Promise<void>,
   disabled?: boolean
 };
 
@@ -52,8 +52,9 @@ export default class EditableText extends Component<Props> {
         contentEditable={!disabled}
         onInput={() => this.emitChange(false)}
         onBlur={() => this.emitChange(true)}
+        // eslint-disable-next-line react/no-danger
         dangerouslySetInnerHTML={{ __html: html }}
-        ref={(x: ?HTMLSpanElement) => (this.el = x)}
+        ref={node => (this.el = node)}
       />
     );
   }

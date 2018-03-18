@@ -1,15 +1,18 @@
 import React, { Component } from "react";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
-import styles from "./MainPanel.scss";
 import FontAwesomeIcon from "@fortawesome/react-fontawesome";
-import { faEdit } from "@fortawesome/fontawesome-free-solid";
+import { faEdit, faPlusCircle } from "@fortawesome/fontawesome-free-solid";
 import { Responsive } from "react-grid-layout";
 import sizeMe from "react-sizeme";
 import moment from "moment";
 
+import styles from "./MainPanel.scss";
+
 import * as uiActions from "../actions/ui";
 import CryptoAPI from "../utils/CryptoAPI";
+
+import type { UIData } from "../_types/UI";
 
 const ResponsiveReactGridLayout = sizeMe()(props => (
   <Responsive {...props} width={props.size.width} />
@@ -17,13 +20,16 @@ const ResponsiveReactGridLayout = sizeMe()(props => (
 
 const mapStateToProps = ({ uiData }) => ({ uiData });
 
-const mapDispatchToProps = (dispatch, props) => ({
+const mapDispatchToProps = dispatch => ({
   uiActions: bindActionCreators(uiActions, dispatch)
 });
 
-class MainPanel extends Component {
-  getShownData() {}
+type Props = {
+  uiActions: typeof uiActions,
+  uiData: UIData
+};
 
+class MainPanel extends Component<Props> {
   componentDidMount() {
     this.renderGraphs();
   }
@@ -32,16 +38,13 @@ class MainPanel extends Component {
   }
 
   async renderGraphs() {
-    console.log("render graphs", this.testDiv);
     if (!this.testDiv) return;
 
     const OHLCVdata = await CryptoAPI.loadOHLCV();
-    console.log(OHLCVdata);
     if (OHLCVdata == null) {
       return;
     }
 
-    console.log(OHLCVdata);
     const xVals = [];
     const closeVals = [];
     const highVals = [];
@@ -65,9 +68,9 @@ class MainPanel extends Component {
       }
     );
 
-    const d3 = Plotly.d3;
-    let WIDTH_IN_PERCENT_OF_PARENT = 100,
-      HEIGHT_IN_PERCENT_OF_PARENT = 100;
+    const { d3 } = Plotly;
+    const WIDTH_IN_PERCENT_OF_PARENT = 100;
+    const HEIGHT_IN_PERCENT_OF_PARENT = 100;
     const gd3 = d3
       .select(this.testDiv)
       .append("div")
@@ -113,18 +116,48 @@ class MainPanel extends Component {
       },
       yaxis: {
         autorange: true,
-        type: "linear"
+        type: "linear",
+        title: "@TODO title"
       }
     };
     Plotly.plot(gd, data, layout);
   }
 
-  setEditMode(isEditMode: boolean) {
-    this.props.uiActions.setMainPanelEditMode(isEditMode);
-  }
-
   onLayoutChange(layout, layouts) {
     this.props.uiActions.updateMainLayouts(layouts);
+  }
+
+  getShownData() {
+    return [
+      this.props.uiData.mainPanelEditMode ? (
+        <div
+          key="addBox"
+          className={styles.addBox}
+          onClick={this.props.uiActions.showAddMainChart}
+          onKeyDown={this.props.uiActions.showAddMainChart}
+          role="button"
+          tabIndex={-1}
+        >
+          <span className={styles.midCenter}>
+            <FontAwesomeIcon icon={faPlusCircle} />
+          </span>
+        </div>
+      ) : null,
+      <div
+        key="a"
+        data-grid={{
+          x: 0,
+          y: 0,
+          w: 1,
+          h: 1
+        }}
+        className={styles.boxDiv}
+        ref={x => (this.testDiv = x)}
+      >
+        <div className={styles.fullEdit} />
+        <div id="plotly-div" className={styles.plotlyGraph} />
+      </div>
+    ].filter(x => x != null);
   }
 
   render() {
@@ -139,8 +172,17 @@ class MainPanel extends Component {
               this.props.uiData.mainPanelEditMode ? styles.activeEdit : null
             ].join(" ")}
             onClick={() =>
-              this.setEditMode(!this.props.uiData.mainPanelEditMode)
+              this.props.uiActions.setMainPanelEditMode(
+                !this.props.uiData.mainPanelEditMode
+              )
             }
+            onKeyPress={() =>
+              this.props.uiActions.setMainPanelEditMode(
+                !this.props.uiData.mainPanelEditMode
+              )
+            }
+            role="button"
+            tabIndex={-1}
           >
             <span className={styles.editText}>
               {this.props.uiData.mainPanelEditMode ? "Edit Mode" : null}
@@ -172,44 +214,7 @@ class MainPanel extends Component {
           isResizable={this.props.uiData.mainPanelEditMode}
           // autoSize={true}
         >
-          {/* {...this.getShownData()} */}
-          <div
-            key="a"
-            data-grid={{
-              x: 0,
-              y: 0,
-              w: 1,
-              h: 1
-            }}
-            ref={x => (this.testDiv = x)}
-          >
-            <div className={styles.fullEdit} />
-            <div id="plotly-div" className={styles.plotlyGraph} />
-          </div>
-          <div
-            key="b"
-            data-grid={{
-              x: 0,
-              y: 0,
-              w: 2,
-              h: 1
-            }}
-          >
-            <div className={styles.fullEdit} />
-            <p>b</p>
-          </div>
-          <div
-            key="c"
-            data-grid={{
-              x: 0,
-              y: 0,
-              w: 1,
-              h: 1
-            }}
-          >
-            <p>c</p>
-            <div className={styles.fullEdit} />
-          </div>
+          {this.getShownData()}
         </ResponsiveReactGridLayout>
       </div>
     );

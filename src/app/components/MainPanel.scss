@@ -29,6 +29,38 @@
   cursor: pointer;
 }
 
+.addBox {
+  cursor: pointer;
+  color: rgb(100, 100, 100);
+  // transition-duration: 1s !important;
+  transition: color 0.5s ease !important;
+  background-color: rgb(200, 200, 200) !important;
+  :global {
+    .react-resizable-handle {
+      display: initial;
+      opacity: 0;
+    }
+    .react-resizable-handle:after {
+      border: 0;
+    }
+  }
+}
+
+.addBox:hover {
+  color: rgb(240, 240, 240);
+}
+
+.addBox .midCenter {
+  font-size: 3em;
+
+  width: 3em;
+  height: 3em;
+  position: relative;
+  left: calc(50% - 0.5em);
+  top: calc(50% - 0.5em);
+  cursor: pointer;
+}
+
 .mainBody {
   background-color: rgb(240, 240, 240);
   // background-color: red;
@@ -43,7 +75,7 @@
   height: 100%;
 }
 
-.mainBody div {
+.mainBody .boxDiv {
   background-color: #4075bf;
   // background-color: red;
   margin-bottom: 1vh;
@@ -59,7 +91,7 @@
 }
 
 .mainBody.editContainer {
-  div {
+  .boxDiv {
     * {
       opacity: 0;
       display: none;

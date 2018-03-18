@@ -10,7 +10,7 @@ import { faSync } from '@fortawesome/fontawesome-free-solid';
 import Dropdown from 'react-dropdown';
 import * as profileActions from '../actions/profile';
 import * as cryptoActions from '../actions/crypto';
-import type { Profile } from '../_types/Profile';
+import type { Profile, ProfileData } from '../_types/Profile';
 import SpinOnHoverFontAwesome from './SpinOnHoverFontAwesome';
 import styles from './SidePanel.scss';
 import EditableText from './EditableText';
@@ -18,27 +18,19 @@ import EditableText from './EditableText';
 const mySwal = withReactContent(swal);
 
 type Props = {
-  profile: ProfileType,
-  lastDataUpdate: ?number
-};
-
-const defaultProfile: ProfileType = {
-  displayName: 'Unnamed User',
-  isReal: false,
-  uuid: '_'
+  profileActions: typeof profileActions,
+  profileData: ProfileData
 };
 
 const mapStateToProps = ({ profileData, cryptoData }) => ({ profileData, cryptoData });
 
-const mapDispatchToProps = (dispatch, props) => ({
+const mapDispatchToProps = dispatch => ({
   profileActions: bindActionCreators(profileActions, dispatch),
   cryptoData: bindActionCreators(cryptoActions, dispatch)
 });
 
 class SidePanel extends Component<Props> {
   props: Props;
-
-  componentDidMount() {}
 
   refreshData() {
     this.forceUpdate();
@@ -79,7 +71,6 @@ class SidePanel extends Component<Props> {
   }
 
   render() {
-    console.log(faSync);
     return (
       <div className={styles.sidePanel}>
         <div className={styles.topContainer}>

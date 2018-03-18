@@ -47,6 +47,9 @@ export default new class CryptoAPI {
 
   constructor(store) {
     this.store = store;
+    if (this.store.get("lastUsed") == null) {
+      this.store.set("lastUsed", {});
+    }
   }
 
   saveCryptoData(cryptoData) {
@@ -90,7 +93,6 @@ export default new class CryptoAPI {
 
   getOHLCVDataFromStore(exchangeId, symbol) {
     const oS = this.store.store;
-    console.log(oS);
     if (
       oS &&
       oS.candleData &&
@@ -99,11 +101,17 @@ export default new class CryptoAPI {
     ) {
       return oS.candleData[exchangeId][symbol];
     }
-    console.log("no return");
+  }
+
+  canUseExchange(exchange) {
+    return (
+      +moment() - this.store.get(`lastUsed.${exchange.id}`, 0) >
+      exchange.rateLimit * 2
+    );
   }
 
   async requestOHLCV(exchange, symbol, resolution) {
-    while (+moment() - this.lastUsed[exchange.id] < exchange.rateLimit * 2) {
+    while (!this.canUseExchange(exchange)) {
       /**
        * We can happily/safetly use await in a loop here
        * as we want this loop to be blocking to prevent
@@ -112,10 +120,16 @@ export default new class CryptoAPI {
       // eslint-disable-next-line no-await-in-loop
       await sleep(exchange.rateLimit);
     }
-    this.lastUsed[exchange.id] = +moment();
+    this.store.set(`lastUsed.${exchange.id}`, +moment());
     if (!confirm("fetch EXCHANGE DATA")) {
       return;
     }
+
+    console.log(
+      `[CryptoAPI] Exchange data fetched from ${
+        exchange.id
+      } at ${+moment()} with rateLimit ${exchange.rateLimit}`
+    );
     const data = await exchange.fetchOHLCV(
       symbol,
       resolution.resolution(),

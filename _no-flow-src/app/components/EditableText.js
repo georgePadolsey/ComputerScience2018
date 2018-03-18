@@ -43,8 +43,9 @@ export default class EditableText extends Component {
         contentEditable={!disabled}
         onInput={() => this.emitChange(false)}
         onBlur={() => this.emitChange(true)}
+        // eslint-disable-next-line react/no-danger
         dangerouslySetInnerHTML={{ __html: html }}
-        ref={x => (this.el = x)}
+        ref={node => (this.el = node)}
       />
     );
   }

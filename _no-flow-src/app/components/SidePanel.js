@@ -17,25 +17,17 @@ import EditableText from "./EditableText";
 
 const mySwal = withReactContent(swal);
 
-const defaultProfile = {
-  displayName: "Unnamed User",
-  isReal: false,
-  uuid: "_"
-};
-
 const mapStateToProps = ({ profileData, cryptoData }) => ({
   profileData,
   cryptoData
 });
 
-const mapDispatchToProps = (dispatch, props) => ({
+const mapDispatchToProps = dispatch => ({
   profileActions: bindActionCreators(profileActions, dispatch),
   cryptoData: bindActionCreators(cryptoActions, dispatch)
 });
 
 class SidePanel extends Component {
-  componentDidMount() {}
-
   refreshData() {
     this.forceUpdate();
   }
@@ -80,7 +72,6 @@ class SidePanel extends Component {
   }
 
   render() {
-    console.log(faSync);
     return (
       <div className={styles.sidePanel}>
         <div className={styles.topContainer}>

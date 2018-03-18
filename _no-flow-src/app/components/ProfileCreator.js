@@ -12,7 +12,7 @@ import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import { CSSTransitionGroup } from "react-transition-group";
 // Actions/reducers
-import { PROFILE_CREATOR_STAGES } from "../_types/Profile";
+import * as uiActions from "../actions/ui";
 import * as profileActions from "../actions/profile";
 // Styles:
 import styles from "./ProfileCreator.scss";
@@ -20,21 +20,21 @@ import styles from "./ProfileCreator.scss";
 import logo from "../../resources/icon.png";
 // Types:
 
-const mapStateToProps = ({ profileData }) => ({ profileData });
+const mapStateToProps = ({ profileData, uiData }) => ({ profileData, uiData });
 
-const mapDispatchToProps = (dispatch, props) => ({
-  profileActions: bindActionCreators(profileActions, dispatch)
+const mapDispatchToProps = dispatch => ({
+  uiActions: bindActionCreators(uiActions, dispatch)
 });
 
-class ProfileCreator extends Component {
-  componentDidMount() {}
+const { PROFILE_CREATOR_STAGES } = uiActions;
 
+class ProfileCreator extends Component {
   dismiss() {
-    this.props.profileActions.setShowProfileCreator(false);
+    this.props.uiActions.hideProfileCreator();
   }
 
   setStage(stage) {
-    this.props.profileActions.setProfileCreatorStage(stage);
+    this.props.uiActions.setProfileCreatorStage(stage);
   }
 
   getAccountAdderStage() {
@@ -44,7 +44,7 @@ class ProfileCreator extends Component {
           <FontAwesomeIcon icon={faTimes} />
         </button>
         <div className={styles.titleContainer}>
-          {this.props.profileData.firstTime ? (
+          {this.props.uiData.firstTime ? (
             <div className={styles.firstTime}>
               <img src={logo} alt="Cryptolium logo" title="Cryptolium logo" />
               <span>Welcome to Cryptolium</span>
@@ -135,7 +135,7 @@ class ProfileCreator extends Component {
     const stages = {};
     stages[PROFILE_CREATOR_STAGES.ACCOUNT_ADDER] = this.getAccountAdderStage();
     stages[PROFILE_CREATOR_STAGES.ADD_BALANCE] = this.getAddBalanceStage();
-    return stages[this.props.profileData.profileCreatorStage];
+    return stages[this.props.uiData.profileCreatorStage];
   }
   render() {
     return (

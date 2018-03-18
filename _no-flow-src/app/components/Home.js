@@ -1,34 +1,30 @@
 //
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
 import { bindActionCreators } from "redux";
+import matches from "lodash/matches";
+
 import * as profileActions from "../actions/profile";
 import * as uiActions from "../actions/ui";
-// import { Link } from 'react-router-dom';
+
 import styles from "./Home.scss";
 import SidePanel from "./SidePanel";
 import MainPanel from "./MainPanel";
-import CryptoAPI from "../utils/CryptoAPI";
-import matches from "lodash/matches";
-
-import swal from "sweetalert2";
-import withReactContent from "sweetalert2-react-content";
-import ProfileCreator from "../components/ProfileCreator";
+import ProfileCreatorDialog from "../components/ProfileCreator";
+import AddMainChartDialog from "../components/AddMainChartDialog";
 
 const mySwal = withReactContent(swal);
 
-const mapStateToProps = ({ profileData }) => ({ profileData });
+const mapStateToProps = ({ profileData, uiData }) => ({ profileData, uiData });
 
-const mapDispatchToProps = (dispatch, props) => ({
+const mapDispatchToProps = dispatch => ({
   profileActions: bindActionCreators(profileActions, dispatch),
   uiActions: bindActionCreators(uiActions, dispatch)
 });
 
 class Home extends Component {
-  state = {
-    profileCreate: false
-  };
-
   componentDidMount() {
     this.props.profileActions.loadProfileData();
     this.props.uiActions.loadUIData();
@@ -36,14 +32,10 @@ class Home extends Component {
 
   componentWillReceiveProps(nextProps) {
     console.log("Reciving props", nextProps);
-    if (nextProps.profileData) {
-      console.log("ProfileData defined ?");
-      if (!matches(this.props.profileData, nextProps.profileData)) {
-        console.log("Profile data updated", nextProps.profileData);
-      }
-      if (!nextProps.profileData.offeredCreator) {
-        this.props.profileActions.setShowProfileCreator(true);
-        this.props.profileActions.setOfferedCreator(true);
+    if (nextProps.uiData) {
+      if (!nextProps.uiData.offeredCreator) {
+        this.props.uiActions.showProfileCreator();
+        this.props.uiActions.setOfferedCreator(true);
       }
     }
   }
@@ -75,7 +67,8 @@ class Home extends Component {
           <SidePanel />
           <MainPanel />
         </div>
-        {this.props.profileData.showProfileCreator ? <ProfileCreator /> : null}
+        {this.props.uiData.showProfileCreator ? <ProfileCreatorDialog /> : null}
+        {this.props.uiData.showAddMainChart ? <AddMainChartDialog /> : null}
       </div>
     );
   }

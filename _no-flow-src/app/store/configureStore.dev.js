@@ -6,7 +6,7 @@ import { createLogger } from "redux-logger";
 import rootReducer from "../reducers";
 import { ipc } from "../reducers/ipc";
 import * as profileActions from "../actions/profile";
-// import type { counterStateType } from '../reducers/counter';
+import * as uiActions from "../actions/ui";
 
 const history = createHashHistory();
 
@@ -39,6 +39,7 @@ const configureStore = (initialState?: counterStateType) => {
   // Redux DevTools Configuration
   const actionCreators = {
     ...profileActions,
+    ...uiActions,
     ...routerActions
   };
   // If Redux DevTools Extension is installed use it, otherwise use Redux compose
