@@ -37,7 +37,6 @@ class Home extends Component<Props> {
   };
 
   componentDidMount() {
-    CryptoAPI.loadMarkets();
     this.props.profileActions.loadProfileData();
     this.props.uiActions.loadUIData();
   }

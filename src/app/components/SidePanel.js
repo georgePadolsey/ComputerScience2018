@@ -79,6 +79,7 @@ class SidePanel extends Component<Props> {
   }
 
   render() {
+    console.log(faSync);
     return (
       <div className={styles.sidePanel}>
         <div className={styles.topContainer}>

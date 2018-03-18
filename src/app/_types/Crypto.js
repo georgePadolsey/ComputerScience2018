@@ -1,13 +1,15 @@
 // @flow
 import moment from 'moment';
 
+export type ResolutionType = {
+  since: () => ?number,
+  resolution: () => string,
+  id: () => string,
+  expires: () => number
+};
+
 export type ResolutionTypes = {
-  [string]: {
-    since: () => ?number,
-    resolution: () => string,
-    id: () => string,
-    expires: () => number
-  }
+  [string]: ResolutionType
 };
 
 export const Resolutions: ResolutionTypes = {

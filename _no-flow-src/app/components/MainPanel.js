@@ -32,9 +32,11 @@ class MainPanel extends Component {
   }
 
   async renderGraphs() {
+    console.log("render graphs", this.testDiv);
     if (!this.testDiv) return;
 
     const OHLCVdata = await CryptoAPI.loadOHLCV();
+    console.log(OHLCVdata);
     if (OHLCVdata == null) {
       return;
     }

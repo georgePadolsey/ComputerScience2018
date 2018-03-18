@@ -39,6 +39,9 @@ export default new class CryptoAPI {
   currencyExchangeLookup = {};
   // @deprecated
   loadedCurrencies = {};
+  hasStartedLoadingMarkets = false;
+  lastUsed = {};
+  store = null;
 
   neededResolutions = [Resolutions.HOUR, Resolutions.DAY, Resolutions.MONTH];
 
@@ -66,55 +69,127 @@ export default new class CryptoAPI {
   }
 
   cacheOHLCVData(exchangeId, symbol, timedCandleData) {
-    reduxStore.dispatch(
-      cryptoActions.cacheOHLCVData(exchangeId, symbol, timedCandleData)
-    );
+    const oS = this.store.store;
+    let origArr = [];
+    if (
+      oS &&
+      oS.candleData &&
+      oS.candleData[exchangeId] &&
+      oS.candleData[exchangeId][symbol]
+    ) {
+      origArr = oS.candleData[exchangeId][symbol].filter(x => x != null);
+    }
+    const allData = [...origArr, ...timedCandleData];
+    const candleData = {};
+    candleData[exchangeId] = {};
+    candleData[exchangeId][symbol] = allData;
+
+    this.store.store = Object.assign({}, oS, { candleData });
+    return timedCandleData;
   }
 
-  async loadOHLCV() {
-    const exchange = this.loadedExchanges[0];
-    if (exchange == null) return;
-    const symbol = "BTC/USD";
-    if (!confirm("load ohlcv")) return;
+  getOHLCVDataFromStore(exchangeId, symbol) {
+    const oS = this.store.store;
+    console.log(oS);
+    if (
+      oS &&
+      oS.candleData &&
+      oS.candleData[exchangeId] &&
+      oS.candleData[exchangeId][symbol]
+    ) {
+      return oS.candleData[exchangeId][symbol];
+    }
+    console.log("no return");
+  }
 
-    let allData = [];
-    const datas = [];
-
-    let resolution;
-    for (let i = 0; i < this.neededResolutions.length; i++) {
-      resolution = this.neededResolutions[i];
-      console.log("test time", +new Date(), exchange.rateLimit);
-
-      const data = await exchange.fetchOHLCV(
-        symbol,
-        resolution.resolution(),
-        resolution.since() ? resolution.since() : undefined
-      );
-
-      allData = [...allData, ...data];
-      datas.push({
-        data,
-        from: resolution.since() || Math.min(...data.map(([time]) => time)),
-        to: +moment(),
-        expires: resolution.expires(),
-        resolution: resolution.id()
-      });
-
+  async requestOHLCV(exchange, symbol, resolution) {
+    while (+moment() - this.lastUsed[exchange.id] < exchange.rateLimit * 2) {
       /**
        * We can happily/safetly use await in a loop here
        * as we want this loop to be blocking to prevent
        * over requesting the exchange.
        */
       // eslint-disable-next-line no-await-in-loop
-      await sleep(exchange.rateLimit * 2);
+      await sleep(exchange.rateLimit);
+    }
+    this.lastUsed[exchange.id] = +moment();
+    if (!confirm("fetch EXCHANGE DATA")) {
+      return;
+    }
+    const data = await exchange.fetchOHLCV(
+      symbol,
+      resolution.resolution(),
+      resolution.since() ? resolution.since() : undefined
+    );
+
+    const candleData = {
+      data,
+      from: resolution.since() || Math.min(...data.map(([time]) => time)),
+      to: +moment(),
+      resolution: resolution.id(),
+      expires: resolution.expires()
+    };
+    this.cacheOHLCVData(exchange.id, symbol, [candleData]);
+    return candleData;
+  }
+
+  async loadOHLCV() {
+    if (!this.loadedExchanges[0]) {
+      if (!this.hasStartedLoadingMarkets) {
+        await this.loadMarkets();
+      } else {
+        throw Error("no loaded exch");
+      }
     }
 
-    this.cacheOHLCVData(exchange.id, symbol, datas);
+    return this.fetchOHLCV(this.loadedExchanges[0], "BTC/USD");
+  }
+
+  async fetchOHLCV(exchange, symbol) {
+    const candleDataArr = this.getOHLCVDataFromStore(exchange.id, symbol);
+    let allData = [];
+    const neededRezs = this.neededResolutions.map(rez => rez.id());
+    if (candleDataArr != null) {
+      candleDataArr.forEach((timedCandleData, i) => {
+        if (timedCandleData == null) {
+          return;
+        }
+        if (+moment() > timedCandleData.expires) {
+          // candle has expired
+          candleDataArr[i] = null;
+          return;
+        }
+
+        if (neededRezs.includes(timedCandleData.resolution)) {
+          allData = [...allData, ...timedCandleData.data];
+          neededRezs[neededRezs.indexOf(timedCandleData.resolution)] = null;
+        }
+      });
+    }
+
+    neededRezs.forEach(async rezId => {
+      if (rezId == null) {
+        return;
+      }
+      console.log(rezId, "rez needed");
+      const rez = Resolutions[rezId];
+      if (rez == null) {
+        throw TypeError("Needed resolution not in map!");
+      }
+      const data = await this.requestOHLCV(exchange, symbol, rez);
+      if (data == null) {
+        return;
+      }
+      allData = [...allData, ...data.data];
+    });
+
     return allData;
   }
 
   async loadMarkets() {
     if (!confirm("load market")) return;
+    this.hasStartedLoadingMarkets = true;
+
     await forEach(CCXT.exchanges, async exchangeName => {
       // internal exchange names
       let exchange;
@@ -138,16 +213,11 @@ export default new class CryptoAPI {
 
     Object.keys(this.currencyExchangeLookup).forEach(currencyName => {
       if (
+        this.currencyExchangeLookup != null &&
         this.currencyExchangeLookup[currencyName].length < MIN_EXCHANGES_ALLOWED
       ) {
-        delete this.currencyExchangeLookup[currencyName];
+        this.currencyExchangeLookup[currencyName] = null;
       }
     });
-  }
-
-  async getConversion(origCurrency, quoteCurrency) {
-    // forEach(this.loadedExchanges, async exchange => {
-    //   exchange.markets;
-    // });
   }
 }(cryptoStore);
