@@ -1,23 +1,23 @@
 // @flow
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import swal from 'sweetalert2';
-import withReactContent from 'sweetalert2-react-content';
-import { bindActionCreators } from 'redux';
-import matches from 'lodash/matches';
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
+import { bindActionCreators } from "redux";
+import matches from "lodash/matches";
 
-import * as profileActions from '../actions/profile';
-import * as uiActions from '../actions/ui';
+import * as profileActions from "../actions/profile";
+import * as uiActions from "../actions/ui";
 
-import styles from './Home.scss';
-import SidePanel from './SidePanel';
-import MainPanel from './MainPanel';
-import ProfileCreatorDialog from '../components/ProfileCreator';
-import AddMainChartDialog from '../components/AddMainChartDialog';
+import styles from "./Home.scss";
+import SidePanel from "./SidePanel";
+import MainPanel from "./MainPanel";
+import ProfileCreatorDialog from "../components/ProfileCreator";
+import AddMainChartDialog from "../components/AddMainChartDialog";
 
-import type { ProfileData } from '../_types/Profile';
+import type { ProfileData } from "../_types/Profile";
 
-import type { UIData } from '../_types/UI';
+import type { UIData } from "../_types/UI";
 
 const mySwal = withReactContent(swal);
 
@@ -36,15 +36,13 @@ const mapDispatchToProps = dispatch => ({
 });
 
 class Home extends Component<Props> {
-  props: Props;
-
   componentDidMount() {
     this.props.profileActions.loadProfileData();
     this.props.uiActions.loadUIData();
   }
 
   componentWillReceiveProps(nextProps) {
-    console.log('Reciving props', nextProps);
+    console.log("Reciving props", nextProps);
     if (nextProps.uiData) {
       if (!nextProps.uiData.offeredCreator) {
         this.props.uiActions.showProfileCreator();
@@ -60,15 +58,15 @@ class Home extends Component<Props> {
   // eslint-disable-next-line class-methods-use-this
   componentDidCatch(error: Error) {
     mySwal({
-      title: 'Error',
+      title: "Error",
       html: (
-        <div style={{ textAlign: 'center' }}>
+        <div style={{ textAlign: "center" }}>
           <b>Contact the developer with this error</b>
           <br />
           {error.toString()}
         </div>
       ),
-      type: 'error'
+      type: "error"
     });
   }
 

@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
-import styles from './DialogComponent.scss';
+import React, { Component } from "react";
+import styles from "./DialogComponent.scss";
 
 type Props = {
   dismiss: () => void,
@@ -12,7 +12,11 @@ class DialogComponent extends Component<Props> {
 
     return (
       <div className={styles.container} {...rest}>
-        <div className={styles.dimmedBackground} onClick={() => dismiss()} aria-hidden />
+        <div
+          className={styles.dimmedBackground}
+          onClick={() => dismiss()}
+          aria-hidden
+        />
         {children}
       </div>
     );

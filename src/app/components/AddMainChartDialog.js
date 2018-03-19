@@ -1,12 +1,12 @@
 // @flow
-import React, { Component } from 'react';
-import { bindActionCreators } from 'redux';
-import { connect } from 'react-redux';
-import DialogComponent from './DialogComponent';
-import CryptoAPI from '../utils/CryptoAPI';
-import * as uiActions from '../actions/ui';
-import styles from './AddMainChartDialog.scss';
-import type { CryptoState } from '../_types/Crypto';
+import React, { Component } from "react";
+import { bindActionCreators } from "redux";
+import { connect } from "react-redux";
+import DialogComponent from "./DialogComponent";
+import CryptoAPI from "../utils/CryptoAPI";
+import * as uiActions from "../actions/ui";
+import styles from "./AddMainChartDialog.scss";
+import type { CryptoState } from "../_types/Crypto";
 
 const mapStateToProps = ({ cryptoData }) => ({
   cryptoData
@@ -40,17 +40,22 @@ class AddMainChartDialog extends Component<Props, State> {
   }
 
   render() {
-    if (CryptoAPI.loadedExchanges.length > 0 && this.state.selectedExchange == null) {
+    if (
+      CryptoAPI.loadedExchanges.length > 0 &&
+      this.state.selectedExchange == null
+    ) {
       this.setState({ selectedExchange: CryptoAPI.loadedExchanges[0].id });
     }
     return (
-      <DialogComponent dismiss={this.dismiss}>
+      <DialogComponent dismiss={() => this.dismiss()}>
         <div className={styles.main}>
           <label htmlFor="exchangeSelect">
             <span>Exchange:</span>
             <select
               id="exchangeSelect"
-              onChange={e => this.setState({ selectedExchange: e.target.value })}
+              onChange={e =>
+                this.setState({ selectedExchange: e.target.value })
+              }
             >
               {CryptoAPI.loadedExchanges.map(exchange => (
                 <option key={exchange.id}>{exchange.id}</option>
@@ -61,9 +66,9 @@ class AddMainChartDialog extends Component<Props, State> {
             <label htmlFor="symbolSelect">
               <span>Symbols:</span>
               <select id="symbolSelect">
-                {CryptoAPI.getExchange(this.state.selectedExchange).symbols.map(symbol => (
-                  <option key={symbol}>{symbol}</option>
-                ))}
+                {CryptoAPI.getExchange(this.state.selectedExchange).symbols.map(
+                  symbol => <option key={symbol}>{symbol}</option>
+                )}
               </select>
             </label>
           ) : null}

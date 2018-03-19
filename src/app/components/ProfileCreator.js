@@ -1,27 +1,27 @@
 // @flow
-import React, { Component } from 'react';
-import FontAwesomeIcon from '@fortawesome/react-fontawesome';
+import React, { Component } from "react";
+import FontAwesomeIcon from "@fortawesome/react-fontawesome";
 import {
   faBalanceScale,
   faExchangeAlt,
   faCreditCard,
   faTimes,
   faArrowLeft
-} from '@fortawesome/fontawesome-free-solid';
-import { bindActionCreators } from 'redux';
-import { connect } from 'react-redux';
-import { CSSTransitionGroup } from 'react-transition-group';
+} from "@fortawesome/fontawesome-free-solid";
+import { bindActionCreators } from "redux";
+import { connect } from "react-redux";
+import { CSSTransitionGroup } from "react-transition-group";
 
-import DialogComponent from './DialogComponent';
+import DialogComponent from "./DialogComponent";
 // Actions/reducers
-import * as uiActions from '../actions/ui';
-import * as profileActions from '../actions/profile';
+import * as uiActions from "../actions/ui";
+import * as profileActions from "../actions/profile";
 // Styles:
-import styles from './ProfileCreator.scss';
+import styles from "./ProfileCreator.scss";
 // Logo
-import logo from '../../resources/icon.png';
+import logo from "../../resources/icon.png";
 // Types:
-import type { ProfileCreatorStage, UIData } from '../_types/UI';
+import type { ProfileCreatorStage, UIData } from "../_types/UI";
 
 const mapStateToProps = ({ profileData, uiData }) => ({ profileData, uiData });
 
@@ -146,7 +146,11 @@ class ProfileCreator extends Component<Props> {
     return stages[this.props.uiData.profileCreatorStage];
   }
   render() {
-    return <DialogComponent dismiss={this.dismiss}>{this.getStages()}</DialogComponent>;
+    return (
+      <DialogComponent dismiss={() => this.dismiss()}>
+        {this.getStages()}
+      </DialogComponent>
+    );
   }
 }
 
