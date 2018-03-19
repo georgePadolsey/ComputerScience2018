@@ -140,7 +140,11 @@ class ProfileCreator extends Component {
     return stages[this.props.uiData.profileCreatorStage];
   }
   render() {
-    return <DialogComponent>{this.getStages()}</DialogComponent>;
+    return (
+      <DialogComponent dismiss={this.dismiss}>
+        {this.getStages()}
+      </DialogComponent>
+    );
   }
 }
 

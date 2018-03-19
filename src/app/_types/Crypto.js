@@ -1,5 +1,5 @@
 // @flow
-import moment from 'moment';
+import { Resolutions } from '../utils/CryptoAPI';
 
 export type ResolutionType = {
   since: () => ?number,
@@ -10,57 +10,6 @@ export type ResolutionType = {
 
 export type ResolutionTypes = {
   [string]: ResolutionType
-};
-
-export const Resolutions: ResolutionTypes = {
-  HOUR: {
-    id() {
-      return 'HOUR';
-    },
-    since() {
-      return +moment().subtract('1', 'day');
-    },
-    resolution() {
-      return '1h';
-    },
-    expires() {
-      return +moment()
-        .minute(0)
-        .add(1, 'hour');
-    }
-  },
-  DAY: {
-    id() {
-      return 'DAY';
-    },
-    since() {
-      return +moment().subtract('1', 'month');
-    },
-    resolution() {
-      return '1d';
-    },
-    expires() {
-      return +moment()
-        .hour(0)
-        .add(1, 'day');
-    }
-  },
-  MONTH: {
-    id() {
-      return 'MONTH';
-    },
-    since() {
-      return null;
-    },
-    resolution() {
-      return '1M';
-    },
-    expires() {
-      return +moment()
-        .date(1)
-        .add(1, 'month');
-    }
-  }
 };
 
 export type OHLCVCandle = [
@@ -79,3 +28,5 @@ export type TimedCandleData = {
   expires: number,
   resolution: $Keys<typeof Resolutions>
 };
+
+export type CryptoState = {| loadedExchanges: string[] |};

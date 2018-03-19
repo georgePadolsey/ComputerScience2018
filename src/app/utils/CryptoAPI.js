@@ -3,14 +3,70 @@
 import CCXT from 'ccxt';
 import { forEach } from 'p-iteration';
 import moment from 'moment';
+import { bindActionCreators } from 'redux';
 import Store from 'electron-store';
 
 import getStore from '../store/getStore';
 import { CONFIG_KEY } from '../enc_keys';
 import * as cryptoActions from '../actions/crypto';
 
-import { Resolutions } from '../_types/Crypto';
-import type { TimedCandleData, OHLCVCandle, ResolutionType } from '../_types/Crypto';
+import type {
+  TimedCandleData,
+  OHLCVCandle,
+  ResolutionType,
+  ResolutionTypes
+} from '../_types/Crypto';
+
+export const Resolutions: ResolutionTypes = {
+  HOUR: {
+    id() {
+      return 'HOUR';
+    },
+    since() {
+      return +moment().subtract('1', 'day');
+    },
+    resolution() {
+      return '1h';
+    },
+    expires() {
+      return +moment()
+        .minute(0)
+        .add(1, 'hour');
+    }
+  },
+  DAY: {
+    id() {
+      return 'DAY';
+    },
+    since() {
+      return +moment().subtract('1', 'month');
+    },
+    resolution() {
+      return '1d';
+    },
+    expires() {
+      return +moment()
+        .hour(0)
+        .add(1, 'day');
+    }
+  },
+  MONTH: {
+    id() {
+      return 'MONTH';
+    },
+    since() {
+      return null;
+    },
+    resolution() {
+      return '1M';
+    },
+    expires() {
+      return +moment()
+        .date(1)
+        .add(1, 'month');
+    }
+  }
+};
 
 const reduxStore = getStore();
 
@@ -43,6 +99,7 @@ export default new class CryptoAPI {
   hasStartedLoadingMarkets = false;
   lastUsed = {};
   store: typeof cryptoStore = null;
+  cryptoActions: typeof cryptoActions;
 
   neededResolutions = [Resolutions.HOUR, Resolutions.DAY, Resolutions.MONTH];
 
@@ -51,6 +108,7 @@ export default new class CryptoAPI {
     if (this.store.get('lastUsed') == null) {
       this.store.set('lastUsed', {});
     }
+    this.cryptoActions = bindActionCreators(cryptoActions, reduxStore.dispatch);
   }
 
   saveCryptoData(cryptoData) {
@@ -100,11 +158,7 @@ export default new class CryptoAPI {
     return +moment() - this.store.get(`lastUsed.${exchange.id}`, 0) > exchange.rateLimit * 2;
   }
 
-  async requestOHLCV(
-    exchange: any,
-    symbol: string,
-    resolution: ResolutionType
-  ): Promise<?TimedCandleData> {
+  async requestLock(exchange: any) {
     while (!this.canUseExchange(exchange)) {
       /**
        * We can happily/safetly use await in a loop here
@@ -115,6 +169,15 @@ export default new class CryptoAPI {
       await sleep(exchange.rateLimit);
     }
     this.store.set(`lastUsed.${exchange.id}`, +moment());
+  }
+
+  async requestOHLCV(
+    exchange: any,
+    symbol: string,
+    resolution: ResolutionType
+  ): Promise<?TimedCandleData> {
+    await this.requestLock(exchange);
+    return;
     if (!confirm('fetch EXCHANGE DATA')) {
       return;
     }
@@ -141,13 +204,9 @@ export default new class CryptoAPI {
 
   async loadOHLCV() {
     if (!this.loadedExchanges[0]) {
-      if (!this.hasStartedLoadingMarkets) {
-        await this.loadMarkets();
-      } else {
-        throw Error('no loaded exch');
-      }
+      await this.loadMarkets();
     }
-
+    console.log(this.loadedExchanges[0]);
     return this.fetchOHLCV(this.loadedExchanges[0], 'BTC/USD');
   }
 
@@ -193,6 +252,7 @@ export default new class CryptoAPI {
   }
 
   async loadMarkets() {
+    if (this.hasStartedLoadingMarkets) return;
     if (!confirm('load market')) return;
     this.hasStartedLoadingMarkets = true;
 
@@ -201,10 +261,11 @@ export default new class CryptoAPI {
       let exchange;
       try {
         // Instanciate all public exchanges (ones without APIkey and etc.)
-        if (exchangeName !== 'bitfinex2') {
-          return;
-        }
         exchange = new CCXT[exchangeName]();
+        if (exchange == null) {
+          throw Error();
+        }
+        await this.requestLock(exchange);
         await this.loadExchange(exchange);
       } catch (e) {
         console.error(
@@ -213,6 +274,7 @@ export default new class CryptoAPI {
         );
       }
       this.loadedExchanges.push(exchange);
+      this.cryptoActions.loadedExchange(exchange.id);
     });
 
     Object.keys(this.currencyExchangeLookup).forEach(currencyName => {
