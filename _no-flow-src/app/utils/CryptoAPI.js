@@ -107,6 +107,16 @@ export default new class CryptoAPI {
     this.store.store = cryptoData;
   }
 
+  getExchange(exchangeId) {
+    let exchange;
+    for (let i = 0, l = this.loadedExchanges.length; i < l; i++) {
+      exchange = this.loadedExchanges[i];
+      if (exchange.id === exchangeId) {
+        return exchange;
+      }
+    }
+  }
+
   async loadExchange(exchange) {
     await exchange.loadMarkets();
 
