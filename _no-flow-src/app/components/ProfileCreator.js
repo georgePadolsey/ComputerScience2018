@@ -107,27 +107,6 @@ class ProfileCreator extends Component {
         </button>
         <div className={styles.titleContainer}>
           <p className={styles.title}>Add Balance</p>
-          <p className={styles.metaTitle}>Let's add an account.</p>
-        </div>
-        <div className={styles.buttonContainer}>
-          <button className={styles.button}>
-            <span className={styles.icon}>
-              <FontAwesomeIcon icon={faBalanceScale} />
-            </span>
-            <span className={styles.meta}> Crypto Coin Balance</span>
-          </button>
-          <button className={styles.button}>
-            <span className={styles.icon}>
-              <FontAwesomeIcon icon={faExchangeAlt} />
-            </span>
-            <span className={styles.meta}> Exchange</span>
-          </button>
-          <button className={styles.button}>
-            <span className={styles.icon}>
-              <FontAwesomeIcon icon={faCreditCard} />
-            </span>
-            <span className={styles.meta}>Crypto Wallet (BTC or ETH)</span>
-          </button>
         </div>
       </div>
     );
@@ -141,7 +120,7 @@ class ProfileCreator extends Component {
   }
   render() {
     return (
-      <DialogComponent dismiss={this.dismiss}>
+      <DialogComponent dismiss={() => this.dismiss()}>
         {this.getStages()}
       </DialogComponent>
     );

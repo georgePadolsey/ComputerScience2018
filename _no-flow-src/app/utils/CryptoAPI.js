@@ -186,7 +186,7 @@ export default new class CryptoAPI {
 
   async requestOHLCV(exchange, symbol, resolution) {
     await this.requestLock(exchange);
-    return;
+    // return;
     if (!confirm("fetch EXCHANGE DATA")) {
       return;
     }
@@ -196,11 +196,20 @@ export default new class CryptoAPI {
         exchange.id
       } at ${+moment()} with rateLimit ${exchange.rateLimit}`
     );
-    const data = await exchange.fetchOHLCV(
-      symbol,
-      resolution.resolution(),
-      resolution.since() ? resolution.since() : undefined
-    );
+    let data = null;
+    try {
+      data = await exchange.fetchOHLCV(
+        symbol,
+        resolution.resolution(),
+        resolution.since() ? resolution.since() : undefined
+      );
+    } catch (e) {
+      console.warn(
+        `[CryptoAPI] Exchange load OHLCV failed: ${exchange && exchange.name}`,
+        e
+      );
+      return;
+    }
 
     const candleData = {
       data,
@@ -218,7 +227,10 @@ export default new class CryptoAPI {
       await this.loadMarkets();
     }
     console.log(this.loadedExchanges[0]);
-    return this.fetchOHLCV(this.loadedExchanges[0], "BTC/USD");
+    while (this.getExchange("coinegg") == null) {
+      await sleep(100);
+    }
+    return this.fetchOHLCV(this.getExchange("coinegg"), "BTC/USD");
   }
 
   async fetchOHLCV(exchange, symbol) {
@@ -264,7 +276,7 @@ export default new class CryptoAPI {
 
   async loadMarkets() {
     if (this.hasStartedLoadingMarkets) return;
-    if (!confirm("load market")) return;
+    // if (!confirm('load market')) return;
     this.hasStartedLoadingMarkets = true;
 
     await forEach(CCXT.exchanges, async exchangeName => {
@@ -279,12 +291,13 @@ export default new class CryptoAPI {
         await this.requestLock(exchange);
         await this.loadExchange(exchange);
       } catch (e) {
-        console.error(
+        console.warn(
           `[CryptoAPI] Exchange load market failed: ${(exchange &&
             exchange.name) ||
             exchangeName}`,
           e
         );
+        return;
       }
       this.loadedExchanges.push(exchange);
       this.cryptoActions.loadedExchange(exchange.id);

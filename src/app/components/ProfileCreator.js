@@ -1,27 +1,27 @@
 // @flow
-import React, { Component } from "react";
-import FontAwesomeIcon from "@fortawesome/react-fontawesome";
+import React, { Component } from 'react';
+import FontAwesomeIcon from '@fortawesome/react-fontawesome';
 import {
   faBalanceScale,
   faExchangeAlt,
   faCreditCard,
   faTimes,
   faArrowLeft
-} from "@fortawesome/fontawesome-free-solid";
-import { bindActionCreators } from "redux";
-import { connect } from "react-redux";
-import { CSSTransitionGroup } from "react-transition-group";
+} from '@fortawesome/fontawesome-free-solid';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+import { CSSTransitionGroup } from 'react-transition-group';
 
-import DialogComponent from "./DialogComponent";
+import DialogComponent from './DialogComponent';
 // Actions/reducers
-import * as uiActions from "../actions/ui";
-import * as profileActions from "../actions/profile";
+import * as uiActions from '../actions/ui';
+import * as profileActions from '../actions/profile';
 // Styles:
-import styles from "./ProfileCreator.scss";
+import styles from './ProfileCreator.scss';
 // Logo
-import logo from "../../resources/icon.png";
+import logo from '../../resources/icon.png';
 // Types:
-import type { ProfileCreatorStage, UIData } from "../_types/UI";
+import type { ProfileCreatorStage, UIData } from '../_types/UI';
 
 const mapStateToProps = ({ profileData, uiData }) => ({ profileData, uiData });
 
@@ -113,27 +113,6 @@ class ProfileCreator extends Component<Props> {
         </button>
         <div className={styles.titleContainer}>
           <p className={styles.title}>Add Balance</p>
-          <p className={styles.metaTitle}>Let's add an account.</p>
-        </div>
-        <div className={styles.buttonContainer}>
-          <button className={styles.button}>
-            <span className={styles.icon}>
-              <FontAwesomeIcon icon={faBalanceScale} />
-            </span>
-            <span className={styles.meta}> Crypto Coin Balance</span>
-          </button>
-          <button className={styles.button}>
-            <span className={styles.icon}>
-              <FontAwesomeIcon icon={faExchangeAlt} />
-            </span>
-            <span className={styles.meta}> Exchange</span>
-          </button>
-          <button className={styles.button}>
-            <span className={styles.icon}>
-              <FontAwesomeIcon icon={faCreditCard} />
-            </span>
-            <span className={styles.meta}>Crypto Wallet (BTC or ETH)</span>
-          </button>
         </div>
       </div>
     );
@@ -146,11 +125,7 @@ class ProfileCreator extends Component<Props> {
     return stages[this.props.uiData.profileCreatorStage];
   }
   render() {
-    return (
-      <DialogComponent dismiss={() => this.dismiss()}>
-        {this.getStages()}
-      </DialogComponent>
-    );
+    return <DialogComponent dismiss={() => this.dismiss()}>{this.getStages()}</DialogComponent>;
   }
 }
 

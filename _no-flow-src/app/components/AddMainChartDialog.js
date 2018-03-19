@@ -37,7 +37,7 @@ class AddMainChartDialog extends Component {
       this.setState({ selectedExchange: CryptoAPI.loadedExchanges[0].id });
     }
     return (
-      <DialogComponent dismiss={this.dismiss}>
+      <DialogComponent dismiss={() => this.dismiss()}>
         <div className={styles.main}>
           <label htmlFor="exchangeSelect">
             <span>Exchange:</span>
