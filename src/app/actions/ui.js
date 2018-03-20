@@ -5,17 +5,6 @@ import getUIData from "../utils/UIProvider";
 import type { Dispatch } from "redux";
 import * as UI_ACTIONS from "./types/ui";
 
-/**
- * Profile Creator Stage type
- * @todo description
- */
-export const PROFILE_CREATOR_STAGES = {
-  ACCOUNT_ADDER: "ACCOUNT_ADDER",
-  ADD_BALANCE: "ADD_BALANCE",
-  ADD_EXCHANGE: "ADD_EXCHANGE",
-  ADD_WALLET: "ADD_WALLET"
-};
-
 type UIAction = {
   +type: $Keys<typeof UI_ACTIONS>
 };

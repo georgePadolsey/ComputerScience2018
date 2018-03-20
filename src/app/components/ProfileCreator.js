@@ -14,6 +14,7 @@ import { CSSTransitionGroup } from "react-transition-group";
 import type { Dispatch } from "redux";
 
 import DialogComponent from "./DialogComponent";
+import { PROFILE_CREATOR_STAGES } from "../actions/types/ui";
 // Actions/reducers
 import * as uiActions from "../actions/ui";
 import * as profileActions from "../actions/profile";
@@ -29,8 +30,6 @@ const mapStateToProps = ({ profileData, uiData }) => ({ profileData, uiData });
 const mapDispatchToProps = (dispatch: Dispatch<*>) => ({
   uiActions: bindActionCreators(uiActions, dispatch)
 });
-
-const { PROFILE_CREATOR_STAGES } = uiActions;
 
 type Props = {
   uiActions: typeof uiActions,
