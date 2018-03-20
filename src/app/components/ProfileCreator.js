@@ -11,6 +11,7 @@ import {
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import { CSSTransitionGroup } from "react-transition-group";
+import type { Dispatch } from "redux";
 
 import DialogComponent from "./DialogComponent";
 // Actions/reducers
@@ -25,7 +26,7 @@ import type { ProfileCreatorStage, UIData } from "../_types/UI";
 
 const mapStateToProps = ({ profileData, uiData }) => ({ profileData, uiData });
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch: Dispatch<*>) => ({
   uiActions: bindActionCreators(uiActions, dispatch)
 });
 

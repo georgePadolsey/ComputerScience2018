@@ -1,5 +1,5 @@
 // @flow
-import { Resolutions } from '../utils/CryptoAPI';
+import { Resolutions } from "../utils/CryptoAPI";
 
 export type ResolutionType = {
   since: () => ?number,
@@ -29,4 +29,4 @@ export type TimedCandleData = {
   resolution: $Keys<typeof Resolutions>
 };
 
-export type CryptoState = {| loadedExchanges: string[] |};
+export type CryptoState = {| +loadedExchanges: string[] |};
