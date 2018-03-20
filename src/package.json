@@ -185,6 +185,7 @@
     "font-awesome": "^4.7.0",
     "history": "^4.7.2",
     "jest-environment-node": "^22.4.1",
+    "lodash": "^4.17.5",
     "moment": "^2.21.0",
     "p-iteration": "^1.1.5",
     "plotly.js": "^1.35.2",
