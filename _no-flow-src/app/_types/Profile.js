@@ -1,10 +1,15 @@
-//
-import {
-  CHANGE_PROFILE,
-  CHANGE_PROFILE_NAME,
-  LOADED_PROFILE_DATA
-} from "../actions/profile";
+// @flow
 
 /**
  * # Types
  */
+
+export type Profile = {
+  displayName: string,
+  uuid: string
+};
+
+export type ProfileData = {|
+  +currentProfile: ?string,
+  +loadedProfiles: { [string]: Profile }
+|};

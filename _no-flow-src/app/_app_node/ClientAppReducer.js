@@ -1,4 +1,4 @@
-//
+// @flow
 
 // import { UPDATE_PROFILE } from '../actions/profile';
 // import ProfileProvider from '../nodeComponents/ProfileProvider';

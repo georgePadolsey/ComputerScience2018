@@ -31,7 +31,6 @@ class Home extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    console.log("Reciving props", nextProps);
     if (nextProps.uiData) {
       if (!nextProps.uiData.offeredCreator) {
         this.props.uiActions.showProfileCreator();

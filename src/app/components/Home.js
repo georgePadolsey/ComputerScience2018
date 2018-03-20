@@ -18,6 +18,7 @@ import AddMainChartDialog from "../components/AddMainChartDialog";
 import type { ProfileData } from "../_types/Profile";
 
 import type { UIData } from "../_types/UI";
+import type { Dispatch } from "redux";
 
 const mySwal = withReactContent(swal);
 
@@ -30,7 +31,7 @@ type Props = {
 
 const mapStateToProps = ({ profileData, uiData }) => ({ profileData, uiData });
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch: Dispatch<*>) => ({
   profileActions: bindActionCreators(profileActions, dispatch),
   uiActions: bindActionCreators(uiActions, dispatch)
 });
@@ -42,7 +43,6 @@ class Home extends Component<Props> {
   }
 
   componentWillReceiveProps(nextProps) {
-    console.log("Reciving props", nextProps);
     if (nextProps.uiData) {
       if (!nextProps.uiData.offeredCreator) {
         this.props.uiActions.showProfileCreator();

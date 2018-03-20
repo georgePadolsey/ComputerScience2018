@@ -1,21 +1,17 @@
 //
 import getProfileData from "../utils/ProfileProvider";
-
-export const HYDRATE_PROFILE_DATA = "HYDRATE_PROFILE_DATA";
-export const LOADED_PROFILE_DATA = "LOADED_PROFILE_DATA";
-export const CHANGE_PROFILE = "CHANGE_PROFILE";
-export const CHANGE_PROFILE_NAME = "CHANGE_PROFILE_NAME";
+import * as PROFILE_ACTIONS from "./types/profile";
 
 export function changeProfile(uuid) {
   return {
-    type: CHANGE_PROFILE,
+    type: PROFILE_ACTIONS.CHANGE_PROFILE,
     payload: uuid
   };
 }
 
 export function changeProfileName(uuid, displayName) {
   return {
-    type: CHANGE_PROFILE_NAME,
+    type: PROFILE_ACTIONS.CHANGE_PROFILE_NAME,
     payload: {
       uuid,
       displayName
@@ -29,7 +25,7 @@ export function loadProfileData() {
 
 export function loadedProfileData(profileData) {
   return {
-    type: LOADED_PROFILE_DATA,
+    type: PROFILE_ACTIONS.LOADED_PROFILE_DATA,
     payload: profileData
   };
 }

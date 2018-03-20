@@ -1,4 +1,4 @@
-//
+// @flow
 import * as actions from "../../app/actions/crypto";
 import { Resolutions } from "../../app/_types/Crypto";
 
