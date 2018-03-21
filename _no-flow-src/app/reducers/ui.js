@@ -1,5 +1,5 @@
-// @flow
-import type { actionType } from "../_types/ActionType";
+//
+
 import {
   SET_MAIN_PANEL_EDIT_MODE,
   UPDATE_MAIN_LAYOUTS,
@@ -12,9 +12,8 @@ import {
 } from "../actions/types/ui";
 
 import { setUIData } from "../utils/UIProvider";
-import type { UIData } from "../_types/UI";
 
-const defaultUIState: UIData = {
+const defaultUIState = {
   mainPanelEditMode: false,
   showAddMainChart: false,
   mainPanelLayouts: {},
@@ -24,10 +23,7 @@ const defaultUIState: UIData = {
   profileCreatorStage: PROFILE_CREATOR_STAGES.ACCOUNT_ADDER
 };
 
-export default function uiReducer(
-  state: UIData = defaultUIState,
-  action: actionType
-) {
+export default function uiReducer(state = defaultUIState, action) {
   let ret = state;
   const saveData = () => {
     setUIData(ret);

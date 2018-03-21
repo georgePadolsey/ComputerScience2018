@@ -1,4 +1,4 @@
-// @flow
+//
 
 jest.mock("electron-store");
 

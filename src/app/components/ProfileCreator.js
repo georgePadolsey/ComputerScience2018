@@ -7,23 +7,12 @@ import {
   faCreditCard,
   faTimes,
   faArrowLeft
-<<<<<<< HEAD
 } from '@fortawesome/fontawesome-free-solid';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { CSSTransitionGroup } from 'react-transition-group';
 
 import DialogComponent from './DialogComponent';
-=======
-} from "@fortawesome/fontawesome-free-solid";
-import { bindActionCreators } from "redux";
-import { connect } from "react-redux";
-import { CSSTransitionGroup } from "react-transition-group";
-import type { Dispatch } from "redux";
-
-import DialogComponent from "./DialogComponent";
-import { PROFILE_CREATOR_STAGES } from "../actions/types/ui";
->>>>>>> master
 // Actions/reducers
 import * as uiActions from '../actions/ui';
 import * as profileActions from '../actions/profile';

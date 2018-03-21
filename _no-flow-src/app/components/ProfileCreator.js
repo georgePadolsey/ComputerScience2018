@@ -1,56 +1,39 @@
-// @flow
-import React, { Component } from 'react';
-import FontAwesomeIcon from '@fortawesome/react-fontawesome';
+//
+import React, { Component } from "react";
+import FontAwesomeIcon from "@fortawesome/react-fontawesome";
 import {
   faBalanceScale,
   faExchangeAlt,
   faCreditCard,
   faTimes,
   faArrowLeft
-<<<<<<< HEAD
-} from '@fortawesome/fontawesome-free-solid';
-import { bindActionCreators } from 'redux';
-import { connect } from 'react-redux';
-import { CSSTransitionGroup } from 'react-transition-group';
-
-import DialogComponent from './DialogComponent';
-=======
 } from "@fortawesome/fontawesome-free-solid";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import { CSSTransitionGroup } from "react-transition-group";
-import type { Dispatch } from "redux";
 
 import DialogComponent from "./DialogComponent";
-import { PROFILE_CREATOR_STAGES } from "../actions/types/ui";
->>>>>>> master
 // Actions/reducers
-import * as uiActions from '../actions/ui';
-import * as profileActions from '../actions/profile';
+import * as uiActions from "../actions/ui";
+import * as profileActions from "../actions/profile";
 // Styles:
-import styles from './ProfileCreator.scss';
+import styles from "./ProfileCreator.scss";
 // Logo
-import logo from '../../resources/icon.png';
+import logo from "../../resources/icon.png";
 // Types:
-import type { ProfileCreatorStage, UIData } from '../_types/UI';
 
 const mapStateToProps = ({ profileData, uiData }) => ({ profileData, uiData });
 
-const mapDispatchToProps = (dispatch: Dispatch<*>) => ({
+const mapDispatchToProps = dispatch => ({
   uiActions: bindActionCreators(uiActions, dispatch)
 });
 
-type Props = {
-  uiActions: typeof uiActions,
-  uiData: UIData
-};
-
-class ProfileCreator extends Component<Props> {
+class ProfileCreator extends Component {
   dismiss() {
     this.props.uiActions.hideProfileCreator();
   }
 
-  setStage(stage: ProfileCreatorStage) {
+  setStage(stage) {
     this.props.uiActions.setProfileCreatorStage(stage);
   }
 
@@ -134,7 +117,11 @@ class ProfileCreator extends Component<Props> {
     return stages[this.props.uiData.profileCreatorStage];
   }
   render() {
-    return <DialogComponent dismiss={() => this.dismiss()}>{this.getStages()}</DialogComponent>;
+    return (
+      <DialogComponent dismiss={() => this.dismiss()}>
+        {this.getStages()}
+      </DialogComponent>
+    );
   }
 }
 

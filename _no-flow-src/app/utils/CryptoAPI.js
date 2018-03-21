@@ -1,4 +1,4 @@
-// @flow
+//
 /* eslint no-plusplus: ['error', { 'allowForLoopAfterthoughts': true }] */
 import CCXT from "ccxt";
 import { forEach } from "p-iteration";
@@ -10,14 +10,7 @@ import getStore from "../store/getStore";
 import { CONFIG_KEY } from "../enc_keys";
 import * as cryptoActions from "../actions/crypto";
 
-import type {
-  TimedCandleData,
-  OHLCVCandle,
-  ResolutionType,
-  ResolutionTypes
-} from "../_types/Crypto";
-
-export const Resolutions: ResolutionTypes = {
+export const Resolutions = {
   HOUR: {
     id() {
       return "HOUR";
@@ -98,12 +91,11 @@ export default new class CryptoAPI {
   loadedCurrencies = {};
   hasStartedLoadingMarkets = false;
   lastUsed = {};
-  store: typeof cryptoStore = null;
-  cryptoActions: typeof cryptoActions;
+  store = null;
 
   neededResolutions = [Resolutions.HOUR, Resolutions.DAY, Resolutions.MONTH];
 
-  constructor(store: typeof cryptoStore) {
+  constructor(store) {
     this.store = store;
     if (this.store.get("lastUsed") == null) {
       this.store.set("lastUsed", {});
@@ -115,7 +107,7 @@ export default new class CryptoAPI {
     this.store.store = cryptoData;
   }
 
-  getExchange(exchangeId: string) {
+  getExchange(exchangeId) {
     let exchange;
     for (let i = 0, l = this.loadedExchanges.length; i < l; i++) {
       exchange = this.loadedExchanges[i];
@@ -140,11 +132,7 @@ export default new class CryptoAPI {
     });
   }
 
-  cacheOHLCVData(
-    exchangeId: string,
-    symbol: string,
-    timedCandleData: TimedCandleData[]
-  ): TimedCandleData[] {
+  cacheOHLCVData(exchangeId, symbol, timedCandleData) {
     const oS = this.store.store;
     let origArr = [];
     if (
@@ -164,10 +152,7 @@ export default new class CryptoAPI {
     return timedCandleData;
   }
 
-  getOHLCVDataFromStore(
-    exchangeId: string,
-    symbol: string
-  ): ?((?TimedCandleData)[]) {
+  getOHLCVDataFromStore(exchangeId, symbol) {
     const oS = this.store.store;
     if (
       oS &&
@@ -179,14 +164,14 @@ export default new class CryptoAPI {
     }
   }
 
-  canUseExchange(exchange: any) {
+  canUseExchange(exchange) {
     return (
       +moment() - this.store.get(`lastUsed.${exchange.id}`, 0) >
       exchange.rateLimit * 2
     );
   }
 
-  async requestLock(exchange: any) {
+  async requestLock(exchange) {
     while (!this.canUseExchange(exchange)) {
       /**
        * We can happily/safetly use await in a loop here
@@ -199,11 +184,7 @@ export default new class CryptoAPI {
     this.store.set(`lastUsed.${exchange.id}`, +moment());
   }
 
-  async requestOHLCV(
-    exchange: any,
-    symbol: string,
-    resolution: ResolutionType
-  ): Promise<?TimedCandleData> {
+  async requestOHLCV(exchange, symbol, resolution) {
     await this.requestLock(exchange);
     // return;
     if (!confirm("fetch EXCHANGE DATA")) {
@@ -252,13 +233,10 @@ export default new class CryptoAPI {
     return this.fetchOHLCV(this.getExchange("coinegg"), "BTC/USD");
   }
 
-  async fetchOHLCV(exchange: any, symbol: string): Promise<?(OHLCVCandle[])> {
-    const candleDataArr: ?((?TimedCandleData)[]) = this.getOHLCVDataFromStore(
-      exchange.id,
-      symbol
-    );
-    let allData: OHLCVCandle[] = [];
-    const neededRezs: (?string)[] = this.neededResolutions.map(rez => rez.id());
+  async fetchOHLCV(exchange, symbol) {
+    const candleDataArr = this.getOHLCVDataFromStore(exchange.id, symbol);
+    let allData = [];
+    const neededRezs = this.neededResolutions.map(rez => rez.id());
     if (candleDataArr != null) {
       candleDataArr.forEach((timedCandleData, i) => {
         if (timedCandleData == null) {
@@ -277,7 +255,7 @@ export default new class CryptoAPI {
       });
     }
 
-    neededRezs.forEach(async (rezId: ?string) => {
+    neededRezs.forEach(async rezId => {
       if (rezId == null) {
         return;
       }
@@ -286,11 +264,7 @@ export default new class CryptoAPI {
       if (rez == null) {
         throw TypeError("Needed resolution not in map!");
       }
-      const data: ?TimedCandleData = await this.requestOHLCV(
-        exchange,
-        symbol,
-        rez
-      );
+      const data = await this.requestOHLCV(exchange, symbol, rez);
       if (data == null) {
         return;
       }

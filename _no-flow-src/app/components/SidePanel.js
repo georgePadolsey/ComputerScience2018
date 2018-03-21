@@ -1,4 +1,4 @@
-// @flow
+//
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import moment from "moment";
@@ -10,17 +10,12 @@ import { faSync } from "@fortawesome/fontawesome-free-solid";
 import Dropdown from "react-dropdown";
 import * as profileActions from "../actions/profile";
 import * as cryptoActions from "../actions/crypto";
-import type { Profile, ProfileData } from "../_types/Profile";
+
 import SpinOnHoverFontAwesome from "./SpinOnHoverFontAwesome";
 import styles from "./SidePanel.scss";
 import EditableText from "./EditableText";
 
 const mySwal = withReactContent(swal);
-
-type Props = {
-  profileActions: typeof profileActions,
-  profileData: ProfileData
-};
 
 const mapStateToProps = ({ profileData, cryptoData }) => ({
   profileData,
@@ -32,9 +27,7 @@ const mapDispatchToProps = dispatch => ({
   cryptoData: bindActionCreators(cryptoActions, dispatch)
 });
 
-class SidePanel extends Component<Props> {
-  props: Props;
-
+class SidePanel extends Component {
   refreshData() {
     this.forceUpdate();
   }
@@ -46,7 +39,7 @@ class SidePanel extends Component<Props> {
     ];
   }
 
-  getProfileName(): string {
+  getProfileName() {
     return this.getCurrentProfile().displayName || "Default";
   }
 

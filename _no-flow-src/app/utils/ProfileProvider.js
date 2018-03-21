@@ -1,7 +1,6 @@
-// @flow
+//
 import Store from "electron-store";
 import { CONFIG_KEY } from "../enc_keys";
-import type { ProfileData } from "../_types/Profile";
 
 const profilesStore = new Store({
   name: "profiles",
@@ -14,11 +13,11 @@ const profilesStore = new Store({
   encryptionKey: process.env.NODE_ENV === "production" ? CONFIG_KEY : undefined
 });
 
-export default async function profileProvider(): any {
+export default async function profileProvider() {
   console.log("loading-profiles");
   return profilesStore.store;
 }
 
-export function setProfileData(data: ProfileData) {
+export function setProfileData(data) {
   profilesStore.store = data;
 }

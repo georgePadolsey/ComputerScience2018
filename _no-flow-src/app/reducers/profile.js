@@ -1,4 +1,4 @@
-// @flow
+//
 import uuid from "uuid/v1";
 
 import {
@@ -9,11 +9,9 @@ import {
 import { setProfileData } from "../utils/ProfileProvider";
 
 // Type imports:
-import type { actionType } from "../_types/ActionType";
-import type { ProfileData, Profile } from "../_types/Profile";
 
 const defaultUUID = uuid();
-const defaultProfileData: ProfileData = {
+const defaultProfileData = {
   currentProfile: defaultUUID,
   loadedProfiles: {}
 };
@@ -22,18 +20,15 @@ defaultProfileData.loadedProfiles[defaultUUID] = {
   uuid: defaultUUID
 };
 
-export default function profileReducer(
-  state: ProfileData = defaultProfileData,
-  action: actionType
-) {
-  let ret: ProfileData = state;
+export default function profileReducer(state = defaultProfileData, action) {
+  let ret = state;
 
   const saveData = () => {
     // save profile data to config
     setProfileData(ret);
   };
 
-  let loadedProfiles: { [string]: Profile } = {};
+  let loadedProfiles = {};
 
   switch (action.type) {
     case CHANGE_PROFILE:

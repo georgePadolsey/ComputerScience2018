@@ -1,9 +1,8 @@
-// @flow
-import type { actionType } from "../_types/ActionType";
-import type { CryptoState } from "../_types/Crypto";
+//
+
 import { LOADED_EXCHANGE } from "../actions/crypto";
 
-const defaultCryptoState: CryptoState = {
+const defaultCryptoState = {
   loadedExchanges: []
 };
 
@@ -12,10 +11,7 @@ const defaultCryptoState: CryptoState = {
  * @param {*} state
  * @param {*} action
  */
-export default function cryptoReducer(
-  state: CryptoState = defaultCryptoState,
-  action: actionType
-) {
+export default function cryptoReducer(state = defaultCryptoState, action) {
   switch (action.type) {
     case LOADED_EXCHANGE:
       return Object.assign({}, state, {

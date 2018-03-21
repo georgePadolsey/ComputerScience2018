@@ -1,4 +1,4 @@
-//@flow
+//
 export const SET_MAIN_PANEL_EDIT_MODE = "SET_MAIN_PANEL_EDIT_MODE";
 export const UPDATE_MAIN_LAYOUTS = "UPDATE_MAIN_LAYOUTS";
 export const LOADED_UI_DATA = "LOADED_UI_DATA";
