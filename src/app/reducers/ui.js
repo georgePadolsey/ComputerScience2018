@@ -1,5 +1,5 @@
 // @flow
-import type { actionType } from "../_types/ActionType";
+import type { actionType } from '../_types/ActionType';
 import {
   SET_MAIN_PANEL_EDIT_MODE,
   UPDATE_MAIN_LAYOUTS,
@@ -9,10 +9,10 @@ import {
   SET_SHOW_PROFILE_CREATOR,
   SET_PROFILE_CREATOR_STAGE,
   PROFILE_CREATOR_STAGES
-} from "../actions/types/ui";
+} from '../actions/types/ui';
 
-import { setUIData } from "../utils/UIProvider";
-import type { UIData } from "../_types/UI";
+import { setUIData } from '../utils/UIProvider';
+import type { UIData } from '../_types/UI';
 
 const defaultUIState: UIData = {
   mainPanelEditMode: false,

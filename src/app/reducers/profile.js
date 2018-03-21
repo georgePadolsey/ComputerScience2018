@@ -1,16 +1,17 @@
 // @flow
-import uuid from "uuid/v1";
+import uuid from 'uuid/v1';
 
 import {
   LOADED_PROFILE_DATA,
   CHANGE_PROFILE_NAME,
-  CHANGE_PROFILE
-} from "../actions/types/profile";
-import { setProfileData } from "../utils/ProfileProvider";
+  CHANGE_PROFILE,
+  CORRECT_PROFILE_DATA
+} from '../actions/types/profile';
+import { setProfileData } from '../utils/ProfileProvider';
 
 // Type imports:
-import type { actionType } from "../_types/ActionType";
-import type { ProfileData, Profile } from "../_types/Profile";
+import type { actionType } from '../_types/ActionType';
+import type { ProfileData, Profile } from '../_types/Profile';
 
 const defaultUUID = uuid();
 const defaultProfileData: ProfileData = {
@@ -18,7 +19,7 @@ const defaultProfileData: ProfileData = {
   loadedProfiles: {}
 };
 defaultProfileData.loadedProfiles[defaultUUID] = {
-  displayName: "Default",
+  displayName: 'Default',
   uuid: defaultUUID
 };
 
@@ -51,6 +52,13 @@ export default function profileReducer(
       };
       console.log(loadedProfiles);
       ret = Object.assign({}, state, { loadedProfiles });
+      saveData();
+      break;
+    case CORRECT_PROFILE_DATA:
+      // fix profile not loaded
+      ret = Object.assign({}, state, {
+        currentProfile: Object.keys(state.loadedProfiles)[0]
+      });
       saveData();
       break;
     default:

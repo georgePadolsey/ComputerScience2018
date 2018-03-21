@@ -51,13 +51,22 @@ class MainPanel extends Component<Props> {
     const lowVals = [];
     const openVals = [];
 
-    OHLCVdata.forEach(([dateInUTC, openPrice, highestPrice, lowestPrice, closingPrice, volume]) => {
-      xVals.push(moment(dateInUTC).format('YYYY-MM-DD'));
-      closeVals.push(closingPrice);
-      highVals.push(highestPrice);
-      lowVals.push(lowestPrice);
-      openVals.push(openPrice);
-    });
+    OHLCVdata.forEach(
+      ([
+        dateInUTC,
+        openPrice,
+        highestPrice,
+        lowestPrice,
+        closingPrice,
+        volume
+      ]) => {
+        xVals.push(moment(dateInUTC).format('YYYY-MM-DD'));
+        closeVals.push(closingPrice);
+        highVals.push(highestPrice);
+        lowVals.push(lowestPrice);
+        openVals.push(openPrice);
+      }
+    );
 
     const { d3 } = Plotly;
     const WIDTH_IN_PERCENT_OF_PARENT = 100;
@@ -175,10 +184,14 @@ class MainPanel extends Component<Props> {
               this.props.uiData.mainPanelEditMode ? styles.activeEdit : null
             ].join(' ')}
             onClick={() =>
-              this.props.uiActions.setMainPanelEditMode(!this.props.uiData.mainPanelEditMode)
+              this.props.uiActions.setMainPanelEditMode(
+                !this.props.uiData.mainPanelEditMode
+              )
             }
             onKeyPress={() =>
-              this.props.uiActions.setMainPanelEditMode(!this.props.uiData.mainPanelEditMode)
+              this.props.uiActions.setMainPanelEditMode(
+                !this.props.uiData.mainPanelEditMode
+              )
             }
             role="button"
             tabIndex={-1}
@@ -204,7 +217,9 @@ class MainPanel extends Component<Props> {
             xs: 3,
             xxs: 2
           }}
-          onLayoutChange={(layout, layouts) => this.onLayoutChange(layout, layouts)}
+          onLayoutChange={(layout, layouts) =>
+            this.onLayoutChange(layout, layouts)
+          }
           compactType="horizontal"
           // preventCollision
           isDraggable={this.props.uiData.mainPanelEditMode}

@@ -1,18 +1,18 @@
 // @flow
-import React, { Component } from "react";
-import { bindActionCreators } from "redux";
-import { connect } from "react-redux";
-import DialogComponent from "./DialogComponent";
-import CryptoAPI from "../utils/CryptoAPI";
-import * as uiActions from "../actions/ui";
-import styles from "./AddMainChartDialog.scss";
-import type { CryptoState } from "../_types/Crypto";
+import React, { Component } from 'react';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+import DialogComponent from './DialogComponent';
+import CryptoAPI from '../utils/CryptoAPI';
+import * as uiActions from '../actions/ui';
+import styles from './AddMainChartDialog.scss';
+import type { CryptoState } from '../_types/Crypto';
 
 const mapStateToProps = ({ cryptoData }) => ({
   cryptoData
 });
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch: Dispatch<*>) => ({
   uiActions: bindActionCreators(uiActions, dispatch)
 });
 

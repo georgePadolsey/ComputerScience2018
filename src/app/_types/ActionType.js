@@ -1,4 +1,5 @@
 // @flow
 export type actionType = {
-  +type: string
+  +type: string,
+  +payload?: any
 };

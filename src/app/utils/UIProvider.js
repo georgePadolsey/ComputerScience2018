@@ -1,4 +1,4 @@
-// @flow
+//@flow
 import Store from "electron-store";
 import { CONFIG_KEY } from "../enc_keys";
 import type { UIData } from "../_types/UI";

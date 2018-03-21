@@ -14,7 +14,7 @@ const profilesStore = new Store({
   encryptionKey: process.env.NODE_ENV === 'production' ? CONFIG_KEY : undefined
 });
 
-export default async function profileProvider(): any {
+export default async function profileProvider(): Promise<ProfileData> {
   console.log('loading-profiles');
   return profilesStore.store;
 }

@@ -16,14 +16,25 @@ import DialogComponent from './DialogComponent';
 // Actions/reducers
 import * as uiActions from '../actions/ui';
 import * as profileActions from '../actions/profile';
+import { PROFILE_CREATOR_STAGES } from '../actions/types/ui';
 // Styles:
 import styles from './ProfileCreator.scss';
 // Logo
 import logo from '../../resources/icon.png';
 // Types:
 import type { ProfileCreatorStage, UIData } from '../_types/UI';
+import type { ProfileData } from '../_types/Profile';
 
-const mapStateToProps = ({ profileData, uiData }) => ({ profileData, uiData });
+const mapStateToProps = ({
+  profileData,
+  uiData
+}: {
+  uiData: UIData,
+  profileData: ProfileData
+}) => ({
+  profileData,
+  uiData
+});
 
 const mapDispatchToProps = (dispatch: Dispatch<*>) => ({
   uiActions: bindActionCreators(uiActions, dispatch)
@@ -31,6 +42,7 @@ const mapDispatchToProps = (dispatch: Dispatch<*>) => ({
 
 type Props = {
   uiActions: typeof uiActions,
+  profileData: ProfileData,
   uiData: UIData
 };
 
@@ -123,7 +135,11 @@ class ProfileCreator extends Component<Props> {
     return stages[this.props.uiData.profileCreatorStage];
   }
   render() {
-    return <DialogComponent dismiss={() => this.dismiss()}>{this.getStages()}</DialogComponent>;
+    return (
+      <DialogComponent dismiss={() => this.dismiss()}>
+        {this.getStages()}
+      </DialogComponent>
+    );
   }
 }
 

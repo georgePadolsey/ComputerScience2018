@@ -9,7 +9,7 @@ export type Profile = {
   uuid: string
 };
 
-export type ProfileData = {|
+export type ProfileData = {
   +currentProfile: ?string,
   +loadedProfiles: { [string]: Profile }
-|};
+};

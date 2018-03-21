@@ -12,7 +12,10 @@ const defaultCryptoState: CryptoState = {
  * @param {*} state
  * @param {*} action
  */
-export default function cryptoReducer(state: CryptoState = defaultCryptoState, action: actionType) {
+export default function cryptoReducer(
+  state: CryptoState = defaultCryptoState,
+  action: actionType
+) {
   switch (action.type) {
     case LOADED_EXCHANGE:
       return Object.assign({}, state, {

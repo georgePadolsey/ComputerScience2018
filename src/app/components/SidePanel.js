@@ -10,10 +10,13 @@ import { faSync } from '@fortawesome/fontawesome-free-solid';
 import Dropdown from 'react-dropdown';
 import * as profileActions from '../actions/profile';
 import * as cryptoActions from '../actions/crypto';
-import type { Profile, ProfileData } from '../_types/Profile';
 import SpinOnHoverFontAwesome from './SpinOnHoverFontAwesome';
+
 import styles from './SidePanel.scss';
 import EditableText from './EditableText';
+
+import type { Profile, ProfileData } from '../_types/Profile';
+import type { CryptoState } from '../_types/Crypto';
 
 const mySwal = withReactContent(swal);
 
@@ -22,9 +25,15 @@ type Props = {
   profileData: ProfileData
 };
 
-const mapStateToProps = ({ profileData, cryptoData }) => ({ profileData, cryptoData });
+const mapStateToProps = ({
+  profileData,
+  cryptoData
+}: {
+  profileData: ProfileData,
+  cryptoData: CryptoState
+}) => ({ profileData, cryptoData });
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch: Dispatch<*>) => ({
   profileActions: bindActionCreators(profileActions, dispatch),
   cryptoData: bindActionCreators(cryptoActions, dispatch)
 });
@@ -37,8 +46,14 @@ class SidePanel extends Component<Props> {
   }
 
   getCurrentProfile() {
+    if (this.props.profileData.currentProfile == null) {
+      this.profileActions.correctProfileData();
+      throw new Error('Profile data has no profile loaded!');
+    }
     // check if currentProfile is valid
-    return this.props.profileData.loadedProfiles[this.props.profileData.currentProfile];
+    return this.props.profileData.loadedProfiles[
+      this.props.profileData.currentProfile
+    ];
   }
 
   getProfileName(): string {
@@ -66,7 +81,10 @@ class SidePanel extends Component<Props> {
       reverseButtons: true
     });
     if (result.value) {
-      this.props.profileActions.changeProfileName(this.props.profileData.currentProfile, newName);
+      this.props.profileActions.changeProfileName(
+        this.props.profileData.currentProfile,
+        newName
+      );
     }
   }
 

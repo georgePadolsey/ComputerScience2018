@@ -1,69 +1,69 @@
 // @flow
 /* eslint no-plusplus: ['error', { 'allowForLoopAfterthoughts': true }] */
-import CCXT from "ccxt";
-import { forEach } from "p-iteration";
-import moment from "moment";
-import { bindActionCreators } from "redux";
-import Store from "electron-store";
+import CCXT from 'ccxt';
+import { forEach } from 'p-iteration';
+import moment from 'moment';
+import { bindActionCreators } from 'redux';
+import Store from 'electron-store';
 
-import getStore from "../store/getStore";
-import { CONFIG_KEY } from "../enc_keys";
-import * as cryptoActions from "../actions/crypto";
+import getStore from '../store/getStore';
+import { CONFIG_KEY } from '../enc_keys';
+import * as cryptoActions from '../actions/crypto';
 
 import type {
   TimedCandleData,
   OHLCVCandle,
   ResolutionType,
   ResolutionTypes
-} from "../_types/Crypto";
+} from '../_types/Crypto';
 
 export const Resolutions: ResolutionTypes = {
   HOUR: {
     id() {
-      return "HOUR";
+      return 'HOUR';
     },
     since() {
-      return +moment().subtract("1", "day");
+      return +moment().subtract('1', 'day');
     },
     resolution() {
-      return "1h";
+      return '1h';
     },
     expires() {
       return +moment()
         .minute(0)
-        .add(1, "hour");
+        .add(1, 'hour');
     }
   },
   DAY: {
     id() {
-      return "DAY";
+      return 'DAY';
     },
     since() {
-      return +moment().subtract("1", "month");
+      return +moment().subtract('1', 'month');
     },
     resolution() {
-      return "1d";
+      return '1d';
     },
     expires() {
       return +moment()
         .hour(0)
-        .add(1, "day");
+        .add(1, 'day');
     }
   },
   MONTH: {
     id() {
-      return "MONTH";
+      return 'MONTH';
     },
     since() {
       return null;
     },
     resolution() {
-      return "1M";
+      return '1M';
     },
     expires() {
       return +moment()
         .date(1)
-        .add(1, "month");
+        .add(1, 'month');
     }
   }
 };
@@ -71,14 +71,14 @@ export const Resolutions: ResolutionTypes = {
 const reduxStore = getStore();
 
 const cryptoStore = new Store({
-  name: "cryptoData",
+  name: 'cryptoData',
   defaults: {},
   /**
    * Only encrypt the cryptoData store when in production
    * This is to prevent users manually editing the file
    * @see https://github.com/sindresorhus/electron-store
    */
-  encryptionKey: process.env.NODE_ENV === "production" ? CONFIG_KEY : undefined
+  encryptionKey: process.env.NODE_ENV === 'production' ? CONFIG_KEY : undefined
 });
 
 const MIN_EXCHANGES_ALLOWED = 3;
@@ -105,8 +105,8 @@ export default new class CryptoAPI {
 
   constructor(store: typeof cryptoStore) {
     this.store = store;
-    if (this.store.get("lastUsed") == null) {
-      this.store.set("lastUsed", {});
+    if (this.store.get('lastUsed') == null) {
+      this.store.set('lastUsed', {});
     }
     this.cryptoActions = bindActionCreators(cryptoActions, reduxStore.dispatch);
   }
@@ -206,7 +206,7 @@ export default new class CryptoAPI {
   ): Promise<?TimedCandleData> {
     await this.requestLock(exchange);
     // return;
-    if (!confirm("fetch EXCHANGE DATA")) {
+    if (!confirm('fetch EXCHANGE DATA')) {
       return;
     }
 
@@ -246,10 +246,10 @@ export default new class CryptoAPI {
       await this.loadMarkets();
     }
     console.log(this.loadedExchanges[0]);
-    while (this.getExchange("coinegg") == null) {
+    while (this.getExchange('coinfloor') == null) {
       await sleep(100);
     }
-    return this.fetchOHLCV(this.getExchange("coinegg"), "BTC/USD");
+    return this.fetchOHLCV(this.getExchange('getbtc'), 'BTC/EUR');
   }
 
   async fetchOHLCV(exchange: any, symbol: string): Promise<?(OHLCVCandle[])> {
@@ -281,10 +281,10 @@ export default new class CryptoAPI {
       if (rezId == null) {
         return;
       }
-      console.log(rezId, "rez needed");
+      console.log(rezId, 'rez needed');
       const rez = Resolutions[rezId];
       if (rez == null) {
-        throw TypeError("Needed resolution not in map!");
+        throw TypeError('Needed resolution not in map!');
       }
       const data: ?TimedCandleData = await this.requestOHLCV(
         exchange,

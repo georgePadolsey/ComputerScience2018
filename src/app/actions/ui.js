@@ -1,9 +1,9 @@
 // @flow
-import type { actionType } from "../_types/ActionType";
-import type { UIData, ProfileCreatorStage, MainLayout } from "../_types/UI";
-import getUIData from "../utils/UIProvider";
-import type { Dispatch } from "redux";
-import * as UI_ACTIONS from "./types/ui";
+import type { actionType } from '../_types/ActionType';
+import type { UIData, ProfileCreatorStage, MainLayout } from '../_types/UI';
+import getUIData from '../utils/UIProvider';
+import type { Dispatch } from 'redux';
+import * as UI_ACTIONS from './types/ui';
 
 type UIAction = {
   +type: $Keys<typeof UI_ACTIONS>
@@ -47,9 +47,7 @@ export function loadedUIData(data: UIData): UIAction {
 
 export function loadUIData(): (Dispatch<*>) => Promise<void> {
   return async dispatch => {
-    var UIData = await getUIData();
-    var t = loadedUIData(UIData);
-    dispatch(t);
+    dispatch((loadedUIData(await getUIData()): Object));
   };
 }
 
