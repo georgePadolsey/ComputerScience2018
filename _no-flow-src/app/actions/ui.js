@@ -42,9 +42,7 @@ export function loadedUIData(data) {
 
 export function loadUIData() {
   return async dispatch => {
-    var UIData = await getUIData();
-    var t = loadedUIData(UIData);
-    dispatch(t);
+    dispatch(loadedUIData(await getUIData()));
   };
 }
 
@@ -74,5 +72,12 @@ export function setProfileCreatorStage(stage) {
   return {
     type: UI_ACTIONS.SET_PROFILE_CREATOR_STAGE,
     payload: stage
+  };
+}
+
+export function setProfileCreatorCurrentCurrency(currency) {
+  return {
+    type: UI_ACTIONS.SET_PROFILE_CREATOR_CURRENT_CURRENCY,
+    payload: currency
   };
 }

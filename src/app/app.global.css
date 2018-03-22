@@ -5,6 +5,9 @@
 @import "~@fortawesome/fontawesome/styles.css";
 @import "~react-grid-layout/css/styles.css";
 @import "~react-resizable/css/styles.css";
+@import "https://unpkg.com/react-select@1.2.1/dist/react-select.css";
+@import "~react-virtualized/styles.css";
+@import "~react-virtualized-select/styles.css";
 
 * {
   box-sizing: border-box;

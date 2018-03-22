@@ -186,7 +186,7 @@ export default new class CryptoAPI {
 
   async requestOHLCV(exchange, symbol, resolution) {
     await this.requestLock(exchange);
-    // return;
+    return;
     if (!confirm("fetch EXCHANGE DATA")) {
       return;
     }
@@ -227,10 +227,10 @@ export default new class CryptoAPI {
       await this.loadMarkets();
     }
     console.log(this.loadedExchanges[0]);
-    while (this.getExchange("coinegg") == null) {
+    while (this.getExchange("coinfloor") == null) {
       await sleep(100);
     }
-    return this.fetchOHLCV(this.getExchange("coinegg"), "BTC/USD");
+    return this.fetchOHLCV(this.getExchange("getbtc"), "BTC/EUR");
   }
 
   async fetchOHLCV(exchange, symbol) {

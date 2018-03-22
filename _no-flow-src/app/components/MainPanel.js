@@ -7,7 +7,7 @@ import { Responsive } from "react-grid-layout";
 import sizeMe from "react-sizeme";
 import moment from "moment";
 
-import styles from "./MainPanel.scss";
+import styles from "./styles/MainPanel.scss";
 
 import * as uiActions from "../actions/ui";
 import CryptoAPI from "../utils/CryptoAPI";

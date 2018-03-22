@@ -12,10 +12,10 @@ import * as profileActions from '../actions/profile';
 import * as cryptoActions from '../actions/crypto';
 import SpinOnHoverFontAwesome from './SpinOnHoverFontAwesome';
 
-import styles from './SidePanel.scss';
+import styles from './styles/SidePanel.scss';
 import EditableText from './EditableText';
 
-import type { Profile, ProfileData } from '../_types/Profile';
+import type { ProfileData } from '../_types/Profile';
 import type { CryptoState } from '../_types/Crypto';
 
 const mySwal = withReactContent(swal);
@@ -51,9 +51,7 @@ class SidePanel extends Component<Props> {
       throw new Error('Profile data has no profile loaded!');
     }
     // check if currentProfile is valid
-    return this.props.profileData.loadedProfiles[
-      this.props.profileData.currentProfile
-    ];
+    return this.props.profileData.loadedProfiles[this.props.profileData.currentProfile];
   }
 
   getProfileName(): string {
@@ -81,10 +79,7 @@ class SidePanel extends Component<Props> {
       reverseButtons: true
     });
     if (result.value) {
-      this.props.profileActions.changeProfileName(
-        this.props.profileData.currentProfile,
-        newName
-      );
+      this.props.profileActions.changeProfileName(this.props.profileData.currentProfile, newName);
     }
   }
 

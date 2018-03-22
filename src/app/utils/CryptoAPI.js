@@ -10,6 +10,7 @@ import getStore from '../store/getStore';
 import { CONFIG_KEY } from '../enc_keys';
 import * as cryptoActions from '../actions/crypto';
 
+
 import type {
   TimedCandleData,
   OHLCVCandle,
@@ -205,7 +206,7 @@ export default new class CryptoAPI {
     resolution: ResolutionType
   ): Promise<?TimedCandleData> {
     await this.requestLock(exchange);
-    // return;
+    return;
     if (!confirm('fetch EXCHANGE DATA')) {
       return;
     }

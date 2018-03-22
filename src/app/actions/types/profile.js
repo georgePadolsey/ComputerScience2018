@@ -1,4 +1,4 @@
-//@flow
+// @flow
 export const HYDRATE_PROFILE_DATA = 'HYDRATE_PROFILE_DATA';
 export const LOADED_PROFILE_DATA = 'LOADED_PROFILE_DATA';
 export const CHANGE_PROFILE = 'CHANGE_PROFILE';

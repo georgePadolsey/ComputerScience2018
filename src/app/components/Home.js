@@ -4,12 +4,13 @@ import { connect } from 'react-redux';
 import swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
 import { bindActionCreators } from 'redux';
-import matches from 'lodash/matches';
+
+import type { Dispatch } from 'redux';
 
 import * as profileActions from '../actions/profile';
 import * as uiActions from '../actions/ui';
 
-import styles from './Home.scss';
+import styles from './styles/Home.scss';
 import SidePanel from './SidePanel';
 import MainPanel from './MainPanel';
 import ProfileCreatorDialog from '../components/ProfileCreator';
@@ -18,7 +19,6 @@ import AddMainChartDialog from '../components/AddMainChartDialog';
 import type { ProfileData } from '../_types/Profile';
 
 import type { UIData } from '../_types/UI';
-import type { Dispatch } from 'redux';
 
 const mySwal = withReactContent(swal);
 

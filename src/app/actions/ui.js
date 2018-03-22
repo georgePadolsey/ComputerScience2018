@@ -79,3 +79,10 @@ export function setProfileCreatorStage(stage: ProfileCreatorStage): UIAction {
     payload: stage
   };
 }
+
+export function setProfileCreatorCurrentCurrency(currency: string): UIAction {
+  return {
+    type: UI_ACTIONS.SET_PROFILE_CREATOR_CURRENT_CURRENCY,
+    payload: currency
+  };
+}

@@ -27,3 +27,22 @@
   top: 0;
   left: 0;
 }
+
+.exit {
+  $height: 2.5vmin;
+  position: absolute;
+  top: 0;
+  right: 0;
+  border: 0;
+  background-color: rgb(250, 250, 250);
+  line-height: $height;
+
+  font-size: $height;
+  // padding: 1vmin;
+  width: $height + 1vmin;
+  height: $height + 1vmin;
+}
+.exit:hover {
+  color: white;
+  background-color: rgb(250, 60, 60);
+}

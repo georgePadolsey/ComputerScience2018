@@ -1,7 +1,7 @@
 // @flow
-import type { actionType } from "../_types/ActionType";
+import type { actionType } from '../_types/ActionType';
 
-export const LOADED_EXCHANGE = "LOADED_EXCHANGE";
+export const LOADED_EXCHANGE = 'LOADED_EXCHANGE';
 
 export function loadedExchange(exchangeId: string): actionType {
   return {

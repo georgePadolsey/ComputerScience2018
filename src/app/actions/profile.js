@@ -1,7 +1,8 @@
 // @flow
+import type { Dispatch } from 'redux';
+
 import getProfileData from '../utils/ProfileProvider';
 import * as PROFILE_ACTIONS from './types/profile';
-import type { Dispatch } from 'redux';
 import type { ProfileData } from '../_types/Profile';
 
 type ProfileAction = {
@@ -15,10 +16,7 @@ export function changeProfile(uuid: string): ProfileAction {
   };
 }
 
-export function changeProfileName(
-  uuid: string,
-  displayName: string
-): ProfileAction {
+export function changeProfileName(uuid: string, displayName: string): ProfileAction {
   return {
     type: PROFILE_ACTIONS.CHANGE_PROFILE_NAME,
     payload: {
@@ -29,8 +27,7 @@ export function changeProfileName(
 }
 
 export function loadProfileData(): (Dispatch<*>) => Promise<void> {
-  return async dispatch =>
-    dispatch((loadedProfileData(await getProfileData()): Object));
+  return async dispatch => dispatch((loadedProfileData(await getProfileData()): Object));
 }
 
 export function loadedProfileData(profileData: ProfileData): ProfileAction {

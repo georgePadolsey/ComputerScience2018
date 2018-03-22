@@ -5,7 +5,7 @@ import { connect } from "react-redux";
 import DialogComponent from "./DialogComponent";
 import CryptoAPI from "../utils/CryptoAPI";
 import * as uiActions from "../actions/ui";
-import styles from "./AddMainChartDialog.scss";
+import styles from "./styles/AddMainChartDialog.scss";
 
 const mapStateToProps = ({ cryptoData }) => ({
   cryptoData

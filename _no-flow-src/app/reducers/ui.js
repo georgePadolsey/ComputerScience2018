@@ -8,7 +8,8 @@ import {
   SET_OFFERED_CREATOR,
   SET_SHOW_PROFILE_CREATOR,
   SET_PROFILE_CREATOR_STAGE,
-  PROFILE_CREATOR_STAGES
+  PROFILE_CREATOR_STAGES,
+  SET_PROFILE_CREATOR_CURRENT_CURRENCY
 } from "../actions/types/ui";
 
 import { setUIData } from "../utils/UIProvider";
@@ -20,7 +21,8 @@ const defaultUIState = {
   firstTime: true,
   offeredCreator: false,
   showProfileCreator: false,
-  profileCreatorStage: PROFILE_CREATOR_STAGES.ACCOUNT_ADDER
+  profileCreatorStage: PROFILE_CREATOR_STAGES.ACCOUNT_ADDER,
+  profileCreatorCurrentCurrency: null
 };
 
 export default function uiReducer(state = defaultUIState, action) {
@@ -59,6 +61,12 @@ export default function uiReducer(state = defaultUIState, action) {
       break;
     case SET_PROFILE_CREATOR_STAGE:
       ret = Object.assign({}, state, { profileCreatorStage: action.payload });
+      saveData();
+      break;
+    case SET_PROFILE_CREATOR_CURRENT_CURRENCY:
+      ret = Object.assign({}, state, {
+        profileCreatorCurrentCurrency: action.payload
+      });
       saveData();
       break;
     default:

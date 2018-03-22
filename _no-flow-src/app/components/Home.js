@@ -4,12 +4,11 @@ import { connect } from "react-redux";
 import swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 import { bindActionCreators } from "redux";
-import matches from "lodash/matches";
 
 import * as profileActions from "../actions/profile";
 import * as uiActions from "../actions/ui";
 
-import styles from "./Home.scss";
+import styles from "./styles/Home.scss";
 import SidePanel from "./SidePanel";
 import MainPanel from "./MainPanel";
 import ProfileCreatorDialog from "../components/ProfileCreator";

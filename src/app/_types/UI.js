@@ -29,5 +29,6 @@ export type UIData = {
   +offeredCreator: boolean,
   +showProfileCreator: boolean,
   +profileCreatorStage: ProfileCreatorStage,
-  +firstTime: boolean
+  +firstTime: boolean,
+  +profileCreatorCurrentCurrency: ?string
 };

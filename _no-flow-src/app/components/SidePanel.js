@@ -10,9 +10,9 @@ import { faSync } from "@fortawesome/fontawesome-free-solid";
 import Dropdown from "react-dropdown";
 import * as profileActions from "../actions/profile";
 import * as cryptoActions from "../actions/crypto";
-
 import SpinOnHoverFontAwesome from "./SpinOnHoverFontAwesome";
-import styles from "./SidePanel.scss";
+
+import styles from "./styles/SidePanel.scss";
 import EditableText from "./EditableText";
 
 const mySwal = withReactContent(swal);
@@ -33,6 +33,10 @@ class SidePanel extends Component {
   }
 
   getCurrentProfile() {
+    if (this.props.profileData.currentProfile == null) {
+      this.profileActions.correctProfileData();
+      throw new Error("Profile data has no profile loaded!");
+    }
     // check if currentProfile is valid
     return this.props.profileData.loadedProfiles[
       this.props.profileData.currentProfile

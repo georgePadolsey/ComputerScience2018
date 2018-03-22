@@ -1,14 +1,17 @@
 import React, { Component } from "react";
-import styles from "./DialogComponent.scss";
+import FontAwesomeIcon from "@fortawesome/react-fontawesome";
+import styles from "./styles/DialogComponent.scss";
+import { faTimes } from "@fortawesome/fontawesome-free-solid";
 
 type Props = {
   dismiss: () => void,
-  children: React.children
+  children: React.children,
+  showExit?: boolean
 };
 
 class DialogComponent extends Component<Props> {
   render() {
-    const { dismiss, children, ...rest } = this.props;
+    const { dismiss, children, showExit, ...rest } = this.props;
 
     return (
       <div className={styles.container} {...rest}>
@@ -17,7 +20,13 @@ class DialogComponent extends Component<Props> {
           onClick={() => dismiss()}
           aria-hidden
         />
-        {children}
+
+        <div>
+          <button className={styles.exit} onClick={() => this.dismiss()}>
+            <FontAwesomeIcon icon={faTimes} />
+          </button>
+          {children}
+        </div>
       </div>
     );
   }
