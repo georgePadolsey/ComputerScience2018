@@ -8,8 +8,9 @@ import {
   SET_OFFERED_CREATOR,
   SET_SHOW_PROFILE_CREATOR,
   SET_PROFILE_CREATOR_STAGE,
-  PROFILE_CREATOR_STAGES,
-  SET_PROFILE_CREATOR_CURRENT_CURRENCY
+  SET_PROFILE_CREATOR_CURRENT_CURRENCY,
+  SET_PROFILE_CREATOR_CURRENT_EXCHANGE,
+  PROFILE_CREATOR_STAGES
 } from '../actions/types/ui';
 
 import { setUIData } from '../utils/UIProvider';
@@ -19,11 +20,12 @@ const defaultUIState: UIData = {
   mainPanelEditMode: false,
   showAddMainChart: false,
   mainPanelLayouts: {},
-  firstTime: true,
   offeredCreator: false,
-  showProfileCreator: false,
-  profileCreatorStage: PROFILE_CREATOR_STAGES.ACCOUNT_ADDER,
-  profileCreatorCurrentCurrency: null
+  profileCreatorState: {
+    show: true,
+    firstTime: true,
+    stage: PROFILE_CREATOR_STAGES.ACCOUNT_ADDER
+  }
 };
 
 export default function uiReducer(state: UIData = defaultUIState, action: actionType) {
@@ -55,17 +57,23 @@ export default function uiReducer(state: UIData = defaultUIState, action: action
       break;
     case SET_SHOW_PROFILE_CREATOR:
       ret = Object.assign({}, state, {
-        showProfileCreator: action.payload,
-        firstTime: state.firstTime && action.payload
+        profileCreatorState: {
+          showProfileCreator: action.payload,
+          firstTime: state.firstTime && action.payload
+        }
       });
       saveData();
       break;
     case SET_PROFILE_CREATOR_STAGE:
-      ret = Object.assign({}, state, { profileCreatorStage: action.payload });
+      ret = Object.assign({}, state, { profileCreatorState: { stage: action.payload } });
       saveData();
       break;
     case SET_PROFILE_CREATOR_CURRENT_CURRENCY:
-      ret = Object.assign({}, state, { profileCreatorCurrentCurrency: action.payload });
+      ret = Object.assign({}, state, { profileCreatorState: { currencySelected: action.payload } });
+      saveData();
+      break;
+    case SET_PROFILE_CREATOR_CURRENT_EXCHANGE:
+      ret = Object.assign({}, state, { profileCreatorState: { exchangeSelected: action.payload } });
       saveData();
       break;
     default:

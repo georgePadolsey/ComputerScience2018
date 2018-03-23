@@ -5,7 +5,8 @@ import {
   faBalanceScale,
   faExchangeAlt,
   faCreditCard,
-  faArrowLeft
+  faArrowLeft,
+  faArrowRight
 } from '@fortawesome/fontawesome-free-solid';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
@@ -23,18 +24,22 @@ import styles from './styles/ProfileCreator.scss';
 // Logo
 import logo from '../../resources/icon.png';
 // Types:
-import type { ProfileCreatorStage, UIData } from '../_types/UI';
+import type { ProfileCreatorStage, UIData, ProfileCreatorState } from '../_types/UI';
 import type { ProfileData } from '../_types/Profile';
+import type { CryptoState } from '../_types/Crypto';
 
 const mapStateToProps = ({
   profileData,
-  uiData
+  uiData,
+  cryptoData
 }: {
   uiData: UIData,
-  profileData: ProfileData
+  profileData: ProfileData,
+  cryptoData: CryptoState
 }) => ({
   profileData,
-  uiData
+  profileCreatorState: uiData.profileCreatorState || {},
+  cryptoData
 });
 
 const mapDispatchToProps = (dispatch: Dispatch<*>) => ({
@@ -44,7 +49,8 @@ const mapDispatchToProps = (dispatch: Dispatch<*>) => ({
 type Props = {
   uiActions: typeof uiActions,
   profileData: ProfileData,
-  uiData: UIData
+  profileCreatorState: ProfileCreatorState,
+  cryptoData: CryptoState
 };
 
 class ProfileCreator extends Component<Props> {
@@ -60,7 +66,7 @@ class ProfileCreator extends Component<Props> {
     return (
       <div key={PROFILE_CREATOR_STAGES.ACCOUNT_ADDER}>
         <div className={styles.titleContainer}>
-          {this.props.uiData.firstTime ? (
+          {this.props.profileCreatorState.firstTime ? (
             <div className={styles.firstTime}>
               <img src={logo} alt="Cryptolium logo" title="Cryptolium logo" />
               <span>Welcome to Cryptolium</span>
@@ -135,7 +141,7 @@ class ProfileCreator extends Component<Props> {
             <span>Currency Type</span>
             <VirtualizedSelect
               name="currency"
-              value={this.props.uiData.profileCreatorCurrentCurrency || ''}
+              value={this.props.profileCreatorState.currencySelected || ''}
               id="currency"
               className={styles.selectBox}
               onChange={(selectedOption?: { label: string, value: string }) =>
@@ -146,12 +152,83 @@ class ProfileCreator extends Component<Props> {
                 label: symbol
               }))}
             />
-            <label htmlFor="amount">
-              <span>Amount of currency</span>
-              <input type="number" placeholder={0} min={0} step={0.0001} />
-            </label>
+          </label>
+          <label htmlFor="amount">
+            <span>Amount of currency</span>
+            <input type="number" placeholder={0} min={0} step={0.0001} />
           </label>
         </form>
+        <button
+          className={styles.next}
+          onClick={() => this.setStage(PROFILE_CREATOR_STAGES.PROFILE_SETTINGS)}
+        >
+          <FontAwesomeIcon icon={faArrowRight} />
+        </button>
+      </div>
+    );
+  }
+
+  getAddExchangeStage() {
+    return (
+      <div key={PROFILE_CREATOR_STAGES.ADD_EXCHANGE}>
+        <button
+          className={styles.back}
+          onClick={() => this.setStage(PROFILE_CREATOR_STAGES.ACCOUNT_ADDER)}
+        >
+          <FontAwesomeIcon icon={faArrowLeft} />
+        </button>
+        <div className={styles.titleContainer}>
+          <p className={styles.title}>Add Exchange</p>
+        </div>
+        <form>
+          <label htmlFor="exchange">
+            <span>Exchange</span>
+
+            <VirtualizedSelect
+              name="exchange"
+              value={this.props.profileCreatorState.exchangeSelected}
+              id="exchange"
+              className={styles.selectBox}
+              onChange={(selectedOption?: { label: string, value: string }) =>
+                this.props.uiActions.setProfileCreatorCurrentExchange(selectedOption.value)
+              }
+              options={Object.keys(CryptoAPI.loadedExchanges).map(exchange => ({
+                value: exchange.id,
+                label: exchange.name
+              }))}
+            />
+          </label>
+          <label htmlFor="name">
+            <span>Balance Name</span>
+            <input type="text" name="name" id="name" placeholder="New Balance" />
+          </label>
+          <label htmlFor="currency">
+            <span>Currency Type</span>
+            <VirtualizedSelect
+              name="currency"
+              value={this.props.profileCreatorState.currencySelected || ''}
+              id="currency"
+              className={styles.selectBox}
+              onChange={(selectedOption?: { label: string, value: string }) =>
+                this.props.uiActions.setProfileCreatorCurrentCurrency(selectedOption.label)
+              }
+              options={Object.keys(CryptoAPI.currencyExchangeLookup).map(symbol => ({
+                value: symbol,
+                label: symbol
+              }))}
+            />
+          </label>
+          <label htmlFor="amount">
+            <span>Amount of currency</span>
+            <input type="number" placeholder={0} min={0} step={0.0001} />
+          </label>
+        </form>
+        <button
+          className={styles.next}
+          onClick={() => this.setStage(PROFILE_CREATOR_STAGES.PROFILE_SETTINGS)}
+        >
+          <FontAwesomeIcon icon={faArrowRight} />
+        </button>
       </div>
     );
   }
@@ -164,10 +241,12 @@ class ProfileCreator extends Component<Props> {
     const stages = {};
     stages[PROFILE_CREATOR_STAGES.ACCOUNT_ADDER] = this.getAccountAdderStage();
     stages[PROFILE_CREATOR_STAGES.ADD_BALANCE] = this.getAddBalanceStage();
+    stages[PROFILE_CREATOR_STAGES.ADD_EXCHANGE] = this.getAddExchangeStage();
     stages[PROFILE_CREATOR_STAGES.PROFILE_SETTINGS] = this.getProfileSettingsStage();
-    return stages[this.props.uiData.profileCreatorStage];
+    return stages[this.props.profileCreatorState.stage];
   }
   render() {
+    console.log('render');
     return <DialogComponent dismiss={() => this.dismiss()}>{this.getStages()}</DialogComponent>;
   }
 }

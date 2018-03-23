@@ -1,14 +1,5 @@
 // @flow
-// import { PROFILE_CREATOR_STAGES } from '../actions/ui';
-
-const PROFILE_CREATOR_STAGES = {
-  ACCOUNT_ADDER: 'ACCOUNT_ADDER',
-  ADD_BALANCE: 'ADD_BALANCE',
-  ADD_EXCHANGE: 'ADD_EXCHANGE',
-  ADD_WALLET: 'ADD_WALLET'
-};
-
-export type ProfileCreatorStage = $Keys<typeof PROFILE_CREATOR_STAGES>;
+import type { PROFILE_CREATOR_STAGES } from '../actions/ui';
 
 export type MainLayout = {
   [string]: Array<{
@@ -22,13 +13,18 @@ export type MainLayout = {
   }>
 };
 
+export type ProfileCreatorState = {
+  +show: boolean,
+  +stage: ProfileCreatorStage,
+  +exchangeSelected?: string,
+  +currencySelected?: string,
+  +firstTime: boolean
+};
+
 export type UIData = {
   +mainPanelEditMode: boolean,
   +mainPanelLayouts: MainLayout,
   +showAddMainChart: boolean,
   +offeredCreator: boolean,
-  +showProfileCreator: boolean,
-  +profileCreatorStage: ProfileCreatorStage,
-  +firstTime: boolean,
-  +profileCreatorCurrentCurrency: ?string
+  +profileCreatorState: ProfileCreatorState
 };

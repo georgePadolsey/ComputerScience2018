@@ -81,3 +81,9 @@ export function setProfileCreatorCurrentCurrency(currency) {
     payload: currency
   };
 }
+export function setProfileCreatorCurrentExchange(exchangeId) {
+  return {
+    type: UI_ACTIONS.SET_PROFILE_CREATOR_CURRENT_EXCHANGE,
+    payload: exchangeId
+  };
+}

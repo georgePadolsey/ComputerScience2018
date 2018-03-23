@@ -65,7 +65,10 @@ class Home extends Component {
           <SidePanel />
           <MainPanel />
         </div>
-        {this.props.uiData.showProfileCreator ? <ProfileCreatorDialog /> : null}
+        {this.props.uiData.profileCreatorState &&
+        this.props.uiData.profileCreatorState.show ? (
+          <ProfileCreatorDialog />
+        ) : null}
         {this.props.uiData.showAddMainChart ? <AddMainChartDialog /> : null}
       </div>
     );

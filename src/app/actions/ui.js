@@ -1,8 +1,10 @@
 // @flow
-import type { actionType } from '../_types/ActionType';
-import type { UIData, ProfileCreatorStage, MainLayout } from '../_types/UI';
-import getUIData from '../utils/UIProvider';
 import type { Dispatch } from 'redux';
+import type { actionType } from '../_types/ActionType';
+import type { UIData, MainLayout } from '../_types/UI';
+import type { ProfileCreatorStage } from './types/ui';
+import getUIData from '../utils/UIProvider';
+
 import * as UI_ACTIONS from './types/ui';
 
 type UIAction = {
@@ -84,5 +86,11 @@ export function setProfileCreatorCurrentCurrency(currency: string): UIAction {
   return {
     type: UI_ACTIONS.SET_PROFILE_CREATOR_CURRENT_CURRENCY,
     payload: currency
+  };
+}
+export function setProfileCreatorCurrentExchange(exchangeId: string): UIAction {
+  return {
+    type: UI_ACTIONS.SET_PROFILE_CREATOR_CURRENT_EXCHANGE,
+    payload: exchangeId
   };
 }
