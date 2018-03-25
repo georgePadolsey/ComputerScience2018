@@ -1,4 +1,5 @@
 //
+import merge from "lodash/merge";
 
 import { LOADED_EXCHANGE } from "../actions/crypto";
 
@@ -14,7 +15,7 @@ const defaultCryptoState = {
 export default function cryptoReducer(state = defaultCryptoState, action) {
   switch (action.type) {
     case LOADED_EXCHANGE:
-      return Object.assign({}, state, {
+      return merge({}, state, {
         loadedExchanges: [...state.loadedExchanges, ...action.payload]
       });
     default:

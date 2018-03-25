@@ -1,15 +1,15 @@
-import React, { Component } from "react";
+import * as React from "react";
 import FontAwesomeIcon from "@fortawesome/react-fontawesome";
 import styles from "./styles/DialogComponent.scss";
 import { faTimes } from "@fortawesome/fontawesome-free-solid";
 
 type Props = {
   dismiss: () => void,
-  children: React.children,
+  children: React.Node,
   showExit?: boolean
 };
 
-class DialogComponent extends Component<Props> {
+class DialogComponent extends React.Component<Props> {
   render() {
     const { dismiss, children, showExit, ...rest } = this.props;
 
@@ -22,7 +22,7 @@ class DialogComponent extends Component<Props> {
         />
 
         <div>
-          <button className={styles.exit} onClick={() => this.dismiss()}>
+          <button className={styles.exit} onClick={() => dismiss()}>
             <FontAwesomeIcon icon={faTimes} />
           </button>
           {children}

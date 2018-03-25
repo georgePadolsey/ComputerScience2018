@@ -6,7 +6,7 @@ import * as PROFILE_ACTIONS from './types/profile';
 import type { ProfileData } from '../_types/Profile';
 
 type ProfileAction = {
-  +type: $Keys<typeof PROFILE_ACTIONS>
+  type: $Keys<typeof PROFILE_ACTIONS>
 };
 
 export function changeProfile(uuid: string): ProfileAction {
@@ -26,11 +26,11 @@ export function changeProfileName(uuid: string, displayName: string): ProfileAct
   };
 }
 
-export function loadProfileData(): (Dispatch<*>) => Promise<void> {
-  return async dispatch => dispatch((loadedProfileData(await getProfileData()): Object));
+export function loadProfileData(): (Dispatch<*>) => Promise<ProfileAction> {
+  return async dispatch => dispatch(loadedProfileData(await getProfileData()));
 }
 
-export function loadedProfileData(profileData: ProfileData): ProfileAction {
+export function loadedProfileData(profileData: ?ProfileData): ProfileAction {
   return {
     type: PROFILE_ACTIONS.LOADED_PROFILE_DATA,
     payload: profileData

@@ -16,15 +16,16 @@ import VirtualizedSelect from 'react-virtualized-select';
 import DialogComponent from './DialogComponent';
 // Actions/reducers
 import * as uiActions from '../actions/ui';
-import * as profileActions from '../actions/profile';
 import CryptoAPI from '../utils/CryptoAPI';
-import { PROFILE_CREATOR_STAGES } from '../actions/types/ui';
+import { PROFILE_CREATOR_STAGES } from '../actions/types/profileCreator';
+import * as profileCreatorActions from '../actions/profileCreator';
 // Styles:
 import styles from './styles/ProfileCreator.scss';
 // Logo
 import logo from '../../resources/icon.png';
 // Types:
-import type { ProfileCreatorStage, UIData, ProfileCreatorState } from '../_types/UI';
+import type { UIData, ProfileCreatorState } from '../_types/UI';
+import type { ProfileCreatorStage } from '../actions/types/profileCreator';
 import type { ProfileData } from '../_types/Profile';
 import type { CryptoState } from '../_types/Crypto';
 
@@ -43,11 +44,13 @@ const mapStateToProps = ({
 });
 
 const mapDispatchToProps = (dispatch: Dispatch<*>) => ({
-  uiActions: bindActionCreators(uiActions, dispatch)
+  uiActions: bindActionCreators(uiActions, dispatch),
+  actions: bindActionCreators(profileCreatorActions, dispatch)
 });
 
 type Props = {
   uiActions: typeof uiActions,
+  actions: typeof profileCreatorActions,
   profileData: ProfileData,
   profileCreatorState: ProfileCreatorState,
   cryptoData: CryptoState
@@ -55,11 +58,11 @@ type Props = {
 
 class ProfileCreator extends Component<Props> {
   dismiss() {
-    this.props.uiActions.hideProfileCreator();
+    this.props.actions.hide();
   }
 
   setStage(stage: ProfileCreatorStage) {
-    this.props.uiActions.setProfileCreatorStage(stage);
+    this.props.actions.setStage(stage);
   }
 
   getAccountAdderStage() {
@@ -145,7 +148,7 @@ class ProfileCreator extends Component<Props> {
               id="currency"
               className={styles.selectBox}
               onChange={(selectedOption?: { label: string, value: string }) =>
-                this.props.uiActions.setProfileCreatorCurrentCurrency(selectedOption.label)
+                this.props.actions.setCurrenctCurrency(selectedOption.value)
               }
               options={Object.keys(CryptoAPI.currencyExchangeLookup).map(symbol => ({
                 value: symbol,
@@ -190,7 +193,7 @@ class ProfileCreator extends Component<Props> {
               id="exchange"
               className={styles.selectBox}
               onChange={(selectedOption?: { label: string, value: string }) =>
-                this.props.uiActions.setProfileCreatorCurrentExchange(selectedOption.value)
+                this.props.actions.setCurrentExchange(selectedOption.value)
               }
               options={Object.keys(CryptoAPI.loadedExchanges).map(exchange => ({
                 value: exchange.id,
@@ -210,7 +213,7 @@ class ProfileCreator extends Component<Props> {
               id="currency"
               className={styles.selectBox}
               onChange={(selectedOption?: { label: string, value: string }) =>
-                this.props.uiActions.setProfileCreatorCurrentCurrency(selectedOption.label)
+                this.props.actions.setCurrentCurrency(selectedOption.label)
               }
               options={Object.keys(CryptoAPI.currencyExchangeLookup).map(symbol => ({
                 value: symbol,

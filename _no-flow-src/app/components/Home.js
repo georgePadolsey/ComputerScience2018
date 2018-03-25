@@ -1,12 +1,13 @@
 //
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import swal from "sweetalert2";
-import withReactContent from "sweetalert2-react-content";
+
 import { bindActionCreators } from "redux";
 
 import * as profileActions from "../actions/profile";
 import * as uiActions from "../actions/ui";
+import * as addMainChartActions from "../actions/addMainChart";
+import * as profileCreatorActions from "../actions/profileCreator";
 
 import styles from "./styles/Home.scss";
 import SidePanel from "./SidePanel";
@@ -14,13 +15,13 @@ import MainPanel from "./MainPanel";
 import ProfileCreatorDialog from "../components/ProfileCreator";
 import AddMainChartDialog from "../components/AddMainChartDialog";
 
-const mySwal = withReactContent(swal);
-
 const mapStateToProps = ({ profileData, uiData }) => ({ profileData, uiData });
 
 const mapDispatchToProps = dispatch => ({
   profileActions: bindActionCreators(profileActions, dispatch),
-  uiActions: bindActionCreators(uiActions, dispatch)
+  profileCreatorActions: bindActionCreators(profileCreatorActions, dispatch),
+  uiActions: bindActionCreators(uiActions, dispatch),
+  addMainChartActions: bindActionCreators(addMainChartActions, dispatch)
 });
 
 class Home extends Component {
@@ -31,30 +32,11 @@ class Home extends Component {
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.uiData) {
-      if (!nextProps.uiData.offeredCreator) {
-        this.props.uiActions.showProfileCreator();
-        this.props.uiActions.setOfferedCreator(true);
+      if (!nextProps.uiData.profileCreator.offered) {
+        this.props.profileCreatorActions.show();
+        this.props.profileCreatorActions.setOffered(true);
       }
     }
-  }
-
-  /**
-   * Catch any error within the component stack
-   * @param {Error} error - the error thrown
-   */
-  // eslint-disable-next-line class-methods-use-this
-  componentDidCatch(error) {
-    mySwal({
-      title: "Error",
-      html: (
-        <div style={{ textAlign: "center" }}>
-          <b>Contact the developer with this error</b>
-          <br />
-          {error.toString()}
-        </div>
-      ),
-      type: "error"
-    });
   }
 
   // <div className={styles.container} data-tid="container" />
@@ -69,7 +51,7 @@ class Home extends Component {
         this.props.uiData.profileCreatorState.show ? (
           <ProfileCreatorDialog />
         ) : null}
-        {this.props.uiData.showAddMainChart ? <AddMainChartDialog /> : null}
+        {this.props.uiData.addMainChart.show ? <AddMainChartDialog /> : null}
       </div>
     );
   }

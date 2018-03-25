@@ -1,5 +1,5 @@
 // @flow
-import type { PROFILE_CREATOR_STAGES } from '../actions/ui';
+import type { ProfileCreatorStage } from '../actions/types/profileCreator';
 
 export type MainLayout = {
   [string]: Array<{
@@ -13,18 +13,27 @@ export type MainLayout = {
   }>
 };
 
+export type addMainChartState = {
+  +show: boolean,
+  selectedExchange?: string,
+  selectedSymbol?: string
+};
+
 export type ProfileCreatorState = {
   +show: boolean,
   +stage: ProfileCreatorStage,
+  +firstTime: boolean,
+  +offered: boolean,
   +exchangeSelected?: string,
-  +currencySelected?: string,
-  +firstTime: boolean
+  +currencySelected?: string
 };
 
-export type UIData = {
-  +mainPanelEditMode: boolean,
+export type GenUIData = {
+  +mainPanelEditMode: boolean
+};
+
+export type UIData = GenUIData & {
   +mainPanelLayouts: MainLayout,
-  +showAddMainChart: boolean,
-  +offeredCreator: boolean,
-  +profileCreatorState: ProfileCreatorState
+  +profileCreatorState: ProfileCreatorState,
+  +addMainChartState: addMainChartState
 };

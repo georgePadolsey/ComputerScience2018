@@ -16,9 +16,9 @@ import VirtualizedSelect from "react-virtualized-select";
 import DialogComponent from "./DialogComponent";
 // Actions/reducers
 import * as uiActions from "../actions/ui";
-import * as profileActions from "../actions/profile";
 import CryptoAPI from "../utils/CryptoAPI";
-import { PROFILE_CREATOR_STAGES } from "../actions/types/ui";
+import { PROFILE_CREATOR_STAGES } from "../actions/types/profileCreator";
+import * as profileCreatorActions from "../actions/profileCreator";
 // Styles:
 import styles from "./styles/ProfileCreator.scss";
 // Logo
@@ -32,16 +32,17 @@ const mapStateToProps = ({ profileData, uiData, cryptoData }) => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  uiActions: bindActionCreators(uiActions, dispatch)
+  uiActions: bindActionCreators(uiActions, dispatch),
+  actions: bindActionCreators(profileCreatorActions, dispatch)
 });
 
 class ProfileCreator extends Component {
   dismiss() {
-    this.props.uiActions.hideProfileCreator();
+    this.props.actions.hide();
   }
 
   setStage(stage) {
-    this.props.uiActions.setProfileCreatorStage(stage);
+    this.props.actions.setStage(stage);
   }
 
   getAccountAdderStage() {
@@ -134,9 +135,7 @@ class ProfileCreator extends Component {
               id="currency"
               className={styles.selectBox}
               onChange={selectedOption =>
-                this.props.uiActions.setProfileCreatorCurrentCurrency(
-                  selectedOption.label
-                )
+                this.props.actions.setCurrenctCurrency(selectedOption.value)
               }
               options={Object.keys(CryptoAPI.currencyExchangeLookup).map(
                 symbol => ({
@@ -183,9 +182,7 @@ class ProfileCreator extends Component {
               id="exchange"
               className={styles.selectBox}
               onChange={selectedOption =>
-                this.props.uiActions.setProfileCreatorCurrentExchange(
-                  selectedOption.value
-                )
+                this.props.actions.setCurrentExchange(selectedOption.value)
               }
               options={Object.keys(CryptoAPI.loadedExchanges).map(exchange => ({
                 value: exchange.id,
@@ -210,9 +207,7 @@ class ProfileCreator extends Component {
               id="currency"
               className={styles.selectBox}
               onChange={selectedOption =>
-                this.props.uiActions.setProfileCreatorCurrentCurrency(
-                  selectedOption.label
-                )
+                this.props.actions.setCurrentCurrency(selectedOption.label)
               }
               options={Object.keys(CryptoAPI.currencyExchangeLookup).map(
                 symbol => ({

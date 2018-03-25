@@ -1,5 +1,6 @@
 // @flow
-import uuid from 'uuid/v1';
+import uuid from 'uuid/v5';
+import merge from 'lodash/merge';
 
 import {
   LOADED_PROFILE_DATA,
@@ -13,7 +14,7 @@ import { setProfileData } from '../utils/ProfileProvider';
 import type { actionType } from '../_types/ActionType';
 import type { ProfileData, Profile } from '../_types/Profile';
 
-const defaultUUID = uuid();
+const defaultUUID = uuid('PROFILE_DEFAULT', '00000000-0000-0000-0000-000000000000');
 const defaultProfileData: ProfileData = {
   currentProfile: defaultUUID,
   loadedProfiles: {}
@@ -22,48 +23,42 @@ defaultProfileData.loadedProfiles[defaultUUID] = {
   displayName: 'Default',
   uuid: defaultUUID
 };
+let isLoaded = false;
 
 export default function profileReducer(
-  state: ProfileData = defaultProfileData,
+  state: ?ProfileData = defaultProfileData,
   action: actionType
 ) {
-  let ret: ProfileData = state;
-
-  const saveData = () => {
-    // save profile data to config
-    setProfileData(ret);
-  };
-
   let loadedProfiles: { [string]: Profile } = {};
 
   switch (action.type) {
     case CHANGE_PROFILE:
-      ret = { ...state, currentProfile: action.payload };
-      saveData();
+      state = { ...state, currentProfile: action.payload };
       break;
     case LOADED_PROFILE_DATA:
-      ret = Object.assign({}, state, action.payload);
-      saveData();
+      state = merge({}, state, action.payload);
+      isLoaded = true;
       break;
     case CHANGE_PROFILE_NAME:
       loadedProfiles = {};
       loadedProfiles[action.payload.uuid] = {
         displayName: action.payload.displayName
       };
-      console.log(loadedProfiles);
-      ret = Object.assign({}, state, { loadedProfiles });
-      saveData();
+      state = merge({}, state, { loadedProfiles });
       break;
     case CORRECT_PROFILE_DATA:
       // fix profile not loaded
-      ret = Object.assign({}, state, {
+      state = merge({}, state, {
         currentProfile: Object.keys(state.loadedProfiles)[0]
       });
-      saveData();
       break;
     default:
-      return state;
+      break;
   }
 
-  return ret;
+  if (isLoaded && state != null) {
+    // save profile data to config
+    setProfileData(state);
+  }
+  return state;
 }

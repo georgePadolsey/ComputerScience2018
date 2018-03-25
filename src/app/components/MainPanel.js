@@ -10,6 +10,7 @@ import moment from 'moment';
 import styles from './styles/MainPanel.scss';
 
 import * as uiActions from '../actions/ui';
+import * as addMainChartActions from '../actions/addMainChart';
 import CryptoAPI from '../utils/CryptoAPI';
 
 import type { UIData } from '../_types/UI';
@@ -21,11 +22,13 @@ const ResponsiveReactGridLayout = sizeMe()(props => (
 const mapStateToProps = ({ uiData }) => ({ uiData });
 
 const mapDispatchToProps = dispatch => ({
-  uiActions: bindActionCreators(uiActions, dispatch)
+  uiActions: bindActionCreators(uiActions, dispatch),
+  addMainChartActions: bindActionCreators(addMainChartActions, dispatch)
 });
 
 type Props = {
   uiActions: typeof uiActions,
+  addMainChartActions: typeof addMainChartActions,
   uiData: UIData
 };
 
@@ -125,11 +128,11 @@ class MainPanel extends Component<Props> {
           key="addBox"
           className={styles.addBox}
           onClick={evt => {
-            this.props.uiActions.showAddMainChart();
+            this.props.addMainChartActions.show();
             evt.preventDefault();
           }}
           onKeyDown={evt => {
-            this.props.uiActions.showAddMainChart();
+            this.props.addMainChartActions.show();
             evt.preventDefault();
           }}
           role="button"

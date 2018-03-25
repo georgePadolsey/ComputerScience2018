@@ -1,35 +1,19 @@
 // @flow
 import type { Dispatch } from 'redux';
-import type { actionType } from '../_types/ActionType';
 import type { UIData, MainLayout } from '../_types/UI';
-import type { ProfileCreatorStage } from './types/ui';
+
 import getUIData from '../utils/UIProvider';
 
 import * as UI_ACTIONS from './types/ui';
 
 type UIAction = {
-  +type: $Keys<typeof UI_ACTIONS>
+  type: $Keys<typeof UI_ACTIONS>
 };
 
 export function setMainPanelEditMode(isEditMode: boolean): UIAction {
   return {
     type: UI_ACTIONS.SET_MAIN_PANEL_EDIT_MODE,
     payload: isEditMode
-  };
-}
-
-export function showAddMainChart(): UIAction {
-  return setShowAddMainChart(true);
-}
-
-export function hideAddMainChart(): UIAction {
-  return setShowAddMainChart(false);
-}
-
-export function setShowAddMainChart(showMainChart: boolean): UIAction {
-  return {
-    type: UI_ACTIONS.SET_SHOW_ADD_MAIN_CHART,
-    payload: showMainChart
   };
 }
 
@@ -40,7 +24,7 @@ export function updateMainLayouts(layouts: MainLayout): UIAction {
   };
 }
 
-export function loadedUIData(data: UIData): UIAction {
+export function loadedUIData(data: ?UIData): UIAction {
   return {
     type: UI_ACTIONS.LOADED_UI_DATA,
     payload: data
@@ -49,48 +33,6 @@ export function loadedUIData(data: UIData): UIAction {
 
 export function loadUIData(): (Dispatch<*>) => Promise<void> {
   return async dispatch => {
-    dispatch((loadedUIData(await getUIData()): Object));
-  };
-}
-
-export function setOfferedCreator(shown: boolean): UIAction {
-  return {
-    type: UI_ACTIONS.SET_OFFERED_CREATOR,
-    payload: shown
-  };
-}
-
-export function showProfileCreator(): UIAction {
-  return setShowProfileCreator(true);
-}
-
-export function hideProfileCreator(): UIAction {
-  return setShowProfileCreator(false);
-}
-
-export function setShowProfileCreator(show: boolean): UIAction {
-  return {
-    type: UI_ACTIONS.SET_SHOW_PROFILE_CREATOR,
-    payload: show
-  };
-}
-
-export function setProfileCreatorStage(stage: ProfileCreatorStage): UIAction {
-  return {
-    type: UI_ACTIONS.SET_PROFILE_CREATOR_STAGE,
-    payload: stage
-  };
-}
-
-export function setProfileCreatorCurrentCurrency(currency: string): UIAction {
-  return {
-    type: UI_ACTIONS.SET_PROFILE_CREATOR_CURRENT_CURRENCY,
-    payload: currency
-  };
-}
-export function setProfileCreatorCurrentExchange(exchangeId: string): UIAction {
-  return {
-    type: UI_ACTIONS.SET_PROFILE_CREATOR_CURRENT_EXCHANGE,
-    payload: exchangeId
+    dispatch(loadedUIData(await getUIData()));
   };
 }

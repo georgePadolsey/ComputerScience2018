@@ -1748,10 +1748,6 @@ boundary-cells@^2.0.0:
   dependencies:
     tape "^4.0.0"
 
-bowser@^1.7.3:
-  version "1.9.3"
-  resolved "https://registry.yarnpkg.com/bowser/-/bowser-1.9.3.tgz#6643ae4d783f31683f6d23156976b74183862162"
-
 box-intersect@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/box-intersect/-/box-intersect-1.0.1.tgz#b728a59e3f1a3c73c224933c2660b927aa137902"
@@ -2972,12 +2968,6 @@ css-color-names@0.0.3:
 css-color-names@0.0.4:
   version "0.0.4"
   resolved "https://registry.yarnpkg.com/css-color-names/-/css-color-names-0.0.4.tgz#808adc2e79cf84738069b646cb20ec27beb629e0"
-
-css-in-js-utils@^2.0.0:
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/css-in-js-utils/-/css-in-js-utils-2.0.0.tgz#5af1dd70f4b06b331f48d22a3d86e0786c0b9435"
-  dependencies:
-    hyphenate-style-name "^1.0.2"
 
 css-loader@^0.28.9:
   version "0.28.9"
@@ -5422,13 +5412,6 @@ gl-vec4@^1.0.0, gl-vec4@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/gl-vec4/-/gl-vec4-1.0.1.tgz#97d96878281b14b532cbce101785dfd1cb340964"
 
-glam@^5.0.1:
-  version "5.0.1"
-  resolved "https://registry.yarnpkg.com/glam/-/glam-5.0.1.tgz#b965a46f1a7f9ba3a23d16430b2e706f63c80ee8"
-  dependencies:
-    fbjs "^0.8.16"
-    inline-style-prefixer "^3.0.8"
-
 glob-base@^0.3.0:
   version "0.3.0"
   resolved "https://registry.yarnpkg.com/glob-base/-/glob-base-0.3.0.tgz#dbb164f6221b1c0b1ccf82aea328b497df0ea3c4"
@@ -6114,10 +6097,6 @@ humps@^2.0.1:
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/humps/-/humps-2.0.1.tgz#dd02ea6081bd0568dc5d073184463957ba9ef9aa"
 
-hyphenate-style-name@^1.0.2:
-  version "1.0.2"
-  resolved "https://registry.yarnpkg.com/hyphenate-style-name/-/hyphenate-style-name-1.0.2.tgz#31160a36930adaf1fc04c6074f7eb41465d4ec4b"
-
 iconv-lite@0.4.19, iconv-lite@^0.4.17, iconv-lite@^0.4.19, iconv-lite@~0.4.13:
   version "0.4.19"
   resolved "https://registry.yarnpkg.com/iconv-lite/-/iconv-lite-0.4.19.tgz#f7468f60135f5e5dad3399c0a81be9a1603a082b"
@@ -6212,13 +6191,6 @@ inherits@2.0.1:
 ini@^1.3.4, ini@^1.3.5, ini@~1.3.0:
   version "1.3.5"
   resolved "https://registry.yarnpkg.com/ini/-/ini-1.3.5.tgz#eee25f56db1c9ec6085e0c22778083f596abf927"
-
-inline-style-prefixer@^3.0.8:
-  version "3.0.8"
-  resolved "https://registry.yarnpkg.com/inline-style-prefixer/-/inline-style-prefixer-3.0.8.tgz#8551b8e5b4d573244e66a34b04f7d32076a2b534"
-  dependencies:
-    bowser "^1.7.3"
-    css-in-js-utils "^2.0.0"
 
 inquirer@3.0.6:
   version "3.0.6"
@@ -9911,15 +9883,11 @@ react-hot-loader@^4.0.0-beta.13:
     hoist-non-react-statics "^2.3.1"
     react-stand-in "^4.0.0-beta.18"
 
-react-input-autosize@^2.1.2, react-input-autosize@^2.2.1:
+react-input-autosize@^2.1.2:
   version "2.2.1"
   resolved "https://registry.yarnpkg.com/react-input-autosize/-/react-input-autosize-2.2.1.tgz#ec428fa15b1592994fb5f9aa15bb1eb6baf420f8"
   dependencies:
     prop-types "^15.5.8"
-
-react-node-resolver@^1.0.1:
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/react-node-resolver/-/react-node-resolver-1.0.1.tgz#1798a729c0e218bf2f0e8ddf79c550d4af61d83a"
 
 react-proxy@^1.1.7:
   version "1.1.8"
@@ -9986,31 +9954,13 @@ react-router@^4.2.0:
     prop-types "^15.5.4"
     warning "^3.0.0"
 
-react-scroll-captor@^1.0.1:
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/react-scroll-captor/-/react-scroll-captor-1.0.1.tgz#3f912df72ab8e7f46d4fa27d8707131ffe59b353"
-  dependencies:
-    react-node-resolver "^1.0.1"
-
-react-select@^1.0.0-rc.2:
+react-select@^1.0.0-rc.2, react-select@^1.2.1:
   version "1.2.1"
   resolved "https://registry.yarnpkg.com/react-select/-/react-select-1.2.1.tgz#a2fe58a569eb14dcaa6543816260b97e538120d1"
   dependencies:
     classnames "^2.2.4"
     prop-types "^15.5.8"
     react-input-autosize "^2.1.2"
-
-react-select@^2.0.0-alpha.8:
-  version "2.0.0-alpha.8"
-  resolved "https://registry.yarnpkg.com/react-select/-/react-select-2.0.0-alpha.8.tgz#c6e4e18abc7871f78cd6d10d5a8ab1931660d4a6"
-  dependencies:
-    classnames "^2.2.5"
-    glam "^5.0.1"
-    prop-types "^15.6.0"
-    raf "^3.4.0"
-    react-input-autosize "^2.2.1"
-    react-scroll-captor "^1.0.1"
-    react-transition-group "^2.2.1"
 
 react-sizeme@^2.3.6:
   version "2.3.6"
@@ -10053,17 +10003,6 @@ react-transition-group@1.x:
     dom-helpers "^3.2.0"
     loose-envify "^1.3.1"
     prop-types "^15.5.6"
-    warning "^3.0.0"
-
-react-transition-group@^2.2.1:
-  version "2.2.1"
-  resolved "https://registry.yarnpkg.com/react-transition-group/-/react-transition-group-2.2.1.tgz#e9fb677b79e6455fd391b03823afe84849df4a10"
-  dependencies:
-    chain-function "^1.0.0"
-    classnames "^2.2.5"
-    dom-helpers "^3.2.0"
-    loose-envify "^1.3.1"
-    prop-types "^15.5.8"
     warning "^3.0.0"
 
 react-virtualized-select@^3.1.3:

@@ -1,6 +1,6 @@
 //
 
-export const LOADED_EXCHANGE = "LOADED_EXCHANGE";
+import { LOADED_EXCHANGE } from "./types/crypto";
 
 export function loadedExchange(exchangeId) {
   return {

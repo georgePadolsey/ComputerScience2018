@@ -1,5 +1,6 @@
 //
 import Store from "electron-store";
+import merge from "lodash/merge";
 import { CONFIG_KEY } from "../enc_keys";
 
 const profilesStore = new Store({
@@ -15,9 +16,12 @@ const profilesStore = new Store({
 
 export default async function profileProvider() {
   console.log("loading-profiles");
+  if (profilesStore.size === 0) {
+    return undefined;
+  }
   return profilesStore.store;
 }
 
 export function setProfileData(data) {
-  profilesStore.store = data;
+  profilesStore.store = merge({}, profilesStore.store, data);
 }

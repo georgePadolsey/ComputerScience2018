@@ -1,67 +1,78 @@
 //
 import React, { Component } from "react";
 import { bindActionCreators } from "redux";
+import Select from "react-select";
 import { connect } from "react-redux";
 import DialogComponent from "./DialogComponent";
 import CryptoAPI from "../utils/CryptoAPI";
 import * as uiActions from "../actions/ui";
+import * as addMainChartActions from "../actions/addMainChart";
 import styles from "./styles/AddMainChartDialog.scss";
 
-const mapStateToProps = ({ cryptoData }) => ({
-  cryptoData
+const mapStateToProps = ({ cryptoData, uiData }) => ({
+  cryptoData,
+  data: uiData.addMainChart
 });
 
 const mapDispatchToProps = dispatch => ({
-  uiActions: bindActionCreators(uiActions, dispatch)
+  uiActions: bindActionCreators(uiActions, dispatch),
+  actions: bindActionCreators(addMainChartActions, dispatch)
 });
 
 class AddMainChartDialog extends Component {
-  /**
-   * We choose to not save this
-   * as the options are relative to the loaded exchanges at the time
-   * So if someone reloaded the program - the exchange could not be loaded at the time
-   */
-  state = {
-    selectedExchange: null
-  };
-
+  componentWillMount() {
+    if (
+      CryptoAPI.loadedExchanges.length > 0 &&
+      this.props.data.selectedExchange == null
+    ) {
+      this.props.actions.setSelectedExchange(CryptoAPI.loadedExchanges[0].id);
+    }
+  }
   dismiss() {
-    this.props.uiActions.hideAddMainChart();
+    this.props.actions.hide();
   }
 
   render() {
-    if (
-      CryptoAPI.loadedExchanges.length > 0 &&
-      this.state.selectedExchange == null
-    ) {
-      this.setState({ selectedExchange: CryptoAPI.loadedExchanges[0].id });
-    }
     return (
       <DialogComponent dismiss={() => this.dismiss()}>
         <div className={styles.main}>
+          <label htmlFor="graphName">
+            <span> Graph Name: </span>
+            <input type="text" placeholder="Name" />
+          </label>
           <label htmlFor="exchangeSelect">
             <span>Exchange:</span>
-            <select
+            <Select
               id="exchangeSelect"
-              onChange={e =>
-                this.setState({ selectedExchange: e.target.value })
+              value={this.props.data.selectedExchange}
+              onChange={({ value }) =>
+                this.props.actions.setSelectedExchange(value)
               }
-            >
-              {CryptoAPI.loadedExchanges.map(exchange => (
-                <option key={exchange.id}>{exchange.id}</option>
-              ))}
-            </select>
+              options={CryptoAPI.loadedExchanges.map(exchange => ({
+                value: exchange.id,
+                label: exchange.name
+              }))}
+            />
           </label>
-          {this.state.selectedExchange != null ? (
+          {this.props.data.selectedExchange != null ? (
             <label htmlFor="symbolSelect">
               <span>Symbols:</span>
-              <select id="symbolSelect">
-                {CryptoAPI.getExchange(this.state.selectedExchange).symbols.map(
-                  symbol => <option key={symbol}>{symbol}</option>
-                )}
-              </select>
+              <Select
+                id="symbolSelect"
+                value={this.props.data.selectedSymbol}
+                onChange={({ value }) =>
+                  this.props.actions.setSelectedSymbol(value)
+                }
+                options={CryptoAPI.getExchange(
+                  this.props.data.selectedExchange
+                ).symbols.map(symbol => ({
+                  value: symbol,
+                  label: symbol
+                }))}
+              />
             </label>
           ) : null}
+          <button id="add">Add Chart</button>
         </div>
       </DialogComponent>
     );
