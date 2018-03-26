@@ -13,7 +13,7 @@ import styles from './styles/Home.scss';
 import SidePanel from './SidePanel';
 import MainPanel from './MainPanel';
 import CryptoAPI from '../utils/CryptoAPI';
-import ProfileCreatorDialog from './ProfileCreator';
+import ProfileCreatorDialog from './ProfileCreator/index';
 import AddMainChartDialog from './AddMainChartDialog';
 import SettingsDialog from './SettingsDialog';
 
@@ -55,9 +55,15 @@ class Home extends Component<Props> {
           <SidePanel />
           <MainPanel />
         </div>
-        <button onClick={() => this.props.profileCreatorActions.show()}>Show PC</button>
-        {this.props.uiData.profileCreatorState.show ? <ProfileCreatorDialog /> : null}
-        {this.props.uiData.addMainChartState.show ? <AddMainChartDialog /> : null}
+        <button onClick={() => this.props.profileCreatorActions.show()}>
+          Show PC
+        </button>
+        {this.props.uiData.profileCreatorState.show ? (
+          <ProfileCreatorDialog />
+        ) : null}
+        {this.props.uiData.addMainChartState.show ? (
+          <AddMainChartDialog />
+        ) : null}
         {this.props.uiData.settingsState.show ? <SettingsDialog /> : null}
       </div>
     );

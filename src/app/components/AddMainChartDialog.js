@@ -33,7 +33,10 @@ type State = {
 
 class AddMainChartDialog extends Component<Props, State> {
   componentWillMount() {
-    if (CryptoAPI.loadedExchanges.length > 0 && this.props.data.selectedExchange == null) {
+    if (
+      CryptoAPI.loadedExchanges.length > 0 &&
+      this.props.data.selectedExchange == null
+    ) {
       this.props.actions.setSelectedExchange(CryptoAPI.loadedExchanges[0].id);
     }
   }
@@ -48,7 +51,10 @@ class AddMainChartDialog extends Component<Props, State> {
 
   render() {
     return (
-      <DialogComponent dismiss={() => this.props.actions.hide()}>
+      <DialogComponent
+        dismiss={() => this.props.actions.hide()}
+        showExit={true}
+      >
         <div className={styles.main}>
           <div className={styles.heading}>Add Main Chart</div>
           <label htmlFor="graphName">
@@ -65,7 +71,9 @@ class AddMainChartDialog extends Component<Props, State> {
             <Select
               id="exchangeSelect"
               value={this.props.data.selectedExchange}
-              onChange={({ value }) => this.props.actions.setSelectedExchange(value)}
+              onChange={({ value }) =>
+                this.props.actions.setSelectedExchange(value)
+              }
               options={CryptoAPI.loadedExchanges
                 .filter(exchange => exchange.has.fetchOHLCV)
                 .map(exchange => ({
@@ -80,10 +88,14 @@ class AddMainChartDialog extends Component<Props, State> {
               <Select
                 id="symbolSelect"
                 value={this.props.data.selectedSymbol}
-                onChange={({ value }) => this.props.actions.setSelectedSymbol(value)}
+                onChange={({ value }) =>
+                  this.props.actions.setSelectedSymbol(value)
+                }
                 options={
                   CryptoAPI.getExchange(this.props.data.selectedExchange) &&
-                  CryptoAPI.getExchange(this.props.data.selectedExchange).symbols.map(symbol => ({
+                  CryptoAPI.getExchange(
+                    this.props.data.selectedExchange
+                  ).symbols.map(symbol => ({
                     value: symbol,
                     label: symbol
                   }))

@@ -15,14 +15,18 @@ import { setProfileData } from '../utils/ProfileProvider';
 import type { actionType } from '../_types/ActionType';
 import type { ProfileData, Profile } from '../_types/Profile';
 
-const defaultUUID = uuid('PROFILE_DEFAULT', '00000000-0000-0000-0000-000000000000');
+const defaultUUID = uuid(
+  'PROFILE_DEFAULT',
+  '00000000-0000-0000-0000-000000000000'
+);
 const defaultProfileData: ProfileData = {
   currentProfile: defaultUUID,
   loadedProfiles: {}
 };
 defaultProfileData.loadedProfiles[defaultUUID] = {
   displayName: 'Default',
-  uuid: defaultUUID
+  uuid: defaultUUID,
+  expiryTimeout: 3.6e6 // [1 hr]
 };
 let isLoaded = false;
 

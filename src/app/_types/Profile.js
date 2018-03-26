@@ -6,7 +6,8 @@
 
 export type Profile = {
   displayName: string,
-  uuid: string
+  uuid: string,
+  expiryTimeout: number
 };
 
 export type ProfileData = {

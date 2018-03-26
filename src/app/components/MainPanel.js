@@ -16,7 +16,6 @@ import OHLCVGraph from './OHLCVGraph';
 
 import type { UIData } from '../_types/UI';
 
-
 const ResponsiveReactGridLayout = sizeMe()(props => (
   <Responsive {...props} width={props.size.width} />
 ));
@@ -35,7 +34,6 @@ type Props = {
 };
 
 class MainPanel extends Component<Props> {
-
   onLayoutChange(layout, layouts) {
     this.props.uiActions.updateMainLayouts(layouts);
   }
@@ -44,36 +42,37 @@ class MainPanel extends Component<Props> {
     let dataBlocks = [];
     if (this.props.uiData.mainPanelEditMode) {
       // show add button
-      dataBlocks.push(<div
-        key="addBox"
-        className={styles.addBox}
-        onClick={evt => {
+      dataBlocks.push(
+        <div
+          key="addBox"
+          className={styles.addBox}
+          onClick={evt => {
             this.props.addMainChartActions.show();
             evt.preventDefault();
           }}
-        onKeyDown={evt => {
+          onKeyDown={evt => {
             this.props.addMainChartActions.show();
             evt.preventDefault();
           }}
-        role="button"
-        tabIndex={-1}
-        data-grid={{
+          role="button"
+          tabIndex={-1}
+          data-grid={{
             x: 1000,
             y: 1000,
             w: 1,
             h: 1
           }}
-      >
-        <span className={styles.midCenter}>
-          <FontAwesomeIcon icon={faPlusCircle} />
-        </span>
-                      </div>);
+        >
+          <span className={styles.midCenter}>
+            <FontAwesomeIcon icon={faPlusCircle} />
+          </span>
+        </div>
+      );
     }
 
     dataBlocks = [
       ...dataBlocks,
       this.props.uiData.mainPanelCharts.map(mainPanelChart => (
-
         <div
           key={mainPanelChart.key}
           data-grid={{
@@ -86,28 +85,16 @@ class MainPanel extends Component<Props> {
           id={mainPanelChart.key}
         >
           <div className={styles.fullEdit} />
-          {mainPanelChart.chartName}
-          <OHLCVGraph className={styles.plotlyGraph} chartData={mainPanelChart} />
+          {mainPanelChart.chartName} - {mainPanelChart.exchangeId}
+          <OHLCVGraph
+            className={styles.plotlyGraph}
+            chartData={mainPanelChart}
+          />
         </div>
       ))
     ];
 
     return dataBlocks;
-
-    // <div
-    //   key="a"
-    //   data-grid={{
-    //     x: 0,
-    //     y: 0,
-    //     w: 1,
-    //     h: 1
-    //   }}
-    //   className={styles.boxDiv}
-    //   ref={x => (this.testDiv = x)}
-    // >
-    //   <div className={styles.fullEdit} />
-    //   <div id="plotly-div" className={styles.plotlyGraph} />
-    // </div>
   }
 
   render() {
@@ -122,10 +109,14 @@ class MainPanel extends Component<Props> {
               this.props.uiData.mainPanelEditMode ? styles.activeEdit : null
             ].join(' ')}
             onClick={() =>
-              this.props.uiActions.setMainPanelEditMode(!this.props.uiData.mainPanelEditMode)
+              this.props.uiActions.setMainPanelEditMode(
+                !this.props.uiData.mainPanelEditMode
+              )
             }
             onKeyPress={() =>
-              this.props.uiActions.setMainPanelEditMode(!this.props.uiData.mainPanelEditMode)
+              this.props.uiActions.setMainPanelEditMode(
+                !this.props.uiData.mainPanelEditMode
+              )
             }
             role="button"
             tabIndex={-1}
@@ -151,7 +142,9 @@ class MainPanel extends Component<Props> {
             xs: 3,
             xxs: 2
           }}
-          onLayoutChange={(layout, layouts) => this.onLayoutChange(layout, layouts)}
+          onLayoutChange={(layout, layouts) =>
+            this.onLayoutChange(layout, layouts)
+          }
           compactType="horizontal"
           // preventCollision
           isDraggable={this.props.uiData.mainPanelEditMode}

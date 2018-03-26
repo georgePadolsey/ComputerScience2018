@@ -1,16 +1,4 @@
 // @flow
-import { Resolutions } from '../utils/CryptoAPI';
-
-export type ResolutionType = {
-  since: () => ?number,
-  resolution: () => string,
-  id: () => string,
-  expires: () => number
-};
-
-export type ResolutionTypes = {
-  [string]: ResolutionType
-};
 
 export type OHLCVCandle = [
   number, // UTC timestamp in milliseconds, integer
@@ -23,10 +11,8 @@ export type OHLCVCandle = [
 
 export type TimedCandleData = {
   data: OHLCVCandle[],
-  from: number,
-  to: number,
-  expires: number,
-  resolution: $Keys<typeof Resolutions>
+  lastUpdated: number,
+  timeframe: string
 };
 
 export type CryptoState = { +loadedExchanges: string[] };
