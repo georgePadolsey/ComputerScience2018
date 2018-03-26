@@ -37,7 +37,7 @@ export function setStage(stage: ProfileCreatorStage): ProfileCreatorAction {
 
 export function setCurrentCurrency(currency: string): ProfileCreatorAction {
   return {
-    type: ACTIONS.PROFILE_CREATOR_SET_CURRENT_EXCHANGE,
+    type: ACTIONS.PROFILE_CREATOR_SET_CURRENT_CURRENCY,
     payload: currency
   };
 }
@@ -45,5 +45,19 @@ export function setCurrentExchange(exchangeId: string): ProfileCreatorAction {
   return {
     type: ACTIONS.PROFILE_CREATOR_SET_CURRENT_EXCHANGE,
     payload: exchangeId
+  };
+}
+
+export function setBalanceName(name: string): ProfileCreatorAction {
+  return {
+    type: ACTIONS.PROFILE_CREATOR_SET_BALANCE_NAME,
+    payload: name
+  };
+}
+
+export function setBalanceAmount(amount: number): ProfileCreatorAction {
+  return {
+    type: ACTIONS.PROFILE_CREATOR_SET_BALANCE_AMOUNT,
+    payload: amount
   };
 }

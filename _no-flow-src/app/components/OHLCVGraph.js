@@ -2,9 +2,10 @@
 import React from "react";
 import { connect } from "react-redux";
 import moment from "moment";
+import sizeMe from "react-sizeme";
 import CryptoAPI from "../utils/CryptoAPI";
 
-import sizeMe from "react-sizeme";
+import styles from "./styles/OHLCVGraph.scss";
 
 const mapStateToProps = ({ cryptoData }) => ({ cryptoData });
 
@@ -23,10 +24,8 @@ class OHLCVGraph extends React.Component {
       ) &&
       !this.loaded
     ) {
-      console.log("update");
       return true;
     }
-    console.log("no update", this.props.chartData.exchangeId);
     return false;
   }
 
@@ -72,14 +71,7 @@ class OHLCVGraph extends React.Component {
     const openVals = [];
 
     OHLCVdata.forEach(
-      ([
-        dateInUTC,
-        openPrice,
-        highestPrice,
-        lowestPrice,
-        closingPrice,
-        volume
-      ]) => {
+      ([dateInUTC, openPrice, highestPrice, lowestPrice, closingPrice]) => {
         xVals.push(moment(dateInUTC).format("YYYY-MM-DD"));
         closeVals.push(closingPrice);
         highVals.push(highestPrice);
@@ -148,7 +140,9 @@ class OHLCVGraph extends React.Component {
   render() {
     const { chartData, cryptoData, dispatch, ...rest } = this.props;
     return (
-      <div {...rest} id={chartData.key} ref={node => (this.graphEl = node)} />
+      <div {...rest} id={chartData.key} ref={node => (this.graphEl = node)}>
+        {!this.loaded ? <div className={styles.loading}>Loading</div> : null}
+      </div>
     );
   }
 }

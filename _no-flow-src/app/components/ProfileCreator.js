@@ -13,6 +13,7 @@ import { connect } from "react-redux";
 import { CSSTransitionGroup } from "react-transition-group";
 import VirtualizedSelect from "react-virtualized-select";
 
+import swal from "sweetalert2";
 import DialogComponent from "./DialogComponent";
 // Actions/reducers
 import * as uiActions from "../actions/ui";
@@ -37,8 +38,16 @@ const mapDispatchToProps = dispatch => ({
 });
 
 class ProfileCreator extends Component {
-  dismiss() {
-    this.props.actions.hide();
+  async dismiss() {
+    if (
+      (await swal({
+        title: "Are you sure you wish to exit the Profile Creator?",
+        type: "warning",
+        showCancelButton: true
+      })).value
+    ) {
+      this.props.actions.hide();
+    }
   }
 
   setStage(stage) {
@@ -130,6 +139,7 @@ class ProfileCreator extends Component {
               name="name"
               id="name"
               placeholder="New Balance"
+              onBlur={ev => this.props.actions.setBalanceName(ev.target.value)}
             />
           </label>
           <label htmlFor="currency">
@@ -152,7 +162,15 @@ class ProfileCreator extends Component {
           </label>
           <label htmlFor="amount">
             <span>Amount of currency</span>
-            <input type="number" placeholder={0} min={0} step={0.0001} />
+            <input
+              type="number"
+              placeholder={0}
+              min={0}
+              step={0.0001}
+              onBlur={ev =>
+                this.props.actions.setBalanceAmount(+ev.target.value)
+              }
+            />
           </label>
         </form>
         <button
@@ -252,7 +270,6 @@ class ProfileCreator extends Component {
     return stages[this.props.profileCreatorState.stage];
   }
   render() {
-    console.log("render");
     return (
       <DialogComponent dismiss={() => this.dismiss()}>
         {this.getStages()}

@@ -1,12 +1,16 @@
 .main {
   text-align: left;
-  padding-left: 30vw;
+  // padding-left: 30vw;
 }
 
 .error {
   color: red;
   display: block;
   font-weight: bold;
+}
+
+.heading {
+  font-size: 3em;
 }
 
 .main select {

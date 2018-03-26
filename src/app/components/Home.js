@@ -13,8 +13,9 @@ import styles from './styles/Home.scss';
 import SidePanel from './SidePanel';
 import MainPanel from './MainPanel';
 import CryptoAPI from '../utils/CryptoAPI';
-import ProfileCreatorDialog from '../components/ProfileCreator';
-import AddMainChartDialog from '../components/AddMainChartDialog';
+import ProfileCreatorDialog from './ProfileCreator';
+import AddMainChartDialog from './AddMainChartDialog';
+import SettingsDialog from './SettingsDialog';
 
 import type { ProfileData } from '../_types/Profile';
 
@@ -31,7 +32,7 @@ type Props = {
 
 const mapStateToProps = ({ profileData, uiData }) => ({ profileData, uiData });
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch: Dispatch<*>) => ({
   profileActions: bindActionCreators(profileActions, dispatch),
   profileCreatorActions: bindActionCreators(profileCreatorActions, dispatch),
   uiActions: bindActionCreators(uiActions, dispatch),
@@ -46,15 +47,6 @@ class Home extends Component<Props> {
     CryptoAPI.loadMarkets();
   }
 
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.uiData) {
-      if (!nextProps.uiData.profileCreator.offered) {
-        this.props.profileCreatorActions.show();
-        this.props.profileCreatorActions.setOffered(true);
-      }
-    }
-  }
-
   // <div className={styles.container} data-tid="container" />
   render() {
     return (
@@ -63,10 +55,10 @@ class Home extends Component<Props> {
           <SidePanel />
           <MainPanel />
         </div>
-        {this.props.uiData.profileCreatorState && this.props.uiData.profileCreatorState.show ? (
-          <ProfileCreatorDialog />
-        ) : null}
-        {this.props.uiData.addMainChart.show ? <AddMainChartDialog /> : null}
+        <button onClick={() => this.props.profileCreatorActions.show()}>Show PC</button>
+        {this.props.uiData.profileCreatorState.show ? <ProfileCreatorDialog /> : null}
+        {this.props.uiData.addMainChartState.show ? <AddMainChartDialog /> : null}
+        {this.props.uiData.settingsState.show ? <SettingsDialog /> : null}
       </div>
     );
   }

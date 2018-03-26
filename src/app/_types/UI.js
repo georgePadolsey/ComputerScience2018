@@ -24,9 +24,10 @@ export type ProfileCreatorState = {
   +show: boolean,
   +stage: ProfileCreatorStage,
   +firstTime: boolean,
-  +offered: boolean,
   +exchangeSelected?: string,
-  +currencySelected?: string
+  +currencySelected?: string,
+  +balanceName?: string,
+  +balanceAmount?: number
 };
 
 export type MainPanelChart = {
@@ -36,9 +37,14 @@ export type MainPanelChart = {
   symbolId: string
 };
 
+export type SettingsState = {
+  +show: boolean
+};
+
 export type UIData = {
   +mainPanelLayouts: MainLayout,
   mainPanelCharts: MainPanelChart[],
   +profileCreatorState?: ProfileCreatorState,
+  +settingsState?: SettingsState,
   +addMainChartState?: addMainChartState
 };

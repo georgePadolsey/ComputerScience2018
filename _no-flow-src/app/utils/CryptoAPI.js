@@ -3,6 +3,7 @@
 import CCXT from "ccxt";
 import { forEach } from "p-iteration";
 import moment from "moment";
+import map from "lodash/map";
 import { bindActionCreators } from "redux";
 import Store from "electron-store";
 
@@ -182,6 +183,14 @@ export default new class CryptoAPI {
     this.store.set(`lastUsed.${exchange.id}`, +moment());
   }
 
+  static normalizeData(data) {
+    const candleData = [];
+    data.forEach(arr => {
+      candleData.push(map(arr, val => +val));
+    });
+    return candleData;
+  }
+
   async requestOHLCV(exchange, symbol, resolution) {
     await this.requestLock(exchange);
     // return;
@@ -202,10 +211,12 @@ export default new class CryptoAPI {
     );
     let data = null;
     try {
-      data = await exchange.fetchOHLCV(
-        symbol,
-        resolution.resolution(),
-        resolution.since() ? resolution.since() : undefined
+      data = CryptoAPI.normalizeData(
+        await exchange.fetchOHLCV(
+          symbol,
+          resolution.resolution(),
+          resolution.since() ? resolution.since() : undefined
+        )
       );
     } catch (e) {
       console.warn(

@@ -7,10 +7,12 @@ import rootReducer from '../reducers';
 import { ipc } from '../reducers/ipc';
 import * as profileActions from '../actions/profile';
 import * as uiActions from '../actions/ui';
+import * as profileCreatorActions from '../actions/profileCreator';
+import * as addMainChartActions from '../actions/addMainChart';
 
 const history = createHashHistory();
 
-const configureStore = (initialState?: counterStateType) => {
+const configureStore = (initialState?: any) => {
   // Redux Configuration
   const middleware = [];
   const enhancers = [];
@@ -40,7 +42,9 @@ const configureStore = (initialState?: counterStateType) => {
   const actionCreators = {
     ...profileActions,
     ...uiActions,
-    ...routerActions
+    ...routerActions,
+    ...profileCreatorActions,
+    ...addMainChartActions
   };
   // If Redux DevTools Extension is installed use it, otherwise use Redux compose
   /* eslint-disable no-underscore-dangle */

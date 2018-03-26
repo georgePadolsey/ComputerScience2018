@@ -5,11 +5,12 @@ import moment from "moment";
 import { bindActionCreators } from "redux";
 import swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
-import { faSync } from "@fortawesome/fontawesome-free-solid";
+import { faSync, faCogs } from "@fortawesome/fontawesome-free-solid";
+import FontAwesomeIcon from "@fortawesome/react-fontawesome";
 
-import Dropdown from "react-dropdown";
 import * as profileActions from "../actions/profile";
 import * as cryptoActions from "../actions/crypto";
+import * as settingsActions from "../actions/settings";
 import SpinOnHoverFontAwesome from "./SpinOnHoverFontAwesome";
 
 import styles from "./styles/SidePanel.scss";
@@ -24,6 +25,7 @@ const mapStateToProps = ({ profileData, cryptoData }) => ({
 
 const mapDispatchToProps = dispatch => ({
   profileActions: bindActionCreators(profileActions, dispatch),
+  settingsActions: bindActionCreators(settingsActions, dispatch),
   cryptoData: bindActionCreators(cryptoActions, dispatch)
 });
 
@@ -85,6 +87,11 @@ class SidePanel extends Component {
               onBlur={name => this.changeProfileName(name)}
             />
           </div>
+          <div className={styles.settings}>
+            <button onClick={() => this.props.settingsActions.show()}>
+              <FontAwesomeIcon icon={faCogs} />
+            </button>
+          </div>
 
           <span>
             updated {moment(this.getLastDataUpdate()).fromNow()}{" "}
@@ -94,12 +101,6 @@ class SidePanel extends Component {
               onClick={() => this.refreshData()}
             />
           </span>
-          <Dropdown
-            options={[1, 2, "argsnkl"]}
-            onChange={(...args) => console.log(args)}
-            value={1}
-            placeholder="V"
-          />
         </div>
       </div>
     );

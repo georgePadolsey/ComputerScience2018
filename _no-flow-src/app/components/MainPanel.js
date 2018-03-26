@@ -85,7 +85,7 @@ class MainPanel extends Component<Props> {
           id={mainPanelChart.key}
         >
           <div className={styles.fullEdit} />
-          Loading... Name: {mainPanelChart.chartName}
+          {mainPanelChart.chartName}
           <OHLCVGraph
             className={styles.plotlyGraph}
             chartData={mainPanelChart}

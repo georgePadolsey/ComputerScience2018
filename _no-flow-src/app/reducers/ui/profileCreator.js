@@ -8,7 +8,9 @@ import {
   PROFILE_CREATOR_SET_STAGE,
   PROFILE_CREATOR_SET_CURRENT_CURRENCY,
   PROFILE_CREATOR_SET_CURRENT_EXCHANGE,
-  PROFILE_CREATOR_STAGES
+  PROFILE_CREATOR_STAGES,
+  PROFILE_CREATOR_SET_BALANCE_AMOUNT,
+  PROFILE_CREATOR_SET_BALANCE_NAME
 } from "../../actions/types/profileCreator";
 
 const defaultProfileCreatorState = {
@@ -44,6 +46,12 @@ export default function profileCreatorReducer(
       break;
     case PROFILE_CREATOR_SET_CURRENT_EXCHANGE:
       state = merge({}, state, { exchangeSelected: action.payload });
+      break;
+    case PROFILE_CREATOR_SET_BALANCE_NAME:
+      state = merge({}, state, { balanceName: action.payload });
+      break;
+    case PROFILE_CREATOR_SET_BALANCE_AMOUNT:
+      state = merge({}, state, { balanceAmount: action.payload });
       break;
     default:
       break;

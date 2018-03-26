@@ -1,7 +1,6 @@
 //
 import React, { Component } from "react";
 import { bindActionCreators } from "redux";
-import throttle from "lodash/throttle";
 import Select from "react-select";
 import { connect } from "react-redux";
 import DialogComponent from "./DialogComponent";
@@ -13,7 +12,7 @@ import styles from "./styles/AddMainChartDialog.scss";
 const mapStateToProps = ({ cryptoData, uiData }) => ({
   cryptoData,
   uiData,
-  data: uiData.addMainChart
+  data: uiData.addMainChartState
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -43,13 +42,14 @@ class AddMainChartDialog extends Component {
     return (
       <DialogComponent dismiss={() => this.props.actions.hide()}>
         <div className={styles.main}>
+          <div className={styles.heading}>Add Main Chart</div>
           <label htmlFor="graphName">
             <span> Graph Name: </span>
             <input
               type="text"
               placeholder="Name"
               value={this.props.data.chartName}
-              onChange={ev => this.props.actions.setChartName(ev.target.value)}
+              onBlur={ev => this.props.actions.setChartName(ev.target.value)}
             />
           </label>
           <label htmlFor="exchangeSelect">
@@ -60,10 +60,12 @@ class AddMainChartDialog extends Component {
               onChange={({ value }) =>
                 this.props.actions.setSelectedExchange(value)
               }
-              options={CryptoAPI.loadedExchanges.map(exchange => ({
-                value: exchange.id,
-                label: exchange.name
-              }))}
+              options={CryptoAPI.loadedExchanges
+                .filter(exchange => exchange.has.fetchOHLCV)
+                .map(exchange => ({
+                  value: exchange.id,
+                  label: exchange.name
+                }))}
             />
           </label>
           {this.props.data.selectedExchange != null ? (

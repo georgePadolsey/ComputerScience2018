@@ -14,6 +14,7 @@ import { setUIData } from '../../utils/UIProvider';
 
 import addMainChartReducer from './addMainChart';
 import profileCreatorReducer from './profileCreator';
+import settingsReducer from './settings';
 
 let isLoaded = false;
 
@@ -37,8 +38,9 @@ function ownReducer(finalReducers) {
 }
 
 const generalUIReducer = ownReducer({
-  addMainChart: addMainChartReducer,
-  profileCreator: profileCreatorReducer
+  addMainChartState: addMainChartReducer,
+  profileCreatorState: profileCreatorReducer,
+  settingsState: settingsReducer
 });
 
 export default function uiReducer(state: ?UIData | {} = defaultUIState, action: actionType) {
