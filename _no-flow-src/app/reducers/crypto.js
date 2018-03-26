@@ -1,7 +1,7 @@
 //
 import merge from "lodash/merge";
 
-import { LOADED_EXCHANGE } from "../actions/crypto";
+import { LOADED_EXCHANGE } from "../actions/types/crypto";
 
 const defaultCryptoState = {
   loadedExchanges: []

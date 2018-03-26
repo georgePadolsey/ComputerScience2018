@@ -2,7 +2,7 @@
 import merge from 'lodash/merge';
 import type { actionType } from '../_types/ActionType';
 import type { CryptoState } from '../_types/Crypto';
-import { LOADED_EXCHANGE } from '../actions/crypto';
+import { LOADED_EXCHANGE } from '../actions/types/crypto';
 
 const defaultCryptoState: CryptoState = {
   loadedExchanges: []

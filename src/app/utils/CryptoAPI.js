@@ -6,10 +6,10 @@ import moment from 'moment';
 import { bindActionCreators } from 'redux';
 import Store from 'electron-store';
 
+import swal from 'sweetalert2';
 import getStore from '../store/getStore';
 import { CONFIG_KEY } from '../enc_keys';
 import * as cryptoActions from '../actions/crypto';
-
 
 import type {
   TimedCandleData,
@@ -89,14 +89,12 @@ const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
  * Opted for singleton design pattern
  * @see https://en.wikipedia.org/wiki/Singleton_pattern
  * This is so market data is always cached.
- * Additionally there is little need to have more than one instance
+ * Additionally there` is little need to have more than one instance
  * of the class with my use.
  */
 export default new class CryptoAPI {
   loadedExchanges = [];
   currencyExchangeLookup = {};
-  // @deprecated
-  loadedCurrencies = {};
   hasStartedLoadingMarkets = false;
   lastUsed = {};
   store: typeof cryptoStore = null;
@@ -126,18 +124,15 @@ export default new class CryptoAPI {
     }
   }
 
-  async loadExchange(exchange) {
+  async loadExchange(exchange: any) {
     await exchange.loadMarkets();
 
     Object.keys(exchange.currencies).forEach(currencyName => {
       if (!this.currencyExchangeLookup[currencyName]) {
         this.currencyExchangeLookup[currencyName] = [exchange];
-      } else if (
-        !this.currencyExchangeLookup[currencyName].includes(exchange)
-      ) {
+      } else if (!this.currencyExchangeLookup[currencyName].includes(exchange)) {
         this.currencyExchangeLookup[currencyName].push(exchange);
       }
-      this.loadedCurrencies[currencyName] = exchange.currencies[currencyName];
     });
   }
 
@@ -148,12 +143,7 @@ export default new class CryptoAPI {
   ): TimedCandleData[] {
     const oS = this.store.store;
     let origArr = [];
-    if (
-      oS &&
-      oS.candleData &&
-      oS.candleData[exchangeId] &&
-      oS.candleData[exchangeId][symbol]
-    ) {
+    if (oS && oS.candleData && oS.candleData[exchangeId] && oS.candleData[exchangeId][symbol]) {
       origArr = oS.candleData[exchangeId][symbol].filter(x => x != null);
     }
     const allData = [...origArr, ...timedCandleData];
@@ -165,26 +155,15 @@ export default new class CryptoAPI {
     return timedCandleData;
   }
 
-  getOHLCVDataFromStore(
-    exchangeId: string,
-    symbol: string
-  ): ?((?TimedCandleData)[]) {
+  getOHLCVDataFromStore(exchangeId: string, symbol: string): ?((?TimedCandleData)[]) {
     const oS = this.store.store;
-    if (
-      oS &&
-      oS.candleData &&
-      oS.candleData[exchangeId] &&
-      oS.candleData[exchangeId][symbol]
-    ) {
+    if (oS && oS.candleData && oS.candleData[exchangeId] && oS.candleData[exchangeId][symbol]) {
       return oS.candleData[exchangeId][symbol];
     }
   }
 
   canUseExchange(exchange: any) {
-    return (
-      +moment() - this.store.get(`lastUsed.${exchange.id}`, 0) >
-      exchange.rateLimit * 2
-    );
+    return +moment() - this.store.get(`lastUsed.${exchange.id}`, 0) > exchange.rateLimit * 2;
   }
 
   async requestLock(exchange: any) {
@@ -206,16 +185,18 @@ export default new class CryptoAPI {
     resolution: ResolutionType
   ): Promise<?TimedCandleData> {
     await this.requestLock(exchange);
-    return;
-    if (!confirm('fetch EXCHANGE DATA')) {
+    // return;
+    if (
+      !(await swal({ title: 'fetch Exchange Data', type: 'warning', showCancelButton: true })).value
+    ) {
       return;
     }
 
-    console.log(
-      `[CryptoAPI] Exchange data fetched from ${
-        exchange.id
-      } at ${+moment()} with rateLimit ${exchange.rateLimit}`
-    );
+
+
+    console.log(`[CryptoAPI] Exchange data fetched from ${exchange.id} at ${+moment()} with rateLimit ${
+      exchange.rateLimit
+    }`);
     let data = null;
     try {
       data = await exchange.fetchOHLCV(
@@ -224,10 +205,7 @@ export default new class CryptoAPI {
         resolution.since() ? resolution.since() : undefined
       );
     } catch (e) {
-      console.warn(
-        `[CryptoAPI] Exchange load OHLCV failed: ${exchange && exchange.name}`,
-        e
-      );
+      console.warn(`[CryptoAPI] Exchange load OHLCV failed: ${exchange && exchange.name}`, e);
       return;
     }
 
@@ -254,10 +232,7 @@ export default new class CryptoAPI {
   }
 
   async fetchOHLCV(exchange: any, symbol: string): Promise<?(OHLCVCandle[])> {
-    const candleDataArr: ?((?TimedCandleData)[]) = this.getOHLCVDataFromStore(
-      exchange.id,
-      symbol
-    );
+    const candleDataArr: ?((?TimedCandleData)[]) = this.getOHLCVDataFromStore(exchange.id, symbol);
     let allData: OHLCVCandle[] = [];
     const neededRezs: (?string)[] = this.neededResolutions.map(rez => rez.id());
     if (candleDataArr != null) {
@@ -287,11 +262,7 @@ export default new class CryptoAPI {
       if (rez == null) {
         throw TypeError('Needed resolution not in map!');
       }
-      const data: ?TimedCandleData = await this.requestOHLCV(
-        exchange,
-        symbol,
-        rez
-      );
+      const data: ?TimedCandleData = await this.requestOHLCV(exchange, symbol, rez);
       if (data == null) {
         return;
       }
@@ -319,9 +290,7 @@ export default new class CryptoAPI {
         await this.loadExchange(exchange);
       } catch (e) {
         console.warn(
-          `[CryptoAPI] Exchange load market failed: ${(exchange &&
-            exchange.name) ||
-            exchangeName}`,
+          `[CryptoAPI] Exchange load market failed: ${(exchange && exchange.name) || exchangeName}`,
           e
         );
         return;

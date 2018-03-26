@@ -24,6 +24,5 @@ export default async function uiProvider(): Promise<?UIData> {
 }
 
 export function setUIData(data: UIData | {}): void {
-
   uiStore.store = merge({}, uiStore.store, data);
 }

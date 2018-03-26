@@ -1,5 +1,6 @@
 // @flow
 import type { Dispatch } from 'redux';
+import uuid from 'uuid/v1';
 import type { UIData, MainLayout } from '../_types/UI';
 
 import getUIData from '../utils/UIProvider';
@@ -28,6 +29,18 @@ export function loadedUIData(data: ?UIData): UIAction {
   return {
     type: UI_ACTIONS.LOADED_UI_DATA,
     payload: data
+  };
+}
+
+export function addMainChart(chartName: string, exchangeId: string, symbolId: string) {
+  return {
+    type: UI_ACTIONS.ADD_MAIN_GRAPH,
+    payload: {
+      chartName,
+      exchangeId,
+      symbolId,
+      key: uuid()
+    }
   };
 }
 

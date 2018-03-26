@@ -1,6 +1,7 @@
 //
 import React, { Component } from "react";
 import { bindActionCreators } from "redux";
+import throttle from "lodash/throttle";
 import Select from "react-select";
 import { connect } from "react-redux";
 import DialogComponent from "./DialogComponent";
@@ -11,6 +12,7 @@ import styles from "./styles/AddMainChartDialog.scss";
 
 const mapStateToProps = ({ cryptoData, uiData }) => ({
   cryptoData,
+  uiData,
   data: uiData.addMainChart
 });
 
@@ -28,17 +30,27 @@ class AddMainChartDialog extends Component {
       this.props.actions.setSelectedExchange(CryptoAPI.loadedExchanges[0].id);
     }
   }
-  dismiss() {
-    this.props.actions.hide();
+
+  validateForm() {
+    return (
+      !!this.props.data.chartName &&
+      !!this.props.data.selectedExchange &&
+      !!this.props.data.selectedSymbol
+    );
   }
 
   render() {
     return (
-      <DialogComponent dismiss={() => this.dismiss()}>
+      <DialogComponent dismiss={() => this.props.actions.hide()}>
         <div className={styles.main}>
           <label htmlFor="graphName">
             <span> Graph Name: </span>
-            <input type="text" placeholder="Name" />
+            <input
+              type="text"
+              placeholder="Name"
+              value={this.props.data.chartName}
+              onChange={ev => this.props.actions.setChartName(ev.target.value)}
+            />
           </label>
           <label htmlFor="exchangeSelect">
             <span>Exchange:</span>
@@ -63,16 +75,35 @@ class AddMainChartDialog extends Component {
                 onChange={({ value }) =>
                   this.props.actions.setSelectedSymbol(value)
                 }
-                options={CryptoAPI.getExchange(
-                  this.props.data.selectedExchange
-                ).symbols.map(symbol => ({
-                  value: symbol,
-                  label: symbol
-                }))}
+                options={
+                  CryptoAPI.getExchange(this.props.data.selectedExchange) &&
+                  CryptoAPI.getExchange(
+                    this.props.data.selectedExchange
+                  ).symbols.map(symbol => ({
+                    value: symbol,
+                    label: symbol
+                  }))
+                }
               />
             </label>
           ) : null}
-          <button id="add">Add Chart</button>
+          <button
+            id="add"
+            onClick={() =>
+              this.validateForm() &&
+              this.props.uiActions.addMainChart(
+                this.props.data.chartName,
+                this.props.data.selectedExchange,
+                this.props.data.selectedSymbol
+              ) &&
+              this.props.actions.hide()
+            }
+          >
+            Add Chart
+          </button>
+          <span className={styles.error}>
+            {!this.validateForm() ? "Please fill in form completely!" : ""}
+          </span>
         </div>
       </DialogComponent>
     );

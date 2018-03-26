@@ -29,3 +29,10 @@ export function setSelectedSymbol(selectedSymbol) {
     payload: selectedSymbol
   };
 }
+
+export function setChartName(chartName) {
+  return {
+    type: ACTIONS.ADD_MAIN_CHART_SET_NAME,
+    payload: chartName
+  };
+}

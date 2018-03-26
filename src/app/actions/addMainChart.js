@@ -4,6 +4,7 @@ import * as ACTIONS from './types/addMainChart';
 type AddMainChartAction = {
   type: $Keys<typeof ACTIONS>
 };
+
 export function show(): AddMainChartAction {
   return setShow(true);
 }
@@ -30,5 +31,12 @@ export function setSelectedSymbol(selectedSymbol: string): AddMainChartAction {
   return {
     type: ACTIONS.ADD_MAIN_CHART_SET_SELECTED_SYMBOL,
     payload: selectedSymbol
+  };
+}
+
+export function setChartName(chartName: string): AddMainChartAction {
+  return {
+    type: ACTIONS.ADD_MAIN_CHART_SET_NAME,
+    payload: chartName
   };
 }

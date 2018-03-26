@@ -1,5 +1,7 @@
 //
 
+import uuid from "uuid/v1";
+
 import getUIData from "../utils/UIProvider";
 
 import * as UI_ACTIONS from "./types/ui";
@@ -22,6 +24,18 @@ export function loadedUIData(data) {
   return {
     type: UI_ACTIONS.LOADED_UI_DATA,
     payload: data
+  };
+}
+
+export function addMainChart(chartName, exchangeId, symbolId) {
+  return {
+    type: UI_ACTIONS.ADD_MAIN_GRAPH,
+    payload: {
+      chartName,
+      exchangeId,
+      symbolId,
+      key: uuid()
+    }
   };
 }
 

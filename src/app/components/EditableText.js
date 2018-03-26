@@ -10,7 +10,7 @@ type Props = {
 
 export default class EditableText extends Component<Props> {
   shouldComponentUpdate(nextProps: ?Props) {
-    return this.el != null && nextProps.html !== this.el.innerHTML;
+    return this.el != null && nextProps != null && nextProps.html !== this.el.innerHTML;
   }
 
   componentDidUpdate() {
@@ -34,7 +34,7 @@ export default class EditableText extends Component<Props> {
      * and onBlur, when onBlur
      */
 
-    // on std change
+    // on standard change
     if (this.props.onChange != null && html !== this.lastHTML) {
       this.props.onChange(html);
     }

@@ -12,6 +12,7 @@ import * as profileCreatorActions from "../actions/profileCreator";
 import styles from "./styles/Home.scss";
 import SidePanel from "./SidePanel";
 import MainPanel from "./MainPanel";
+import CryptoAPI from "../utils/CryptoAPI";
 import ProfileCreatorDialog from "../components/ProfileCreator";
 import AddMainChartDialog from "../components/AddMainChartDialog";
 
@@ -26,8 +27,10 @@ const mapDispatchToProps = dispatch => ({
 
 class Home extends Component {
   componentDidMount() {
+    console.log("Mount home");
     this.props.profileActions.loadProfileData();
     this.props.uiActions.loadUIData();
+    CryptoAPI.loadMarkets();
   }
 
   componentWillReceiveProps(nextProps) {

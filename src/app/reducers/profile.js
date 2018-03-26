@@ -1,4 +1,5 @@
 // @flow
+/* eslint no-param-reassign:0 */
 import uuid from 'uuid/v5';
 import merge from 'lodash/merge';
 

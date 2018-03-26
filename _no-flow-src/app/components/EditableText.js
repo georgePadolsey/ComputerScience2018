@@ -3,7 +3,11 @@ import React, { Component } from "react";
 
 export default class EditableText extends Component {
   shouldComponentUpdate(nextProps) {
-    return this.el != null && nextProps.html !== this.el.innerHTML;
+    return (
+      this.el != null &&
+      nextProps != null &&
+      nextProps.html !== this.el.innerHTML
+    );
   }
 
   componentDidUpdate() {
@@ -27,7 +31,7 @@ export default class EditableText extends Component {
      * and onBlur, when onBlur
      */
 
-    // on std change
+    // on standard change
     if (this.props.onChange != null && html !== this.lastHTML) {
       this.props.onChange(html);
     }

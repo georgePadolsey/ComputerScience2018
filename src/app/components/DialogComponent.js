@@ -1,7 +1,7 @@
 import * as React from 'react';
 import FontAwesomeIcon from '@fortawesome/react-fontawesome';
-import styles from './styles/DialogComponent.scss';
 import { faTimes } from '@fortawesome/fontawesome-free-solid';
+import styles from './styles/DialogComponent.scss';
 
 type Props = {
   dismiss: () => void,
@@ -20,9 +20,9 @@ class DialogComponent extends React.Component<Props> {
         <div className={styles.dimmedBackground} onClick={() => dismiss()} aria-hidden />
 
         <div>
-          <button className={styles.exit} onClick={() => dismiss()}>
+          {showExit ? <button className={styles.exit} onClick={() => dismiss()}>
             <FontAwesomeIcon icon={faTimes} />
-          </button>
+          </button>: null}
           {children}
         </div>
       </div>

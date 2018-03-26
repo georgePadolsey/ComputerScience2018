@@ -6,6 +6,7 @@ import moment from "moment";
 import { bindActionCreators } from "redux";
 import Store from "electron-store";
 
+import swal from "sweetalert2";
 import getStore from "../store/getStore";
 import { CONFIG_KEY } from "../enc_keys";
 import * as cryptoActions from "../actions/crypto";
@@ -81,14 +82,12 @@ const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
  * Opted for singleton design pattern
  * @see https://en.wikipedia.org/wiki/Singleton_pattern
  * This is so market data is always cached.
- * Additionally there is little need to have more than one instance
+ * Additionally there` is little need to have more than one instance
  * of the class with my use.
  */
 export default new class CryptoAPI {
   loadedExchanges = [];
   currencyExchangeLookup = {};
-  // @deprecated
-  loadedCurrencies = {};
   hasStartedLoadingMarkets = false;
   lastUsed = {};
   store = null;
@@ -128,7 +127,6 @@ export default new class CryptoAPI {
       ) {
         this.currencyExchangeLookup[currencyName].push(exchange);
       }
-      this.loadedCurrencies[currencyName] = exchange.currencies[currencyName];
     });
   }
 
@@ -186,8 +184,14 @@ export default new class CryptoAPI {
 
   async requestOHLCV(exchange, symbol, resolution) {
     await this.requestLock(exchange);
-    return;
-    if (!confirm("fetch EXCHANGE DATA")) {
+    // return;
+    if (
+      !(await swal({
+        title: "fetch Exchange Data",
+        type: "warning",
+        showCancelButton: true
+      })).value
+    ) {
       return;
     }
 

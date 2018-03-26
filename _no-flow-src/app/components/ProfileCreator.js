@@ -91,6 +91,11 @@ class ProfileCreator extends Component {
           </button>
           <span
             className={styles.next}
+            role="button"
+            tabIndex={0}
+            onKeyPress={() =>
+              this.setStage(PROFILE_CREATOR_STAGES.PROFILE_SETTINGS)
+            }
             onClick={() =>
               this.setStage(PROFILE_CREATOR_STAGES.PROFILE_SETTINGS)
             }
@@ -135,7 +140,7 @@ class ProfileCreator extends Component {
               id="currency"
               className={styles.selectBox}
               onChange={selectedOption =>
-                this.props.actions.setCurrenctCurrency(selectedOption.value)
+                this.props.actions.setCurrentCurrency(selectedOption.value)
               }
               options={Object.keys(CryptoAPI.currencyExchangeLookup).map(
                 symbol => ({
@@ -184,7 +189,7 @@ class ProfileCreator extends Component {
               onChange={selectedOption =>
                 this.props.actions.setCurrentExchange(selectedOption.value)
               }
-              options={Object.keys(CryptoAPI.loadedExchanges).map(exchange => ({
+              options={CryptoAPI.loadedExchanges.map(exchange => ({
                 value: exchange.id,
                 label: exchange.name
               }))}

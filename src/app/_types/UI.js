@@ -15,6 +15,7 @@ export type MainLayout = {
 
 export type addMainChartState = {
   +show: boolean,
+  chartName?: string,
   selectedExchange?: string,
   selectedSymbol?: string
 };
@@ -28,12 +29,16 @@ export type ProfileCreatorState = {
   +currencySelected?: string
 };
 
-export type GenUIData = {
-  +mainPanelEditMode: boolean
+export type MainPanelChart = {
+  chartName: string,
+  key: string,
+  exchangeId: string,
+  symbolId: string
 };
 
-export type UIData = GenUIData & {
+export type UIData = {
   +mainPanelLayouts: MainLayout,
-  +profileCreatorState: ProfileCreatorState,
-  +addMainChartState: addMainChartState
+  mainPanelCharts: MainPanelChart[],
+  +profileCreatorState?: ProfileCreatorState,
+  +addMainChartState?: addMainChartState
 };

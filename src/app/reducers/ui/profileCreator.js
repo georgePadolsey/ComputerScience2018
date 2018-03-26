@@ -1,4 +1,5 @@
 // @flow
+/* eslint no-param-reassign:0 */
 import merge from 'lodash/merge';
 
 import {

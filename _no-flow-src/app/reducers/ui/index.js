@@ -1,13 +1,15 @@
 //
-import { combineReducers } from "redux";
+/* eslint-disable no-plusplus, no-param-reassign  */
 import merge from "lodash/merge";
+import concat from "lodash/concat";
 import {
   LOADED_UI_DATA,
   SET_MAIN_PANEL_EDIT_MODE,
+  ADD_MAIN_GRAPH,
   UPDATE_MAIN_LAYOUTS
 } from "../../actions/types/ui";
 
-import setUIData from "../../utils/UIProvider";
+import { setUIData } from "../../utils/UIProvider";
 
 import addMainChartReducer from "./addMainChart";
 import profileCreatorReducer from "./profileCreator";
@@ -16,11 +18,24 @@ let isLoaded = false;
 
 const defaultUIState = {
   mainPanelEditMode: false,
-  mainPanelLayouts: {},
-  offeredCreator: false
+  mainPanelCharts: [],
+  mainPanelLayouts: {}
 };
 
-const generalUIReducer = combineReducers({
+function ownReducer(finalReducers) {
+  const finalReducerKeys = Object.keys(finalReducers);
+  return (state, action) => {
+    const nextState = {};
+    for (let i = 0, l = finalReducerKeys.length; i < l; i++) {
+      const key = finalReducerKeys[i];
+      const reducer = finalReducers[key];
+      nextState[key] = reducer(state[key], action);
+    }
+    return merge({}, state, nextState);
+  };
+}
+
+const generalUIReducer = ownReducer({
   addMainChart: addMainChartReducer,
   profileCreator: profileCreatorReducer
 });
@@ -33,11 +48,14 @@ export default function uiReducer(state = defaultUIState, action) {
       break;
     case SET_MAIN_PANEL_EDIT_MODE:
       state = merge({}, state, { mainPanelEditMode: action.payload });
-
       break;
     case UPDATE_MAIN_LAYOUTS:
       state = merge({}, state, { mainPanelLayouts: action.payload });
-
+      break;
+    case ADD_MAIN_GRAPH:
+      state = merge({}, state, {
+        mainPanelCharts: concat(state.mainPanelCharts || [], action.payload)
+      });
       break;
     default:
       break;
