@@ -2,6 +2,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import moment from 'moment';
+import isEqual from 'lodash/isEqual';
 import sizeMe from 'react-sizeme';
 import CryptoAPI from '../utils/CryptoAPI';
 import type { CryptoState } from '../_types/Crypto';
@@ -16,6 +17,8 @@ type Props = {
 const mapStateToProps = ({ cryptoData }) => ({ cryptoData });
 
 class OHLCVGraph extends React.Component<Props> {
+  gds = [];
+
   async componentDidMount() {
     if (this.isLoading) return;
     this.isLoading = true;
@@ -25,10 +28,11 @@ class OHLCVGraph extends React.Component<Props> {
 
   shouldComponentUpdate(nextProps: Props) {
     if (
-      nextProps.cryptoData.loadedExchanges.includes(
+      (nextProps.cryptoData.loadedExchanges.includes(
         this.props.chartData.exchangeId
       ) &&
-      !this.loaded
+        !this.loaded) ||
+      !isEqual(nextProps.size, this.props.size)
     ) {
       return true;
     }
@@ -36,6 +40,7 @@ class OHLCVGraph extends React.Component<Props> {
   }
 
   async componentDidUpdate() {
+    this.gds.forEach(gd => Plotly.Plots.resize(gd));
     if (this.isLoading) return;
     this.isLoading = true;
     await this.renderGraph();
@@ -73,6 +78,8 @@ class OHLCVGraph extends React.Component<Props> {
       return;
     }
 
+    if (this.loaded) return;
+
     this.loaded = true;
     const xVals = [];
     const closeVals = [];
@@ -101,11 +108,12 @@ class OHLCVGraph extends React.Component<Props> {
         top: 0,
         left: 0,
         width: `${WIDTH_IN_PERCENT_OF_PARENT}%`,
-        'margin-left': `${(100 - WIDTH_IN_PERCENT_OF_PARENT) / 2}%`,
-        height: `${HEIGHT_IN_PERCENT_OF_PARENT}%`,
-        'margin-top': `${(100 - HEIGHT_IN_PERCENT_OF_PARENT) / 2}vh`
+        // 'margin-left': `${(100 - WIDTH_IN_PERCENT_OF_PARENT) / 2}%`,
+        height: `${HEIGHT_IN_PERCENT_OF_PARENT}%`
+        // 'margin-top': `${(100 - HEIGHT_IN_PERCENT_OF_PARENT) / 2}vh`
       });
-    const gd = gd3.node();
+    let gd;
+    this.gds.push[(gd = gd3.node())];
     const trace1 = {
       x: xVals,
       close: closeVals,

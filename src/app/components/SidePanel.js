@@ -5,12 +5,13 @@ import moment from 'moment';
 import { bindActionCreators } from 'redux';
 import swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
-import { faSync, faCogs } from '@fortawesome/fontawesome-free-solid';
+import { faSync, faCogs, faPlus } from '@fortawesome/fontawesome-free-solid';
 import FontAwesomeIcon from '@fortawesome/react-fontawesome';
 
 import * as profileActions from '../actions/profile';
 import * as cryptoActions from '../actions/crypto';
 import * as settingsActions from '../actions/settings';
+import * as profileCreatorActions from '../actions/profileCreator';
 import SpinOnHoverFontAwesome from './SpinOnHoverFontAwesome';
 
 import styles from './styles/SidePanel.scss';
@@ -23,6 +24,7 @@ const mySwal = withReactContent(swal);
 
 type Props = {
   profileData: ProfileData,
+  profileCreatorActions: typeof profileCreatorActions,
   profileActions: typeof profileActions,
   settingsActions: typeof settingsActions
 };
@@ -37,6 +39,7 @@ const mapStateToProps = ({
 
 const mapDispatchToProps = (dispatch: Dispatch<*>) => ({
   profileActions: bindActionCreators(profileActions, dispatch),
+  profileCreatorActions: bindActionCreators(profileCreatorActions, dispatch),
   settingsActions: bindActionCreators(settingsActions, dispatch),
   cryptoData: bindActionCreators(cryptoActions, dispatch)
 });
@@ -50,11 +53,13 @@ class SidePanel extends Component<Props> {
 
   getCurrentProfile() {
     if (this.props.profileData.currentProfile == null) {
-      this.profileActions.correctProfileData();
+      this.props.profileActions.correctProfileData();
       throw new Error('Profile data has no profile loaded!');
     }
     // check if currentProfile is valid
-    return this.props.profileData.loadedProfiles[this.props.profileData.currentProfile];
+    return this.props.profileData.loadedProfiles[
+      this.props.profileData.currentProfile
+    ];
   }
 
   getProfileName(): string {
@@ -82,7 +87,10 @@ class SidePanel extends Component<Props> {
       reverseButtons: true
     });
     if (result.value) {
-      this.props.profileActions.changeProfileName(this.props.profileData.currentProfile, newName);
+      this.props.profileActions.changeProfileName(
+        this.props.profileData.currentProfile,
+        newName
+      );
     }
   }
 
@@ -99,6 +107,9 @@ class SidePanel extends Component<Props> {
           <div className={styles.settings}>
             <button onClick={() => this.props.settingsActions.show()}>
               <FontAwesomeIcon icon={faCogs} />
+            </button>
+            <button onClick={() => this.props.profileCreatorActions.show()}>
+              <FontAwesomeIcon icon={faPlus} />
             </button>
           </div>
 

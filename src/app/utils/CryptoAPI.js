@@ -167,7 +167,7 @@ export default new class CryptoAPI {
     timeframe: string
   ): Promise<?TimedCandleData> {
     await this.requestLock(exchange);
-    // return;
+    return;
     if (
       !(await swal({
         title: 'fetch Exchange Data',

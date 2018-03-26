@@ -16,12 +16,25 @@ export function changeProfile(uuid: string): ProfileAction {
   };
 }
 
-export function changeProfileName(uuid: string, displayName: string): ProfileAction {
+export function changeProfileName(
+  uuid: string,
+  displayName: string
+): ProfileAction {
   return {
     type: PROFILE_ACTIONS.CHANGE_PROFILE_NAME,
     payload: {
       uuid,
       displayName
+    }
+  };
+}
+
+export function setExpiryTimeout(uuid: string, timeout: number): ProfileAction {
+  return {
+    type: PROFILE_ACTIONS.SET_EXPIRY_TIMEOUT,
+    payload: {
+      uuid,
+      timeout
     }
   };
 }

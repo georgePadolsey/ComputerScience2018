@@ -18,7 +18,6 @@ import type { ProfileCreatorState } from '../../_types/UI';
 const defaultProfileCreatorState: ProfileCreatorState = {
   show: true,
   firstTime: true,
-  offered: false,
   stage: PROFILE_CREATOR_STAGES.ACCOUNT_ADDER
 };
 
@@ -34,6 +33,7 @@ export default function profileCreatorReducer(
     case PROFILE_CREATOR_SET_SHOW:
       state = merge({}, state, {
         show: action.payload,
+        stage: PROFILE_CREATOR_STAGES.ACCOUNT_ADDER,
         firstTime: state.firstTime && action.payload
       });
 
