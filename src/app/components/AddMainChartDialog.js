@@ -75,7 +75,11 @@ class AddMainChartDialog extends Component<Props, State> {
                 this.props.actions.setSelectedExchange(value)
               }
               options={CryptoAPI.loadedExchanges
-                .filter(exchange => exchange.has.fetchOHLCV)
+                .filter(
+                  exchange =>
+                    exchange.has.fetchOHLCV &&
+                    exchange.has.fetchOHLCV !== 'emulated'
+                )
                 .map(exchange => ({
                   value: exchange.id,
                   label: exchange.name

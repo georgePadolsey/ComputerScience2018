@@ -222,6 +222,10 @@ export default new class CryptoAPI {
       symbol
     );
     let allData: OHLCVCandle[] = [];
+    console.log(exchange);
+    if (exchange.timeframes == null) {
+      return;
+    }
     const neededRezs: string[] = Object.keys(exchange.timeframes);
     if (candleDataArr != null) {
       candleDataArr.forEach((timedCandleData, i) => {

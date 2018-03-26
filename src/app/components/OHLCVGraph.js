@@ -25,7 +25,9 @@ class OHLCVGraph extends React.Component<Props> {
 
   shouldComponentUpdate(nextProps: Props) {
     if (
-      nextProps.cryptoData.loadedExchanges.includes(this.props.chartData.exchangeId) &&
+      nextProps.cryptoData.loadedExchanges.includes(
+        this.props.chartData.exchangeId
+      ) &&
       !this.loaded
     ) {
       return true;
@@ -61,9 +63,16 @@ class OHLCVGraph extends React.Component<Props> {
       return;
     }
 
-    console.log('load');
+    console.log(exchange);
+    const OHLCVdata = await CryptoAPI.fetchOHLCV(
+      exchange,
+      this.props.chartData.symbolId
+    );
 
-    const OHLCVdata = await CryptoAPI.fetchOHLCV(exchange, this.props.chartData.symbolId);
+    if (OHLCVdata == null) {
+      return;
+    }
+
     this.loaded = true;
     const xVals = [];
     const closeVals = [];
@@ -71,13 +80,15 @@ class OHLCVGraph extends React.Component<Props> {
     const lowVals = [];
     const openVals = [];
 
-    OHLCVdata.forEach(([dateInUTC, openPrice, highestPrice, lowestPrice, closingPrice]) => {
-      xVals.push(moment(dateInUTC).format('YYYY-MM-DD'));
-      closeVals.push(closingPrice);
-      highVals.push(highestPrice);
-      lowVals.push(lowestPrice);
-      openVals.push(openPrice);
-    });
+    OHLCVdata.forEach(
+      ([dateInUTC, openPrice, highestPrice, lowestPrice, closingPrice]) => {
+        xVals.push(moment(dateInUTC).format('YYYY-MM-DD'));
+        closeVals.push(closingPrice);
+        highVals.push(highestPrice);
+        lowVals.push(lowestPrice);
+        openVals.push(openPrice);
+      }
+    );
 
     const { d3 } = window.Plotly;
     const WIDTH_IN_PERCENT_OF_PARENT = 100;
@@ -137,9 +148,7 @@ class OHLCVGraph extends React.Component<Props> {
   graphEl: ?HTMLDivElement = null;
 
   render() {
-    const {
-      chartData, cryptoData, dispatch, ...rest
-    } = this.props;
+    const { chartData, cryptoData, dispatch, ...rest } = this.props;
     return (
       <div {...rest} id={chartData.key} ref={node => (this.graphEl = node)}>
         {!this.loaded ? <div className={styles.loading}>Loading</div> : null}
@@ -150,4 +159,6 @@ class OHLCVGraph extends React.Component<Props> {
 
 const InteralOHLCVGraph = connect(mapStateToProps)(OHLCVGraph);
 
-export default sizeMe()(props => <InteralOHLCVGraph width={props.size.width} {...props} />);
+export default sizeMe()(props => (
+  <InteralOHLCVGraph width={props.size.width} {...props} />
+));

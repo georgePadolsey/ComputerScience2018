@@ -1,6 +1,13 @@
-// @flow
+//@flow
 import React, { Component } from 'react';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
 import FontAwesomeIcon from '@fortawesome/react-fontawesome';
+import { CSSTransitionGroup } from 'react-transition-group';
+import VirtualizedSelect from 'react-virtualized-select';
+
+import styles from '../styles/ProfileCreator.scss';
+
 import {
   faBalanceScale,
   faExchangeAlt,
@@ -8,24 +15,15 @@ import {
   faArrowLeft,
   faArrowRight
 } from '@fortawesome/fontawesome-free-solid';
-import { bindActionCreators } from 'redux';
-import { connect } from 'react-redux';
-import { CSSTransitionGroup } from 'react-transition-group';
-
-import swal from 'sweetalert2';
-import DialogComponent from '../DialogComponent';
-
-import AccountAdder from './AccountAdder';
-import AddBalance from './AddBalance';
-import AddExchange from './AddExchange';
 
 // Actions/reducers
 import * as uiActions from '../../actions/ui';
 import CryptoAPI from '../../utils/CryptoAPI';
 import { PROFILE_CREATOR_STAGES } from '../../actions/types/profileCreator';
 import * as profileCreatorActions from '../../actions/profileCreator';
-// Styles:
-import styles from '../styles/ProfileCreator.scss';
+
+// Logo
+import logo from '../../../resources/icon.png';
 
 // Types:
 import type { UIData, ProfileCreatorState } from '../../_types/UI';
@@ -43,7 +41,7 @@ const mapStateToProps = ({
   cryptoData: CryptoState
 }) => ({
   profileData,
-  profileCreatorState: uiData.profileCreatorState || {},
+  state: uiData.profileCreatorState || {},
   cryptoData
 });
 
@@ -53,36 +51,21 @@ const mapDispatchToProps = (dispatch: Dispatch<*>) => ({
 });
 
 type Props = {
-  uiActions: typeof uiActions,
-  actions: typeof profileCreatorActions,
   profileData: ProfileData,
-  profileCreatorState: ProfileCreatorState,
-  cryptoData: CryptoState
+  state: ProfileCreatorState,
+  cryptoData: CryptoState,
+  uiActions: typeof uiActions,
+  actions: typeof profileCreatorActions
 };
 
-class ProfileCreator extends Component<Props> {
-  async dismiss() {
-    if (
-      (await swal({
-        title: 'Are you sure you wish to exit the Profile Creator?',
-        type: 'warning',
-        showCancelButton: true
-      })).value
-    ) {
-      this.props.actions.hide();
-    }
-  }
-
-  setStage(stage: ProfileCreatorStage) {
-    this.props.actions.setStage(stage);
-  }
-
-  getAddExchangeStage() {
+class AddExchange extends Component<Props> {
+  render() {
+    const changeStage = s => this.props.actions.setStage(s);
     return (
       <div key={PROFILE_CREATOR_STAGES.ADD_EXCHANGE}>
         <button
           className={styles.back}
-          onClick={() => this.setStage(PROFILE_CREATOR_STAGES.ACCOUNT_ADDER)}
+          onClick={() => changeStage(PROFILE_CREATOR_STAGES.ACCOUNT_ADDER)}
         >
           <FontAwesomeIcon icon={faArrowLeft} />
         </button>
@@ -95,7 +78,7 @@ class ProfileCreator extends Component<Props> {
 
             <VirtualizedSelect
               name="exchange"
-              value={this.props.profileCreatorState.exchangeSelected}
+              value={this.props.state.exchangeSelected}
               id="exchange"
               className={styles.selectBox}
               onChange={(selectedOption?: { label: string, value: string }) =>
@@ -120,7 +103,7 @@ class ProfileCreator extends Component<Props> {
             <span>Currency Type</span>
             <VirtualizedSelect
               name="currency"
-              value={this.props.profileCreatorState.currencySelected || ''}
+              value={this.props.state.currencySelected || ''}
               id="currency"
               className={styles.selectBox}
               onChange={(selectedOption?: { label: string, value: string }) =>
@@ -141,36 +124,13 @@ class ProfileCreator extends Component<Props> {
         </form>
         <button
           className={styles.next}
-          onClick={() => this.setStage(PROFILE_CREATOR_STAGES.PROFILE_SETTINGS)}
+          onClick={() => changeStage(PROFILE_CREATOR_STAGES.PROFILE_SETTINGS)}
         >
           <FontAwesomeIcon icon={faArrowRight} />
         </button>
       </div>
     );
   }
-
-  getProfileSettingsStage() {
-    return <div> cake</div>;
-  }
-
-  getStages() {
-    const stages = {};
-
-    stages[PROFILE_CREATOR_STAGES.ACCOUNT_ADDER] = <AccountAdder />;
-    stages[PROFILE_CREATOR_STAGES.ADD_BALANCE] = <AddBalance />;
-    stages[PROFILE_CREATOR_STAGES.ADD_EXCHANGE] = <AddExchange />;
-    stages[
-      PROFILE_CREATOR_STAGES.PROFILE_SETTINGS
-    ] = this.getProfileSettingsStage();
-    return stages[this.props.profileCreatorState.stage];
-  }
-  render() {
-    return (
-      <DialogComponent dismiss={() => this.dismiss()}>
-        {this.getStages()}
-      </DialogComponent>
-    );
-  }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(ProfileCreator);
+export default connect(mapStateToProps, mapDispatchToProps)(AddExchange);

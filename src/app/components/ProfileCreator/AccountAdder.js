@@ -4,6 +4,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import FontAwesomeIcon from '@fortawesome/react-fontawesome';
 import { CSSTransitionGroup } from 'react-transition-group';
+import VirtualizedSelect from 'react-virtualized-select';
 
 import styles from '../styles/ProfileCreator.scss';
 
@@ -54,13 +55,12 @@ type Props = {
   state: ProfileCreatorState,
   cryptoData: CryptoState,
   uiActions: typeof uiActions,
-  actions: typeof profileCreatorActions,
-  changeStage: ProfileCreatorStage => void
+  actions: typeof profileCreatorActions
 };
 
 class AccountAdder extends Component<Props> {
   render() {
-    const changeStage = this.props.changeStage;
+    const changeStage = s => this.props.actions.setStage(s);
     return (
       <div key={PROFILE_CREATOR_STAGES.ACCOUNT_ADDER}>
         <div className={styles.titleContainer}>
