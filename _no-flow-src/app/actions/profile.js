@@ -20,6 +20,16 @@ export function changeProfileName(uuid, displayName) {
   };
 }
 
+export function setExpiryTimeout(uuid, timeout) {
+  return {
+    type: PROFILE_ACTIONS.SET_EXPIRY_TIMEOUT,
+    payload: {
+      uuid,
+      timeout
+    }
+  };
+}
+
 export function loadProfileData() {
   return async dispatch => dispatch(loadedProfileData(await getProfileData()));
 }

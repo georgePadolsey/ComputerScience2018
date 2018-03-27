@@ -45,8 +45,6 @@ const mapDispatchToProps = (dispatch: Dispatch<*>) => ({
 });
 
 class SidePanel extends Component<Props> {
-  props: Props;
-
   refreshData() {
     this.forceUpdate();
   }
@@ -57,9 +55,7 @@ class SidePanel extends Component<Props> {
       throw new Error('Profile data has no profile loaded!');
     }
     // check if currentProfile is valid
-    return this.props.profileData.loadedProfiles[
-      this.props.profileData.currentProfile
-    ];
+    return this.props.profileData.loadedProfiles[this.props.profileData.currentProfile];
   }
 
   getProfileName(): string {
@@ -87,10 +83,7 @@ class SidePanel extends Component<Props> {
       reverseButtons: true
     });
     if (result.value) {
-      this.props.profileActions.changeProfileName(
-        this.props.profileData.currentProfile,
-        newName
-      );
+      this.props.profileActions.changeProfileName(this.props.profileData.currentProfile, newName);
     }
   }
 

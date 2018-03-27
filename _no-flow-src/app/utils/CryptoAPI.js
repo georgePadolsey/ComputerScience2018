@@ -12,57 +12,6 @@ import getStore from "../store/getStore";
 import { CONFIG_KEY } from "../enc_keys";
 import * as cryptoActions from "../actions/crypto";
 
-export const Resolutions = {
-  HOUR: {
-    id() {
-      return "HOUR";
-    },
-    since() {
-      return +moment().subtract("1", "day");
-    },
-    resolution() {
-      return "1h";
-    },
-    expires() {
-      return +moment()
-        .minute(0)
-        .add(1, "hour");
-    }
-  },
-  DAY: {
-    id() {
-      return "DAY";
-    },
-    since() {
-      return +moment().subtract("1", "month");
-    },
-    resolution() {
-      return "1d";
-    },
-    expires() {
-      return +moment()
-        .hour(0)
-        .add(1, "day");
-    }
-  },
-  MONTH: {
-    id() {
-      return "MONTH";
-    },
-    since() {
-      return null;
-    },
-    resolution() {
-      return "1M";
-    },
-    expires() {
-      return +moment()
-        .date(1)
-        .add(1, "month");
-    }
-  }
-};
-
 const reduxStore = getStore();
 
 const cryptoStore = new Store({
@@ -93,14 +42,20 @@ export default new class CryptoAPI {
   lastUsed = {};
   store = null;
 
-  neededResolutions = [Resolutions.HOUR, Resolutions.DAY, Resolutions.MONTH];
-
   constructor(store) {
     this.store = store;
     if (this.store.get("lastUsed") == null) {
       this.store.set("lastUsed", {});
     }
     this.cryptoActions = bindActionCreators(cryptoActions, reduxStore.dispatch);
+  }
+
+  getCurrentProfile() {
+    const profileData = reduxStore.getState().profileData;
+    if (!profileData.currentProfile) {
+      throw Error("Profile not loaded");
+    }
+    return profileData.loadedProfiles[profileData.currentProfile];
   }
 
   saveCryptoData(cryptoData) {
@@ -147,19 +102,19 @@ export default new class CryptoAPI {
     candleData[exchangeId] = {};
     candleData[exchangeId][symbol] = allData;
 
-    this.store.store = Object.assign({}, oS, { candleData });
+    this.store.store = { ...oS, candleData };
     return timedCandleData;
   }
 
   getOHLCVDataFromStore(exchangeId, symbol) {
-    const oS = this.store.store;
+    const actualStore = this.store.store;
     if (
-      oS &&
-      oS.candleData &&
-      oS.candleData[exchangeId] &&
-      oS.candleData[exchangeId][symbol]
+      actualStore &&
+      actualStore.candleData &&
+      actualStore.candleData[exchangeId] &&
+      actualStore.candleData[exchangeId][symbol]
     ) {
-      return oS.candleData[exchangeId][symbol];
+      return actualStore.candleData[exchangeId][symbol];
     }
   }
 
@@ -191,18 +146,18 @@ export default new class CryptoAPI {
     return candleData;
   }
 
-  async requestOHLCV(exchange, symbol, resolution) {
+  async requestOHLCV(exchange, symbol, timeframe) {
     await this.requestLock(exchange);
     // return;
-    if (
-      !(await swal({
-        title: "fetch Exchange Data",
-        type: "warning",
-        showCancelButton: true
-      })).value
-    ) {
-      return;
-    }
+    // if (
+    //   !(await swal({
+    //     title: 'fetch Exchange Data',
+    //     type: 'warning',
+    //     showCancelButton: true
+    //   })).value
+    // ) {
+    //   return;
+    // }
 
     console.log(
       `[CryptoAPI] Exchange data fetched from ${
@@ -212,11 +167,7 @@ export default new class CryptoAPI {
     let data = null;
     try {
       data = CryptoAPI.normalizeData(
-        await exchange.fetchOHLCV(
-          symbol,
-          resolution.resolution(),
-          resolution.since() ? resolution.since() : undefined
-        )
+        await exchange.fetchOHLCV(symbol, timeframe)
       );
     } catch (e) {
       console.warn(
@@ -228,10 +179,8 @@ export default new class CryptoAPI {
 
     const candleData = {
       data,
-      from: resolution.since() || Math.min(...data.map(([time]) => time)),
-      to: +moment(),
-      resolution: resolution.id(),
-      expires: resolution.expires()
+      lastUpdated: +moment(),
+      timeframe
     };
     this.cacheOHLCVData(exchange.id, symbol, [candleData]);
     return candleData;
@@ -251,34 +200,38 @@ export default new class CryptoAPI {
   async fetchOHLCV(exchange, symbol) {
     const candleDataArr = this.getOHLCVDataFromStore(exchange.id, symbol);
     let allData = [];
-    const neededRezs = this.neededResolutions.map(rez => rez.id());
+    console.log(exchange);
+    if (exchange.timeframes == null) {
+      return;
+    }
+    const neededRezs = Object.keys(exchange.timeframes);
     if (candleDataArr != null) {
       candleDataArr.forEach((timedCandleData, i) => {
         if (timedCandleData == null) {
           return;
         }
-        if (+moment() > timedCandleData.expires) {
+        if (
+          +moment() - timedCandleData.lastUpdated >=
+          this.getCurrentProfile().expiryTimeout
+        ) {
           // candle has expired
           candleDataArr[i] = null;
           return;
         }
 
-        if (neededRezs.includes(timedCandleData.resolution)) {
+        if (neededRezs.includes(timedCandleData.timeframe)) {
           allData = [...allData, ...timedCandleData.data];
-          neededRezs[neededRezs.indexOf(timedCandleData.resolution)] = null;
+          neededRezs[neededRezs.indexOf(timedCandleData.timeframe)] = null;
         }
       });
     }
 
-    neededRezs.forEach(async rezId => {
-      if (rezId == null) {
+    neededRezs.forEach(async rez => {
+      if (rez == null) {
         return;
       }
-      console.log(rezId, "rez needed");
-      const rez = Resolutions[rezId];
-      if (rez == null) {
-        throw TypeError("Needed resolution not in map!");
-      }
+      console.log(rez, "rez needed");
+
       const data = await this.requestOHLCV(exchange, symbol, rez);
       if (data == null) {
         return;
@@ -315,8 +268,9 @@ export default new class CryptoAPI {
         return;
       }
       this.loadedExchanges.push(exchange);
-      this.cryptoActions.loadedExchange(exchange.id);
     });
+
+    this.cryptoActions.loadedExchanges(true);
 
     Object.keys(this.currencyExchangeLookup).forEach(currencyName => {
       if (

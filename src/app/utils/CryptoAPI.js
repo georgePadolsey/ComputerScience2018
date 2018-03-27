@@ -86,9 +86,7 @@ export default new class CryptoAPI {
     Object.keys(exchange.currencies).forEach(currencyName => {
       if (!this.currencyExchangeLookup[currencyName]) {
         this.currencyExchangeLookup[currencyName] = [exchange];
-      } else if (
-        !this.currencyExchangeLookup[currencyName].includes(exchange)
-      ) {
+      } else if (!this.currencyExchangeLookup[currencyName].includes(exchange)) {
         this.currencyExchangeLookup[currencyName].push(exchange);
       }
     });
@@ -101,12 +99,7 @@ export default new class CryptoAPI {
   ): TimedCandleData[] {
     const oS = this.store.store;
     let origArr = [];
-    if (
-      oS &&
-      oS.candleData &&
-      oS.candleData[exchangeId] &&
-      oS.candleData[exchangeId][symbol]
-    ) {
+    if (oS && oS.candleData && oS.candleData[exchangeId] && oS.candleData[exchangeId][symbol]) {
       origArr = oS.candleData[exchangeId][symbol].filter(x => x != null);
     }
     const allData = [...origArr, ...timedCandleData];
@@ -118,10 +111,7 @@ export default new class CryptoAPI {
     return timedCandleData;
   }
 
-  getOHLCVDataFromStore(
-    exchangeId: string,
-    symbol: string
-  ): ?((?TimedCandleData)[]) {
+  getOHLCVDataFromStore(exchangeId: string, symbol: string): ?((?TimedCandleData)[]) {
     const actualStore = this.store.store;
     if (
       actualStore &&
@@ -134,10 +124,7 @@ export default new class CryptoAPI {
   }
 
   canUseExchange(exchange: any) {
-    return (
-      +moment() - this.store.get(`lastUsed.${exchange.id}`, 0) >
-      exchange.rateLimit * 2
-    );
+    return +moment() - this.store.get(`lastUsed.${exchange.id}`, 0) > exchange.rateLimit * 2;
   }
 
   async requestLock(exchange: any) {
@@ -161,38 +148,27 @@ export default new class CryptoAPI {
     return candleData;
   }
 
-  async requestOHLCV(
-    exchange: any,
-    symbol: string,
-    timeframe: string
-  ): Promise<?TimedCandleData> {
+  async requestOHLCV(exchange: any, symbol: string, timeframe: string): Promise<?TimedCandleData> {
     await this.requestLock(exchange);
-    return;
-    if (
-      !(await swal({
-        title: 'fetch Exchange Data',
-        type: 'warning',
-        showCancelButton: true
-      })).value
-    ) {
-      return;
-    }
+    // return;
+    // if (
+    //   !(await swal({
+    //     title: 'fetch Exchange Data',
+    //     type: 'warning',
+    //     showCancelButton: true
+    //   })).value
+    // ) {
+    //   return;
+    // }
 
-    console.log(
-      `[CryptoAPI] Exchange data fetched from ${
-        exchange.id
-      } at ${+moment()} with rateLimit ${exchange.rateLimit}`
-    );
+    console.log(`[CryptoAPI] Exchange data fetched from ${exchange.id} at ${+moment()} with rateLimit ${
+      exchange.rateLimit
+    }`);
     let data = null;
     try {
-      data = CryptoAPI.normalizeData(
-        await exchange.fetchOHLCV(symbol, timeframe)
-      );
+      data = CryptoAPI.normalizeData(await exchange.fetchOHLCV(symbol, timeframe));
     } catch (e) {
-      console.warn(
-        `[CryptoAPI] Exchange load OHLCV failed: ${exchange && exchange.name}`,
-        e
-      );
+      console.warn(`[CryptoAPI] Exchange load OHLCV failed: ${exchange && exchange.name}`, e);
       return;
     }
 
@@ -217,10 +193,7 @@ export default new class CryptoAPI {
   }
 
   async fetchOHLCV(exchange: any, symbol: string): Promise<?(OHLCVCandle[])> {
-    const candleDataArr: ?((?TimedCandleData)[]) = this.getOHLCVDataFromStore(
-      exchange.id,
-      symbol
-    );
+    const candleDataArr: ?((?TimedCandleData)[]) = this.getOHLCVDataFromStore(exchange.id, symbol);
     let allData: OHLCVCandle[] = [];
     console.log(exchange);
     if (exchange.timeframes == null) {
@@ -232,10 +205,7 @@ export default new class CryptoAPI {
         if (timedCandleData == null) {
           return;
         }
-        if (
-          +moment() - timedCandleData.lastUpdated >=
-          this.getCurrentProfile().expiryTimeout
-        ) {
+        if (+moment() - timedCandleData.lastUpdated >= this.getCurrentProfile().expiryTimeout) {
           // candle has expired
           candleDataArr[i] = null;
           return;
@@ -254,11 +224,7 @@ export default new class CryptoAPI {
       }
       console.log(rez, 'rez needed');
 
-      const data: ?TimedCandleData = await this.requestOHLCV(
-        exchange,
-        symbol,
-        rez
-      );
+      const data: ?TimedCandleData = await this.requestOHLCV(exchange, symbol, rez);
       if (data == null) {
         return;
       }
@@ -286,16 +252,15 @@ export default new class CryptoAPI {
         await this.loadExchange(exchange);
       } catch (e) {
         console.warn(
-          `[CryptoAPI] Exchange load market failed: ${(exchange &&
-            exchange.name) ||
-            exchangeName}`,
+          `[CryptoAPI] Exchange load market failed: ${(exchange && exchange.name) || exchangeName}`,
           e
         );
         return;
       }
       this.loadedExchanges.push(exchange);
-      this.cryptoActions.loadedExchange(exchange.id);
     });
+
+    this.cryptoActions.loadedExchanges(true);
 
     Object.keys(this.currencyExchangeLookup).forEach(currencyName => {
       if (

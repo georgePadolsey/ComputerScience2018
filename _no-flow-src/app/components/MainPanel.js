@@ -85,31 +85,20 @@ class MainPanel extends Component<Props> {
           id={mainPanelChart.key}
         >
           <div className={styles.fullEdit} />
-          {mainPanelChart.chartName}
-          <OHLCVGraph
-            className={styles.plotlyGraph}
-            chartData={mainPanelChart}
-          />
+          <span>
+            {mainPanelChart.chartName} - {mainPanelChart.exchangeId}
+          </span>
+          <div className={styles.plotlyContainer}>
+            <OHLCVGraph
+              className={styles.plotlyGraph}
+              chartData={mainPanelChart}
+            />
+          </div>
         </div>
       ))
     ];
 
     return dataBlocks;
-
-    // <div
-    //   key="a"
-    //   data-grid={{
-    //     x: 0,
-    //     y: 0,
-    //     w: 1,
-    //     h: 1
-    //   }}
-    //   className={styles.boxDiv}
-    //   ref={x => (this.testDiv = x)}
-    // >
-    //   <div className={styles.fullEdit} />
-    //   <div id="plotly-div" className={styles.plotlyGraph} />
-    // </div>
   }
 
   render() {

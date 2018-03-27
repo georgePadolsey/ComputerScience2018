@@ -1,4 +1,4 @@
-//@flow
+// @flow
 import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
@@ -92,34 +92,16 @@ class AddExchange extends Component<Props> {
           </label>
           <label htmlFor="name">
             <span>Balance Name</span>
-            <input
-              type="text"
-              name="name"
-              id="name"
-              placeholder="New Balance"
-            />
+            <input type="text" name="name" id="name" placeholder="New Balance" />
           </label>
-          <label htmlFor="currency">
-            <span>Currency Type</span>
-            <VirtualizedSelect
-              name="currency"
-              value={this.props.state.currencySelected || ''}
-              id="currency"
-              className={styles.selectBox}
-              onChange={(selectedOption?: { label: string, value: string }) =>
-                this.props.actions.setCurrentCurrency(selectedOption.label)
-              }
-              options={Object.keys(CryptoAPI.currencyExchangeLookup).map(
-                symbol => ({
-                  value: symbol,
-                  label: symbol
-                })
-              )}
-            />
+          <h3>API</h3>
+          <label htmlFor="apiKey">
+            <span>API key</span>
+            <textarea />
           </label>
-          <label htmlFor="amount">
-            <span>Amount of currency</span>
-            <input type="number" placeholder={0} min={0} step={0.0001} />
+          <label htmlFor="apiSecret">
+            <span>API key</span>
+            <textarea />
           </label>
         </form>
         <button

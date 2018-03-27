@@ -1,6 +1,7 @@
 //
 import React, { Component } from "react";
 import { bindActionCreators } from "redux";
+
 import Select from "react-select";
 import { connect } from "react-redux";
 import DialogComponent from "./DialogComponent";
@@ -40,7 +41,7 @@ class AddMainChartDialog extends Component {
 
   render() {
     return (
-      <DialogComponent dismiss={() => this.props.actions.hide()}>
+      <DialogComponent dismiss={() => this.props.actions.hide()} showExit>
         <div className={styles.main}>
           <div className={styles.heading}>Add Main Chart</div>
           <label htmlFor="graphName">
@@ -48,7 +49,7 @@ class AddMainChartDialog extends Component {
             <input
               type="text"
               placeholder="Name"
-              value={this.props.data.chartName}
+              defaultValue={this.props.data.chartName}
               onBlur={ev => this.props.actions.setChartName(ev.target.value)}
             />
           </label>
@@ -61,7 +62,11 @@ class AddMainChartDialog extends Component {
                 this.props.actions.setSelectedExchange(value)
               }
               options={CryptoAPI.loadedExchanges
-                .filter(exchange => exchange.has.fetchOHLCV)
+                .filter(
+                  exchange =>
+                    exchange.has.fetchOHLCV &&
+                    exchange.has.fetchOHLCV !== "emulated"
+                )
                 .map(exchange => ({
                   value: exchange.id,
                   label: exchange.name

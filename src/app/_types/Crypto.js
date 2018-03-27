@@ -15,4 +15,4 @@ export type TimedCandleData = {
   timeframe: string
 };
 
-export type CryptoState = { +loadedExchanges: string[] };
+export type CryptoState = { +loadedExchanges: boolean };

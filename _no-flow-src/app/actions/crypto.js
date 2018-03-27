@@ -1,16 +1,13 @@
 //
+import * as CRYPTO_ACTIONS from "./types/crypto";
 
-import { LOADED_EXCHANGE } from "./types/crypto";
-
-export function loadedExchange(exchangeId) {
+export function setLoadedExchanges(loaded) {
   return {
-    type: LOADED_EXCHANGE,
-    payload: [exchangeId]
+    type: CRYPTO_ACTIONS.LOADED_EXCHANGES,
+    payload: loaded
   };
 }
-export function loadedExchanges(exchangeIds) {
-  return {
-    type: LOADED_EXCHANGE,
-    payload: exchangeIds
-  };
+
+export function loadedExchanges() {
+  return setLoadedExchanges(true);
 }

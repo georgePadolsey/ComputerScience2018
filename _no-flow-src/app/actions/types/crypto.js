@@ -1,2 +1,2 @@
 //
-export const LOADED_EXCHANGE = "LOADED_EXCHANGE";
+export const LOADED_EXCHANGES = "LOADED_EXCHANGES";

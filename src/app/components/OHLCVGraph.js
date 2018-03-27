@@ -2,6 +2,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import moment from 'moment';
+import isArray from 'lodash/isArray';
 import isEqual from 'lodash/isEqual';
 import sizeMe from 'react-sizeme';
 import CryptoAPI from '../utils/CryptoAPI';
@@ -20,6 +21,7 @@ class OHLCVGraph extends React.Component<Props> {
   gds = [];
 
   async componentDidMount() {
+    window.addEventListener('resize', () => this.gds.forEach(gd => Plotly.Plots.resize(gd)));
     if (this.isLoading) return;
     this.isLoading = true;
     this.renderGraph();
@@ -28,9 +30,7 @@ class OHLCVGraph extends React.Component<Props> {
 
   shouldComponentUpdate(nextProps: Props) {
     if (
-      (nextProps.cryptoData.loadedExchanges.includes(
-        this.props.chartData.exchangeId
-      ) &&
+      (nextProps.cryptoData.loadedExchanges !== this.props.cryptoData.loadedExchanges &&
         !this.loaded) ||
       !isEqual(nextProps.size, this.props.size)
     ) {
@@ -69,12 +69,9 @@ class OHLCVGraph extends React.Component<Props> {
     }
 
     console.log(exchange);
-    const OHLCVdata = await CryptoAPI.fetchOHLCV(
-      exchange,
-      this.props.chartData.symbolId
-    );
+    const OHLCVdata = await CryptoAPI.fetchOHLCV(exchange, this.props.chartData.symbolId);
 
-    if (OHLCVdata == null) {
+    if (OHLCVdata == null || (isArray(OHLCVdata) && OHLCVdata.length === 0)) {
       return;
     }
 
@@ -87,15 +84,13 @@ class OHLCVGraph extends React.Component<Props> {
     const lowVals = [];
     const openVals = [];
 
-    OHLCVdata.forEach(
-      ([dateInUTC, openPrice, highestPrice, lowestPrice, closingPrice]) => {
-        xVals.push(moment(dateInUTC).format('YYYY-MM-DD'));
-        closeVals.push(closingPrice);
-        highVals.push(highestPrice);
-        lowVals.push(lowestPrice);
-        openVals.push(openPrice);
-      }
-    );
+    OHLCVdata.forEach(([dateInUTC, openPrice, highestPrice, lowestPrice, closingPrice]) => {
+      xVals.push(moment(dateInUTC).format('YYYY-MM-DD'));
+      closeVals.push(closingPrice);
+      highVals.push(highestPrice);
+      lowVals.push(lowestPrice);
+      openVals.push(openPrice);
+    });
 
     const { d3 } = window.Plotly;
     const WIDTH_IN_PERCENT_OF_PARENT = 100;
@@ -156,7 +151,9 @@ class OHLCVGraph extends React.Component<Props> {
   graphEl: ?HTMLDivElement = null;
 
   render() {
-    const { chartData, cryptoData, dispatch, ...rest } = this.props;
+    const {
+      chartData, cryptoData, dispatch, ...rest
+    } = this.props;
     return (
       <div {...rest} id={chartData.key} ref={node => (this.graphEl = node)}>
         {!this.loaded ? <div className={styles.loading}>Loading</div> : null}
@@ -167,6 +164,4 @@ class OHLCVGraph extends React.Component<Props> {
 
 const InteralOHLCVGraph = connect(mapStateToProps)(OHLCVGraph);
 
-export default sizeMe()(props => (
-  <InteralOHLCVGraph width={props.size.width} {...props} />
-));
+export default sizeMe()(props => <InteralOHLCVGraph width={props.size.width} {...props} />);

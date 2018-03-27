@@ -2,6 +2,8 @@
 import React from "react";
 import { connect } from "react-redux";
 import moment from "moment";
+import isArray from "lodash/isArray";
+import isEqual from "lodash/isEqual";
 import sizeMe from "react-sizeme";
 import CryptoAPI from "../utils/CryptoAPI";
 
@@ -10,7 +12,12 @@ import styles from "./styles/OHLCVGraph.scss";
 const mapStateToProps = ({ cryptoData }) => ({ cryptoData });
 
 class OHLCVGraph extends React.Component {
+  gds = [];
+
   async componentDidMount() {
+    window.addEventListener("resize", () =>
+      this.gds.forEach(gd => Plotly.Plots.resize(gd))
+    );
     if (this.isLoading) return;
     this.isLoading = true;
     this.renderGraph();
@@ -19,10 +26,10 @@ class OHLCVGraph extends React.Component {
 
   shouldComponentUpdate(nextProps) {
     if (
-      nextProps.cryptoData.loadedExchanges.includes(
-        this.props.chartData.exchangeId
-      ) &&
-      !this.loaded
+      (nextProps.cryptoData.loadedExchanges !==
+        this.props.cryptoData.loadedExchanges &&
+        !this.loaded) ||
+      !isEqual(nextProps.size, this.props.size)
     ) {
       return true;
     }
@@ -30,6 +37,7 @@ class OHLCVGraph extends React.Component {
   }
 
   async componentDidUpdate() {
+    this.gds.forEach(gd => Plotly.Plots.resize(gd));
     if (this.isLoading) return;
     this.isLoading = true;
     await this.renderGraph();
@@ -57,12 +65,18 @@ class OHLCVGraph extends React.Component {
       return;
     }
 
-    console.log("load");
-
+    console.log(exchange);
     const OHLCVdata = await CryptoAPI.fetchOHLCV(
       exchange,
       this.props.chartData.symbolId
     );
+
+    if (OHLCVdata == null || (isArray(OHLCVdata) && OHLCVdata.length === 0)) {
+      return;
+    }
+
+    if (this.loaded) return;
+
     this.loaded = true;
     const xVals = [];
     const closeVals = [];
@@ -91,11 +105,12 @@ class OHLCVGraph extends React.Component {
         top: 0,
         left: 0,
         width: `${WIDTH_IN_PERCENT_OF_PARENT}%`,
-        "margin-left": `${(100 - WIDTH_IN_PERCENT_OF_PARENT) / 2}%`,
-        height: `${HEIGHT_IN_PERCENT_OF_PARENT}%`,
-        "margin-top": `${(100 - HEIGHT_IN_PERCENT_OF_PARENT) / 2}vh`
+        // 'margin-left': `${(100 - WIDTH_IN_PERCENT_OF_PARENT) / 2}%`,
+        height: `${HEIGHT_IN_PERCENT_OF_PARENT}%`
+        // 'margin-top': `${(100 - HEIGHT_IN_PERCENT_OF_PARENT) / 2}vh`
       });
-    const gd = gd3.node();
+    let gd;
+    this.gds.push[(gd = gd3.node())];
     const trace1 = {
       x: xVals,
       close: closeVals,

@@ -41,7 +41,6 @@ const mapDispatchToProps = (dispatch: Dispatch<*>) => ({
 
 class Home extends Component<Props> {
   componentDidMount() {
-    console.log('Mount home');
     this.props.profileActions.loadProfileData();
     this.props.uiActions.loadUIData();
     CryptoAPI.loadMarkets();
@@ -55,15 +54,9 @@ class Home extends Component<Props> {
           <SidePanel />
           <MainPanel />
         </div>
-        <button onClick={() => this.props.profileCreatorActions.show()}>
-          Show PC
-        </button>
-        {this.props.uiData.profileCreatorState.show ? (
-          <ProfileCreatorDialog />
-        ) : null}
-        {this.props.uiData.addMainChartState.show ? (
-          <AddMainChartDialog />
-        ) : null}
+        <button onClick={() => this.props.profileCreatorActions.show()}>Show PC</button>
+        {this.props.uiData.profileCreatorState.show ? <ProfileCreatorDialog /> : null}
+        {this.props.uiData.addMainChartState.show ? <AddMainChartDialog /> : null}
         {this.props.uiData.settingsState.show ? <SettingsDialog /> : null}
       </div>
     );

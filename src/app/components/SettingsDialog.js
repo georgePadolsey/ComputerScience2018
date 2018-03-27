@@ -2,13 +2,13 @@
 import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+import Select from 'react-select';
 
 import * as profileActions from '../actions/profile';
 import * as uiActions from '../actions/ui';
 import * as profileCreatorActions from '../actions/profileCreator';
 import * as settingsActions from '../actions/settings';
 import Dialog from './DialogComponent';
-import Select from 'react-select';
 
 import type { ProfileData, Profile } from '../_types/Profile';
 
@@ -42,9 +42,7 @@ class SettingsDialog extends Component<Props> {
       throw new Error('Profile data has no profile loaded!');
     }
     // check if currentProfile is valid
-    return this.props.profileData.loadedProfiles[
-      this.props.profileData.currentProfile
-    ];
+    return this.props.profileData.loadedProfiles[this.props.profileData.currentProfile];
   }
   render() {
     return (
@@ -56,17 +54,11 @@ class SettingsDialog extends Component<Props> {
             <Select
               id="selectProfile"
               value={this.props.profileData.currentProfile}
-              options={Object.values(this.props.profileData.loadedProfiles).map(
-                ({ displayName, uuid }) => ({ label: displayName, value: uuid })
-              )}
-              onChange={result =>
-                result && this.props.profileActions.changeProfile(result.value)
-              }
+              options={Object.values(this.props.profileData.loadedProfiles).map(({ displayName, uuid }) => ({ label: displayName, value: uuid }))}
+              onChange={result => result && this.props.profileActions.changeProfile(result.value)}
             />
           </label>
-          <h2 className={styles.subheading}>
-            Profile Settings - {this.getProfile().displayName}
-          </h2>
+          <h2 className={styles.subheading}>Profile Settings - {this.getProfile().displayName}</h2>
           <label>
             <span>Set autoupdate time (ms) </span>
             <input

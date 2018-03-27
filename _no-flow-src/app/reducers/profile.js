@@ -7,7 +7,8 @@ import {
   LOADED_PROFILE_DATA,
   CHANGE_PROFILE_NAME,
   CHANGE_PROFILE,
-  CORRECT_PROFILE_DATA
+  CORRECT_PROFILE_DATA,
+  SET_EXPIRY_TIMEOUT
 } from "../actions/types/profile";
 import { setProfileData } from "../utils/ProfileProvider";
 
@@ -23,7 +24,8 @@ const defaultProfileData = {
 };
 defaultProfileData.loadedProfiles[defaultUUID] = {
   displayName: "Default",
-  uuid: defaultUUID
+  uuid: defaultUUID,
+  expiryTimeout: 3.6e6 // [1 hr]
 };
 let isLoaded = false;
 
@@ -45,12 +47,20 @@ export default function profileReducer(state = defaultProfileData, action) {
       };
       state = merge({}, state, { loadedProfiles });
       break;
+    case SET_EXPIRY_TIMEOUT:
+      loadedProfiles = {};
+      loadedProfiles[action.payload.uuid] = {
+        expiryTimeout: action.payload.timeout
+      };
+      state = merge({}, state, { loadedProfiles });
+      break;
     case CORRECT_PROFILE_DATA:
       // fix profile not loaded
       state = merge({}, state, {
         currentProfile: Object.keys(state.loadedProfiles)[0]
       });
       break;
+
     default:
       break;
   }

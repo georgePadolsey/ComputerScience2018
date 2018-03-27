@@ -1,2 +1,2 @@
-//@flow
-export const LOADED_EXCHANGE = 'LOADED_EXCHANGE';
+// @flow
+export const LOADED_EXCHANGES = 'LOADED_EXCHANGES';

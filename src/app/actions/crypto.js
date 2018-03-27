@@ -1,16 +1,17 @@
 // @flow
-import type { actionType } from '../_types/ActionType';
-import { LOADED_EXCHANGE } from './types/crypto';
+import * as CRYPTO_ACTIONS from './types/crypto';
 
-export function loadedExchange(exchangeId: string): actionType {
+type CryptoAction = {
+  type: $Keys<typeof CRYPTO_ACTIONS>
+};
+
+export function setLoadedExchanges(loaded: boolean): CryptoAction {
   return {
-    type: LOADED_EXCHANGE,
-    payload: [exchangeId]
+    type: CRYPTO_ACTIONS.LOADED_EXCHANGES,
+    payload: loaded
   };
 }
-export function loadedExchanges(exchangeIds: string[]): actionType {
-  return {
-    type: LOADED_EXCHANGE,
-    payload: exchangeIds
-  };
+
+export function loadedExchanges(): CryptoAction {
+  return setLoadedExchanges(true);
 }

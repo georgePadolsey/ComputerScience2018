@@ -5,12 +5,13 @@ import moment from "moment";
 import { bindActionCreators } from "redux";
 import swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
-import { faSync, faCogs } from "@fortawesome/fontawesome-free-solid";
+import { faSync, faCogs, faPlus } from "@fortawesome/fontawesome-free-solid";
 import FontAwesomeIcon from "@fortawesome/react-fontawesome";
 
 import * as profileActions from "../actions/profile";
 import * as cryptoActions from "../actions/crypto";
 import * as settingsActions from "../actions/settings";
+import * as profileCreatorActions from "../actions/profileCreator";
 import SpinOnHoverFontAwesome from "./SpinOnHoverFontAwesome";
 
 import styles from "./styles/SidePanel.scss";
@@ -25,6 +26,7 @@ const mapStateToProps = ({ profileData, cryptoData }) => ({
 
 const mapDispatchToProps = dispatch => ({
   profileActions: bindActionCreators(profileActions, dispatch),
+  profileCreatorActions: bindActionCreators(profileCreatorActions, dispatch),
   settingsActions: bindActionCreators(settingsActions, dispatch),
   cryptoData: bindActionCreators(cryptoActions, dispatch)
 });
@@ -36,7 +38,7 @@ class SidePanel extends Component {
 
   getCurrentProfile() {
     if (this.props.profileData.currentProfile == null) {
-      this.profileActions.correctProfileData();
+      this.props.profileActions.correctProfileData();
       throw new Error("Profile data has no profile loaded!");
     }
     // check if currentProfile is valid
@@ -90,6 +92,9 @@ class SidePanel extends Component {
           <div className={styles.settings}>
             <button onClick={() => this.props.settingsActions.show()}>
               <FontAwesomeIcon icon={faCogs} />
+            </button>
+            <button onClick={() => this.props.profileCreatorActions.show()}>
+              <FontAwesomeIcon icon={faPlus} />
             </button>
           </div>
 
