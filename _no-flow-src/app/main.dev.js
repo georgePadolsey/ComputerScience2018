@@ -71,17 +71,7 @@ app.on("ready", async () => {
     height: 728,
     backgroundColor: "#1c1745",
     title: "Cryptolium",
-    icon: path.join(__dirname, "/../resources/Cryptocurrency_Logo.png"),
-    webPreferences: {
-      // Electron Security Checklist - pg 11
-      // contextIsolation: true
-      // Electron Security Checklist - pg 9
-      // sandbox: true,
-      // Electron Security Checklist - pg 5
-      // nodeIntegration: false,
-      // not needed as set to false by default but just in case:
-      // nodeIntegrationInWorker: false
-    }
+    icon: path.join(__dirname, "/../resources/Cryptocurrency_Logo.png")
   });
 
   mainWindow.loadURL(`file://${__dirname}/app.html`);

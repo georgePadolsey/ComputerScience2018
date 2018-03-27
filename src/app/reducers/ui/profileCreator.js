@@ -40,7 +40,6 @@ export default function profileCreatorReducer(
       break;
     case PROFILE_CREATOR_SET_STAGE:
       state = merge({}, state, { stage: action.payload });
-
       break;
     case PROFILE_CREATOR_SET_CURRENT_CURRENCY:
       state = merge({}, state, { currencySelected: action.payload });
