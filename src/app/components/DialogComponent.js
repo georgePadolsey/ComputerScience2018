@@ -22,7 +22,7 @@ class DialogComponent extends React.Component<Props> {
         <div>
           {showExit ? <button className={styles.exit} onClick={() => dismiss()}>
             <FontAwesomeIcon icon={faTimes} />
-          </button>: null}
+          </button> : null}
           {children}
         </div>
       </div>

@@ -42,32 +42,30 @@ class MainPanel extends Component<Props> {
     let dataBlocks = [];
     if (this.props.uiData.mainPanelEditMode) {
       // show add button
-      dataBlocks.push(
-        <div
-          key="addBox"
-          className={styles.addBox}
-          onClick={evt => {
+      dataBlocks.push(<div
+        key="addBox"
+        className={styles.addBox}
+        onClick={evt => {
             this.props.addMainChartActions.show();
             evt.preventDefault();
           }}
-          onKeyDown={evt => {
+        onKeyDown={evt => {
             this.props.addMainChartActions.show();
             evt.preventDefault();
           }}
-          role="button"
-          tabIndex={-1}
-          data-grid={{
+        role="button"
+        tabIndex={-1}
+        data-grid={{
             x: 1000,
             y: 1000,
             w: 1,
             h: 1
           }}
-        >
-          <span className={styles.midCenter}>
-            <FontAwesomeIcon icon={faPlusCircle} />
-          </span>
-        </div>
-      );
+      >
+        <span className={styles.midCenter}>
+          <FontAwesomeIcon icon={faPlusCircle} />
+        </span>
+                      </div>);
     }
 
     dataBlocks = [
@@ -110,14 +108,10 @@ class MainPanel extends Component<Props> {
               this.props.uiData.mainPanelEditMode ? styles.activeEdit : null
             ].join(' ')}
             onClick={() =>
-              this.props.uiActions.setMainPanelEditMode(
-                !this.props.uiData.mainPanelEditMode
-              )
+              this.props.uiActions.setMainPanelEditMode(!this.props.uiData.mainPanelEditMode)
             }
             onKeyPress={() =>
-              this.props.uiActions.setMainPanelEditMode(
-                !this.props.uiData.mainPanelEditMode
-              )
+              this.props.uiActions.setMainPanelEditMode(!this.props.uiData.mainPanelEditMode)
             }
             role="button"
             tabIndex={-1}

@@ -1,4 +1,4 @@
-//@flow
+// @flow
 import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
@@ -93,12 +93,10 @@ class AddBalance extends Component<Props> {
               onChange={(selectedOption?: { label: string, value: string }) =>
                 this.props.actions.setCurrentCurrency(selectedOption.value)
               }
-              options={Object.keys(CryptoAPI.currencyExchangeLookup).map(
-                symbol => ({
+              options={Object.keys(CryptoAPI.currencyExchangeLookup).map(symbol => ({
                   value: symbol,
                   label: symbol
-                })
-              )}
+                }))}
             />
           </label>
           <label htmlFor="amount">
