@@ -9,13 +9,13 @@ Choose the latest version and appropriate file for your platform. (i.e. `.exe` f
 
 ## Development mode
 
-###Requirements
+### Requirements
 To be able to run this on your computer in development mode. You must have:
 - [npm](https://www.npmjs.com/)<sup>2</sup> installed (Recommended installing with [nvm](https://github.com/creationix/nvm)<sup>3</sup>)
 - _Optional/Recommended_: [yarn](https://yarnpkg.com/lang/en/)<sup>4</sup> installed
 
 
-###Steps
+### Steps
 To view the 'finished' application in `development` mode where code can be change and debugging tools are available either:
 - Visit the GitHub [releases page](https://github.com/georgePadolsey/ComputerScience2018/releases)<sup>1</sup> and download the latest source code (the zip file)
 - Clone the [GitHub repository](https://github.com/georgePadolsey/ComputerScience2018)<sup>6</sup>. To see a tutorial for how to do this go to the Github [Help page](https://help.github.com/articles/cloning-a-repository/)<sup>7</sup>
