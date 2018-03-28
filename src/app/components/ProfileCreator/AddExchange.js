@@ -96,11 +96,8 @@ class AddExchange extends Component<Props> {
             <textarea />
           </label>
         </form>
-        <button
-          className={styles.next}
-          onClick={() => changeStage(PROFILE_CREATOR_STAGES.PROFILE_SETTINGS)}
-        >
-          <FontAwesomeIcon icon={faArrowRight} />
+        <button className={styles.next} onClick={() => this.props.actions.hide()}>
+          {'Add'}
         </button>
       </div>
     );

@@ -19,13 +19,14 @@ import SettingsDialog from './SettingsDialog';
 
 import type { ProfileData } from '../_types/Profile';
 
-import type { UIData } from '../_types/UI';
+import type { UIData, ProfileCreatorState } from '../_types/UI';
 
 type Props = {
   profileActions: typeof profileActions,
   uiActions: typeof uiActions,
   addMainChartActions: typeof addMainChartActions,
   profileCreatorActions: typeof profileCreatorActions,
+  profileCreatorState: ProfileCreatorState,
   uiData: UIData,
   profileData: ProfileData
 };
@@ -54,7 +55,6 @@ class Home extends Component<Props> {
           <SidePanel />
           <MainPanel />
         </div>
-        <button onClick={() => this.props.profileCreatorActions.show()}>Show PC</button>
         {this.props.uiData.profileCreatorState.show ? <ProfileCreatorDialog /> : null}
         {this.props.uiData.addMainChartState.show ? <AddMainChartDialog /> : null}
         {this.props.uiData.settingsState.show ? <SettingsDialog /> : null}

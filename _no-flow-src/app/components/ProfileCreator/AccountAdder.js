@@ -2,19 +2,15 @@
 import React, { Component } from "react";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
-import FontAwesomeIcon from "@fortawesome/react-fontawesome";
-import { CSSTransitionGroup } from "react-transition-group";
-import VirtualizedSelect from "react-virtualized-select";
-
-import styles from "../styles/ProfileCreator.scss";
-
 import {
   faBalanceScale,
   faExchangeAlt,
-  faCreditCard,
-  faArrowLeft,
-  faArrowRight
+  faCreditCard
 } from "@fortawesome/fontawesome-free-solid";
+import FontAwesomeIcon from "@fortawesome/react-fontawesome";
+import { CSSTransitionGroup } from "react-transition-group";
+
+import styles from "../styles/ProfileCreator.scss";
 
 // Actions/reducers
 import * as uiActions from "../../actions/ui";
@@ -62,40 +58,42 @@ class AccountAdder extends Component {
           // transitionEnterTimeout={500}
           transitionLeave={false}
         >
-          <button
-            className={styles.button}
-            onClick={() => changeStage(PROFILE_CREATOR_STAGES.ADD_BALANCE)}
-            onKeyPress={() => changeStage(PROFILE_CREATOR_STAGES.ADD_BALANCE)}
-          >
-            <span className={styles.icon}>
-              <FontAwesomeIcon icon={faBalanceScale} />
-            </span>
-            <span className={styles.meta}> Crypto Coin Balance</span>
-          </button>
-          <button
-            className={styles.button}
-            onClick={() => changeStage(PROFILE_CREATOR_STAGES.ADD_EXCHANGE)}
-            onKeyPress={() => changeStage(PROFILE_CREATOR_STAGES.ADD_EXCHANGE)}
-          >
-            <span className={styles.icon}>
-              <FontAwesomeIcon icon={faExchangeAlt} />
-            </span>
-            <span className={styles.meta}> Exchange</span>
-          </button>
-          <button className={styles.button}>
-            <span className={styles.icon}>
-              <FontAwesomeIcon icon={faCreditCard} />
-            </span>
-            <span className={styles.meta}>Crypto Wallet (BTC or ETH)</span>
-          </button>
+          <div className={styles.buttonContainer}>
+            <button
+              className={styles.button}
+              onClick={() => changeStage(PROFILE_CREATOR_STAGES.ADD_BALANCE)}
+              onKeyPress={() => changeStage(PROFILE_CREATOR_STAGES.ADD_BALANCE)}
+            >
+              <span className={styles.icon}>
+                <FontAwesomeIcon icon={faBalanceScale} />
+              </span>
+              <span className={styles.meta}> Crypto Coin Balance</span>
+            </button>
+            <button
+              className={styles.button}
+              onClick={() => changeStage(PROFILE_CREATOR_STAGES.ADD_EXCHANGE)}
+              onKeyPress={() =>
+                changeStage(PROFILE_CREATOR_STAGES.ADD_EXCHANGE)
+              }
+            >
+              <span className={styles.icon}>
+                <FontAwesomeIcon icon={faExchangeAlt} />
+              </span>
+              <span className={styles.meta}> Exchange</span>
+            </button>
+            <button className={styles.button}>
+              <span className={styles.icon}>
+                <FontAwesomeIcon icon={faCreditCard} />
+              </span>
+              <span className={styles.meta}>Crypto Wallet (BTC or ETH)</span>
+            </button>
+          </div>
           <span
             className={styles.next}
             role="button"
             tabIndex={0}
-            onKeyPress={() =>
-              changeStage(PROFILE_CREATOR_STAGES.PROFILE_SETTINGS)
-            }
-            onClick={() => changeStage(PROFILE_CREATOR_STAGES.PROFILE_SETTINGS)}
+            onKeyPress={() => this.props.actions.hide()}
+            onClick={() => this.props.actions.hide()}
           >
             {"I don't want to add a balance..."}
           </span>

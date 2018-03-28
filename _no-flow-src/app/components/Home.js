@@ -41,9 +41,6 @@ class Home extends Component {
           <SidePanel />
           <MainPanel />
         </div>
-        <button onClick={() => this.props.profileCreatorActions.show()}>
-          Show PC
-        </button>
         {this.props.uiData.profileCreatorState.show ? (
           <ProfileCreatorDialog />
         ) : null}

@@ -4,7 +4,6 @@ import { createHashHistory } from "history";
 import { routerMiddleware, routerActions } from "react-router-redux";
 import { createLogger } from "redux-logger";
 import rootReducer from "../reducers";
-import { ipc } from "../reducers/ipc";
 import * as profileActions from "../actions/profile";
 import * as uiActions from "../actions/ui";
 import * as profileCreatorActions from "../actions/profileCreator";
@@ -30,9 +29,6 @@ const configureStore = (initialState?: any) => {
   if (process.env.NODE_ENV !== "test") {
     middleware.push(logger);
   }
-
-  // Redux-electron-ipc
-  middleware.push(ipc);
 
   // Router Middleware
   const router = routerMiddleware(history);

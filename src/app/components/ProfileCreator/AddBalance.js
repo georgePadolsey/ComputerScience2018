@@ -94,9 +94,9 @@ class AddBalance extends Component<Props> {
                 this.props.actions.setCurrentCurrency(selectedOption.value)
               }
               options={Object.keys(CryptoAPI.currencyExchangeLookup).map(symbol => ({
-                  value: symbol,
-                  label: symbol
-                }))}
+                value: symbol,
+                label: symbol
+              }))}
             />
           </label>
           <label htmlFor="amount">
@@ -106,17 +106,12 @@ class AddBalance extends Component<Props> {
               placeholder={0}
               min={0}
               step={0.0001}
-              onBlur={ev =>
-                this.props.actions.setBalanceAmount(+ev.target.value)
-              }
+              onBlur={ev => this.props.actions.setBalanceAmount(+ev.target.value)}
             />
           </label>
         </form>
-        <button
-          className={styles.next}
-          onClick={() => changeStage(PROFILE_CREATOR_STAGES.PROFILE_SETTINGS)}
-        >
-          <FontAwesomeIcon icon={faArrowRight} />
+        <button className={styles.next} onClick={() => this.props.actions.hide()}>
+          {'Add'}
         </button>
       </div>
     );

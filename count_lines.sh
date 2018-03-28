@@ -1,2 +1,3 @@
-(find src/**/* -not -path "src/node_modules/*" -not -path "src/internals/*" -not -path "src/flow-typed/*" -not -path "src/release/*" -not -path "src/dll/*" -print0 | xargs -0 cat ) | wc -l
-read -n1 -r -p "Press any key to continue..." key 
+echo "Lines: "`(find src/**/* -type f -not -path "src/node_modules/*" -not -path "src/internals/*" -not -path "src/flow-typed/*" -not -path "src/release/*" -not -path "src/dll/*" -print0 | xargs -0 cat ) | wc -l`
+echo "Words: "`(find src/**/* -type f -not -path "src/node_modules/*" -not -path "src/internals/*" -not -path "src/flow-typed/*" -not -path "src/release/*" -not -path "src/dll/*" -print0 | xargs -0 cat ) | wc -w`
+echo "Lines with Dep: "`(find src/**/* -name '*.js' -not -path "src/flow-typed/*" -not -path "src/release/*" -not -path "src/dll/*" -not -path "src/internals/*" -type f -print0 | xargs -0 cat ) | wc -l`

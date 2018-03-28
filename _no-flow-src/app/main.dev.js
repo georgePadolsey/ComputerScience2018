@@ -10,10 +10,9 @@
  *
  *
  */
-import { app, BrowserWindow, ipcMain } from "electron";
-import MenuBuilder from "./menu";
-import clientAppReducer from "./_app_node/ClientAppReducer.js";
+import { app, BrowserWindow } from "electron";
 import path from "path";
+import MenuBuilder from "./menu";
 
 let mainWindow = null;
 
@@ -92,9 +91,4 @@ app.on("ready", async () => {
 
   const menuBuilder = new MenuBuilder(mainWindow);
   menuBuilder.buildMenu();
-
-  ipcMain.on("main", async (evt, ...args) => {
-    const reply = await clientAppReducer(...args);
-    evt.sender.send(...reply);
-  });
 });
