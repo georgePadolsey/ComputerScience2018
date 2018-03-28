@@ -4,7 +4,6 @@ import { createHashHistory } from 'history';
 import { routerMiddleware, routerActions } from 'react-router-redux';
 import { createLogger } from 'redux-logger';
 import rootReducer from '../reducers';
-import { ipc } from '../reducers/ipc';
 import * as profileActions from '../actions/profile';
 import * as uiActions from '../actions/ui';
 import * as profileCreatorActions from '../actions/profileCreator';
@@ -31,9 +30,6 @@ const configureStore = (initialState?: any) => {
     middleware.push(logger);
   }
 
-  // Redux-electron-ipc
-  middleware.push(ipc);
-
   // Router Middleware
   const router = routerMiddleware(history);
   middleware.push(router);
@@ -50,9 +46,9 @@ const configureStore = (initialState?: any) => {
   /* eslint-disable no-underscore-dangle */
   const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
     ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({
-      // Options: http://zalmoxisus.github.io/redux-devtools-extension/API/Arguments.html
-      actionCreators
-    })
+        // Options: http://zalmoxisus.github.io/redux-devtools-extension/API/Arguments.html
+        actionCreators
+      })
     : compose;
   /* eslint-enable no-underscore-dangle */
 
@@ -64,7 +60,9 @@ const configureStore = (initialState?: any) => {
   const store = createStore(rootReducer, initialState, enhancer);
 
   if (module.hot) {
-    module.hot.accept('../reducers', () => store.replaceReducer(require('../reducers'))); // eslint-disable-line global-require
+    module.hot.accept('../reducers', () =>
+      store.replaceReducer(require('../reducers'))
+    ); // eslint-disable-line global-require
   }
 
   return store;
