@@ -2,19 +2,11 @@
 import React, { Component } from "react";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
+import { faArrowLeft, faArrowRight } from "@fortawesome/fontawesome-free-solid";
 import FontAwesomeIcon from "@fortawesome/react-fontawesome";
-import { CSSTransitionGroup } from "react-transition-group";
 import VirtualizedSelect from "react-virtualized-select";
 
 import styles from "../styles/ProfileCreator.scss";
-
-import {
-  faBalanceScale,
-  faExchangeAlt,
-  faCreditCard,
-  faArrowLeft,
-  faArrowRight
-} from "@fortawesome/fontawesome-free-solid";
 
 // Actions/reducers
 import * as uiActions from "../../actions/ui";

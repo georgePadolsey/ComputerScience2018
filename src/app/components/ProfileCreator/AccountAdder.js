@@ -1,4 +1,4 @@
-//@flow
+// @flow
 import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
@@ -112,9 +112,7 @@ class AccountAdder extends Component<Props> {
             className={styles.next}
             role="button"
             tabIndex={0}
-            onKeyPress={() =>
-              changeStage(PROFILE_CREATOR_STAGES.PROFILE_SETTINGS)
-            }
+            onKeyPress={() => changeStage(PROFILE_CREATOR_STAGES.PROFILE_SETTINGS)}
             onClick={() => changeStage(PROFILE_CREATOR_STAGES.PROFILE_SETTINGS)}
           >
             {"I don't want to add a balance..."}

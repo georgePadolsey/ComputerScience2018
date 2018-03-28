@@ -1,16 +1,10 @@
 // @flow
 import React, { Component } from 'react';
 import FontAwesomeIcon from '@fortawesome/react-fontawesome';
-import {
-  faBalanceScale,
-  faExchangeAlt,
-  faCreditCard,
-  faArrowLeft,
-  faArrowRight
-} from '@fortawesome/fontawesome-free-solid';
+import { faArrowLeft, faArrowRight } from '@fortawesome/fontawesome-free-solid';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { CSSTransitionGroup } from 'react-transition-group';
+import VirtualizedSelect from 'react-virtualized-select';
 
 import swal from 'sweetalert2';
 import DialogComponent from '../DialogComponent';
@@ -109,12 +103,7 @@ class ProfileCreator extends Component<Props> {
           </label>
           <label htmlFor="name">
             <span>Balance Name</span>
-            <input
-              type="text"
-              name="name"
-              id="name"
-              placeholder="New Balance"
-            />
+            <input type="text" name="name" id="name" placeholder="New Balance" />
           </label>
           <label htmlFor="currency">
             <span>Currency Type</span>
@@ -126,12 +115,10 @@ class ProfileCreator extends Component<Props> {
               onChange={(selectedOption?: { label: string, value: string }) =>
                 this.props.actions.setCurrentCurrency(selectedOption.label)
               }
-              options={Object.keys(CryptoAPI.currencyExchangeLookup).map(
-                symbol => ({
-                  value: symbol,
-                  label: symbol
-                })
-              )}
+              options={Object.keys(CryptoAPI.currencyExchangeLookup).map(symbol => ({
+                value: symbol,
+                label: symbol
+              }))}
             />
           </label>
           <label htmlFor="amount">
@@ -159,17 +146,11 @@ class ProfileCreator extends Component<Props> {
     stages[PROFILE_CREATOR_STAGES.ACCOUNT_ADDER] = <AccountAdder />;
     stages[PROFILE_CREATOR_STAGES.ADD_BALANCE] = <AddBalance />;
     stages[PROFILE_CREATOR_STAGES.ADD_EXCHANGE] = <AddExchange />;
-    stages[
-      PROFILE_CREATOR_STAGES.PROFILE_SETTINGS
-    ] = this.getProfileSettingsStage();
+    stages[PROFILE_CREATOR_STAGES.PROFILE_SETTINGS] = this.getProfileSettingsStage();
     return stages[this.props.profileCreatorState.stage];
   }
   render() {
-    return (
-      <DialogComponent dismiss={() => this.dismiss()}>
-        {this.getStages()}
-      </DialogComponent>
-    );
+    return <DialogComponent dismiss={() => this.dismiss()}>{this.getStages()}</DialogComponent>;
   }
 }
 

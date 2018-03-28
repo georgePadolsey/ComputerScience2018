@@ -7,6 +7,6 @@ type Props = {
 
 export default class App extends React.Component<Props> {
   render() {
-    return this.props.children;
+    return <div>{this.props.children}</div>;
   }
 }

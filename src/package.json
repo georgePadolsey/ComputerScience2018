@@ -19,7 +19,7 @@
       "electron-rebuild --parallel --force --types prod,dev,optional --module-dir app",
     "flow": "flow",
     "flow-typed": "rimraf flow-typed/npm && flow-typed install --overwrite || true",
-    "generate-licenses": "mkdir -p release && electron-license build > release/LICENSE",
+    "generate-licenses": "(mkdir -p release || true) && electron-license build > release/LICENSE",
     "lint":
       "cross-env NODE_ENV=development eslint --cache --format=node_modules/eslint-formatter-pretty .",
     "lint-fix": "npm run lint -- --fix",

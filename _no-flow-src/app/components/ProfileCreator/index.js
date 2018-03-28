@@ -1,16 +1,10 @@
 //
 import React, { Component } from "react";
 import FontAwesomeIcon from "@fortawesome/react-fontawesome";
-import {
-  faBalanceScale,
-  faExchangeAlt,
-  faCreditCard,
-  faArrowLeft,
-  faArrowRight
-} from "@fortawesome/fontawesome-free-solid";
+import { faArrowLeft, faArrowRight } from "@fortawesome/fontawesome-free-solid";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
-import { CSSTransitionGroup } from "react-transition-group";
+import VirtualizedSelect from "react-virtualized-select";
 
 import swal from "sweetalert2";
 import DialogComponent from "../DialogComponent";
