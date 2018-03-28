@@ -88,12 +88,10 @@ class MainPanel extends Component<Props> {
           <span>
             {mainPanelChart.chartName} - {mainPanelChart.exchangeId}
           </span>
-          <div className={styles.plotlyContainer}>
-            <OHLCVGraph
-              className={styles.plotlyGraph}
-              chartData={mainPanelChart}
-            />
-          </div>
+          <OHLCVGraph
+            className={styles.plotlyGraph}
+            chartData={mainPanelChart}
+          />
         </div>
       ))
     ];
@@ -137,7 +135,7 @@ class MainPanel extends Component<Props> {
             styles.mainBody,
             this.props.uiData.mainPanelEditMode ? styles.editContainer : null
           ].join(" ")}
-          rowHeight={480}
+          rowHeight={520}
           layouts={this.props.uiData.mainPanelLayouts}
           cols={{
             lg: 3,
