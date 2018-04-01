@@ -25,6 +25,10 @@ Then run the following commands from the main directory:
 - `yarn install` or `npm install` to install all the dependencies
 - `yarn run dev` or `npm run dev` to run the program in development mode. It should open the application in a new window after a few seconds.
 
+## Download source code
+To just download the source code for the entire application either:
+- Visit the GitHub [releases page](https://github.com/georgePadolsey/ComputerScience2018/releases)<sup>1</sup> and download the latest source code (the zip file)
+- Clone the [GitHub repository](https://github.com/georgePadolsey/ComputerScience2018)<sup>6</sup>. To see a tutorial for how to do this go to the Github [Help page](https://help.github.com/articles/cloning-a-repository/)<sup>7</sup>
 
 ## Links
 1) Application releases https://github.com/georgePadolsey/ComputerScience2018/releases

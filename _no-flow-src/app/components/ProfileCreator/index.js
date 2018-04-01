@@ -1,13 +1,10 @@
 //
 import React, { Component } from "react";
-import FontAwesomeIcon from "@fortawesome/react-fontawesome";
-import { faArrowLeft, faArrowRight } from "@fortawesome/fontawesome-free-solid";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
-import VirtualizedSelect from "react-virtualized-select";
 
 import swal from "sweetalert2";
-import DialogComponent from "../DialogComponent";
+import Dialog from "../DialogComponent";
 
 import AccountAdder from "./AccountAdder";
 import AddBalance from "./AddBalance";
@@ -61,9 +58,9 @@ class ProfileCreator extends Component {
   }
   render() {
     return (
-      <DialogComponent dismiss={() => this.dismiss()}>
+      <Dialog dismiss={() => this.dismiss()} showExit>
         {this.getStages()}
-      </DialogComponent>
+      </Dialog>
     );
   }
 }

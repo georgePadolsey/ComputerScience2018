@@ -5,7 +5,14 @@ import moment from 'moment';
 import { bindActionCreators } from 'redux';
 import swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
-import { faSync, faCogs, faPlus } from '@fortawesome/fontawesome-free-solid';
+import {
+  faSync,
+  faCogs,
+  faPlus,
+  faChevronUp,
+  faChevronDown,
+  faCompress
+} from '@fortawesome/fontawesome-free-solid';
 import FontAwesomeIcon from '@fortawesome/react-fontawesome';
 
 import * as profileActions from '../actions/profile';
@@ -114,6 +121,28 @@ class SidePanel extends Component<Props> {
               onClick={() => this.refreshData()}
             />
           </span>
+
+          <div className={styles.portfolioMoney}>
+            <p>Portfolios</p>
+            <span className={styles.portfolio}>
+              <span className={styles.balanceName}>Original Bitcoin</span>
+              <span className={styles.toRight}>
+                <span className={styles.amount}>1.3001 BTC</span>
+              </span>
+            </span>
+            <span className={styles.portfolio}>
+              <span className={styles.balanceName}>Other Ethereum</span>
+              <span className={styles.toRight}>
+                <span className={styles.amount}>0.5101 BTC</span>
+              </span>
+            </span>
+            <span className={styles.portfolio}>
+              <span className={styles.balanceName}>Just Made</span>
+              <span className={styles.toRight}>
+                <span className={styles.amount}>0.0000 BTC</span>
+              </span>
+            </span>
+          </div>
         </div>
       </div>
     );

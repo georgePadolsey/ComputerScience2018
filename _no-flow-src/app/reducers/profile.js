@@ -8,7 +8,8 @@ import {
   CHANGE_PROFILE_NAME,
   CHANGE_PROFILE,
   CORRECT_PROFILE_DATA,
-  SET_EXPIRY_TIMEOUT
+  SET_EXPIRY_TIMEOUT,
+  SET_COMPARE_CURRENCY
 } from "../actions/types/profile";
 import { setProfileData } from "../utils/ProfileProvider";
 
@@ -60,7 +61,13 @@ export default function profileReducer(state = defaultProfileData, action) {
         currentProfile: Object.keys(state.loadedProfiles)[0]
       });
       break;
-
+    case SET_COMPARE_CURRENCY:
+      loadedProfiles = {};
+      loadedProfiles[action.payload.uuid] = {
+        compareCurrency: action.payload.compareCurrency
+      };
+      state = merge({}, state, { loadedProfiles });
+      break;
     default:
       break;
   }

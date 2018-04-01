@@ -23,3 +23,23 @@
 .refreshButton {
   cursor: pointer;
 }
+
+.portfolio {
+  display: block;
+}
+
+.portfolioMoney {
+  margin-top: 1em;
+
+  p {
+    // text-decoration: underline;
+    border-bottom: 1px solid #d7cdf2;
+  }
+  .amount {
+    color: white;
+    // color: rgb(255, 255, 10);
+  }
+  .toRight {
+    float: right;
+  }
+}

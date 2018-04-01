@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import Select from 'react-select';
+import VirtualizedSelect from 'react-virtualized-select';
 
 import * as profileActions from '../actions/profile';
 import * as uiActions from '../actions/ui';
@@ -12,7 +13,10 @@ import Dialog from './DialogComponent';
 
 import type { ProfileData, Profile } from '../_types/Profile';
 
+import CryptoAPI from '../utils/CryptoAPI';
 import styles from './styles/SettingsDialog.scss';
+
+import type { CryptoState } from '../_types/Crypto';
 
 const mapStateToProps = ({ profileData }) => ({ profileData });
 
@@ -27,6 +31,7 @@ type Props = {
   profileActions: typeof profileActions,
   uiActions: typeof uiActions,
   profileCreatorActions: typeof profileCreatorActions,
+  cryptoData: CryptoState,
   actions: typeof settingsActions,
   profileData: ProfileData
 };
@@ -59,10 +64,11 @@ class SettingsDialog extends Component<Props> {
             />
           </label>
           <h2 className={styles.subheading}>Profile Settings - {this.getProfile().displayName}</h2>
-          <label>
+          <label htmlFor="autoUpdateTime">
             <span>Set autoupdate time (ms) </span>
             <input
               type="number"
+              id="autoUpdateTime"
               min={0}
               step={100}
               defaultValue={this.getProfile().expiryTimeout}
@@ -72,6 +78,25 @@ class SettingsDialog extends Component<Props> {
                   +ev.target.value
                 )
               }
+            />
+          </label>
+          <label htmlFor="compareCurrency">
+            <span>Compare Currency </span>
+            <VirtualizedSelect
+              name="currency"
+              id="compareCurrency"
+              value={this.getProfile().compareCurrency || ''}
+              className={styles.selectBox}
+              onChange={(selectedOption?: { label: string, value: string } | null) => {
+                this.props.profileActions.setCompareCurrency(
+                  this.props.profileData.currentProfile,
+                  selectedOption ? selectedOption.value : null
+                );
+              }}
+              options={Object.keys(CryptoAPI.currencyExchangeLookup).map(symbol => ({
+                value: symbol,
+                label: symbol
+              }))}
             />
           </label>
         </form>

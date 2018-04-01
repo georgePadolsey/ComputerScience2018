@@ -73,11 +73,11 @@ class AddExchange extends Component {
           </label>
           <h3>API</h3>
           <label htmlFor="apiKey">
-            <span>API key</span>
+            <span>API Key</span>
             <textarea />
           </label>
           <label htmlFor="apiSecret">
-            <span>API key</span>
+            <span>API Secret</span>
             <textarea />
           </label>
         </form>

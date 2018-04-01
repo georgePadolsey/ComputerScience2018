@@ -24,10 +24,10 @@ export type ProfileCreatorState = {
   +show: boolean,
   +stage: ProfileCreatorStage,
   +firstTime: boolean,
-  +exchangeSelected?: string,
-  +currencySelected?: string,
-  +balanceName?: string,
-  +balanceAmount?: number
+  +exchangeSelected?: ?string,
+  +currencySelected?: ?string,
+  +balanceName?: ?string,
+  +balanceAmount?: ?number
 };
 
 export type MainPanelChart = {

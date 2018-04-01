@@ -1,24 +1,35 @@
+//
+// Module imports
 import React, { Component } from "react";
 import FontAwesomeIcon from "@fortawesome/react-fontawesome";
 
-type Props = {
-  icon: object
-};
+// Object requires no itself props
 
-export default class SpinOnHoverFontAwesome extends Component<Props> {
+/**
+ * State only has one boolean
+ * whether the mouse is currently over
+ * the component
+ */
+
+/**
+ * React component to provide a icon which spins
+ * when the mouse is over it. Useful for a refresh button.
+ */
+export default class SpinOnHoverFontAwesome extends Component {
+  /**
+   * Set defualt state of mouseOver to false
+   * So not spinning
+   */
   state = {
     mouseOver: false
   };
 
   render() {
-    const { icon, ...rest } = this.props;
-
     // Composition > Extension :)
     return (
       <FontAwesomeIcon
-        {...rest}
+        {...this.props}
         spin={this.state.mouseOver}
-        icon={icon}
         onFocus={() => this.setState({ mouseOver: true })}
         onBlur={() => this.setState({ mouseOver: false })}
         onMouseOver={() => this.setState({ mouseOver: true })}

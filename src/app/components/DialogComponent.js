@@ -20,9 +20,11 @@ class DialogComponent extends React.Component<Props> {
         <div className={styles.dimmedBackground} onClick={() => dismiss()} aria-hidden />
 
         <div>
-          {showExit ? <button className={styles.exit} onClick={() => dismiss()}>
-            <FontAwesomeIcon icon={faTimes} />
-          </button> : null}
+          {showExit ? (
+            <button className={styles.exit} onClick={() => dismiss()}>
+              <FontAwesomeIcon icon={faTimes} />
+            </button>
+          ) : null}
           {children}
         </div>
       </div>

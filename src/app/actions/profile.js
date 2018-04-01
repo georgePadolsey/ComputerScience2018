@@ -16,10 +16,7 @@ export function changeProfile(uuid: string): ProfileAction {
   };
 }
 
-export function changeProfileName(
-  uuid: string,
-  displayName: string
-): ProfileAction {
+export function changeProfileName(uuid: string, displayName: string): ProfileAction {
   return {
     type: PROFILE_ACTIONS.CHANGE_PROFILE_NAME,
     payload: {
@@ -53,5 +50,15 @@ export function loadedProfileData(profileData: ?ProfileData): ProfileAction {
 export function correctProfileData(): ProfileAction {
   return {
     type: PROFILE_ACTIONS.CORRECT_PROFILE_DATA
+  };
+}
+
+export function setCompareCurrency(uuid: string, compareCurrency: string): ProfileAction {
+  return {
+    type: PROFILE_ACTIONS.SET_COMPARE_CURRENCY,
+    payload: {
+      uuid,
+      compareCurrency
+    }
   };
 }

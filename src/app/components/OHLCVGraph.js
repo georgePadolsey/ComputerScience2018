@@ -1,4 +1,5 @@
 // @flow
+// Module imports
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import {
@@ -10,17 +11,24 @@ import {
   VictoryZoomContainer
 } from 'victory';
 import orderBy from 'lodash/orderBy';
-
 import moment from 'moment';
 import isArray from 'lodash/isArray';
 import sizeMe from 'react-sizeme';
+
+// Local imports
 import CryptoAPI from '../utils/CryptoAPI';
 import { formatNumber } from '../utils/Misc';
+
+// Type imports
 import type { CryptoState } from '../_types/Crypto';
 import type { MainPanelChart } from '../_types/UI';
 
+// Style imports
 import styles from './styles/OHLCVGraph.scss';
 
+/**
+ * Props for OHLCVGraph Component
+ */
 type Props = {
   chartData: MainPanelChart,
   cryptoData: CryptoState,
@@ -29,6 +37,9 @@ type Props = {
   }
 };
 
+/**
+ * State for OHLCVGraph Component
+ */
 type State = {
   candleStickData?: Array<{
     x: number,
@@ -36,51 +47,67 @@ type State = {
     close: number,
     high: number,
     low: number
-  }>,
+  }> | null,
+  /**
+   * these are weak as the actual type requires
+   * reading of victory docs
+   */
   selectedDomain?: any,
+  /**
+   * these are weak as the actual type
+   * requires reading of victory docs
+   */
   zoomDomain?: any
 };
 
 const mapStateToProps = ({ cryptoData }) => ({ cryptoData });
 
 class OHLCVGraph extends Component<Props, State> {
+  /**
+   * Default state of OHLCVGraph
+   */
   state = {
     candleStickData: null,
     zoomDomain: null,
     selectedDomain: null
   };
 
+  /**
+   * Asynchronous function to get candle stick data for graph
+   */
   async getCandleStickData() {
+    // Get the exchange from CryptoAPI
     const exchange = CryptoAPI.getExchange(this.props.chartData.exchangeId);
 
+    // if not loaded log and error and finish
     if (exchange == null) {
       console.error('[OHLCVGraph] Exchange is null');
       return;
     }
 
-    console.log(exchange);
+    // wait to get the OHLCV data from the API (could be cached or could be using API)
     const OHLCVdata = await CryptoAPI.fetchOHLCV(exchange, this.props.chartData.symbolId);
 
+    // if the data is null for any reason then return
     if (OHLCVdata == null || (isArray(OHLCVdata) && OHLCVdata.length === 0)) {
       return;
     }
 
     let dataVals = [];
 
-    OHLCVdata.forEach(([time, open, high, low, close]) => {
-      dataVals.push({
-        x: new Date(time),
-        open,
-        close,
-        high,
-        low
-      });
-    });
+    // For each piece of data map it to a new type (with x substituded for victory)
+    dataVals = OHLCVdata.map(([time, open, high, low, close]) => ({
+      x: new Date(time),
+      open,
+      close,
+      high,
+      low
+    }));
 
-    if (dataVals.length > 100) {
-      // Max data points = 100 for performance reasons
+    if (dataVals.length > 1000) {
+      // Max data points = 1000 for performance reasons
       dataVals = orderBy(dataVals, ['x'], ['desc']);
-      dataVals = dataVals.slice(0, 100);
+      dataVals = dataVals.slice(0, 1000);
     }
 
     this.setState({
@@ -109,6 +136,7 @@ class OHLCVGraph extends Component<Props, State> {
       chartData, cryptoData, dispatch, ...rest
     } = this.props;
 
+    // If data not got yet - get it!
     if (this.state.candleStickData == null) {
       this.getCandleStickData();
     }
@@ -145,6 +173,7 @@ class OHLCVGraph extends Component<Props, State> {
                 data={this.state.candleStickData}
               />
             </VictoryChart>
+
             {/* 'Zoom' Chart */}
             <VictoryChart
               theme={VictoryTheme.material}
@@ -182,6 +211,7 @@ class OHLCVGraph extends Component<Props, State> {
             </VictoryChart>
           </div>
         ) : (
+          // if data not loaded show "Loading"
           <div className={styles.loading}>Loading</div>
         )}
       </div>
@@ -189,6 +219,8 @@ class OHLCVGraph extends Component<Props, State> {
   }
 }
 
+// Internal representation of OHLCVGraph with react-redux bindings
 const InteralOHLCVGraph = connect(mapStateToProps)(OHLCVGraph);
 
+// Export representation with sizeMe bindings as well
 export default sizeMe()(props => <InteralOHLCVGraph width={props.size.width} {...props} />);
