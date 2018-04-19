@@ -27,35 +27,29 @@ export default function profileCreatorReducer(
 ) {
   switch (action.type) {
     case PROFILE_CREATOR_SET_OFFERED:
-      state = merge({}, state, { offered: action.payload });
-
-      break;
+      return merge({}, state, { offered: action.payload });
     case PROFILE_CREATOR_SET_SHOW:
-      state = merge({}, state, {
+      return merge({}, state, {
         show: action.payload,
         stage: PROFILE_CREATOR_STAGES.ACCOUNT_ADDER,
         firstTime: state.firstTime && action.payload
       });
 
-      break;
     case PROFILE_CREATOR_SET_STAGE:
-      state = merge({}, state, { stage: action.payload });
-      break;
-    case PROFILE_CREATOR_SET_CURRENT_CURRENCY:
-      state = merge({}, state, { currencySelected: action.payload });
+      return merge({}, state, { stage: action.payload });
 
-      break;
+    case PROFILE_CREATOR_SET_CURRENT_CURRENCY:
+      return merge({}, state, { currencySelected: action.payload });
+
     case PROFILE_CREATOR_SET_CURRENT_EXCHANGE:
-      state = merge({}, state, { exchangeSelected: action.payload });
-      break;
+      return merge({}, state, { exchangeSelected: action.payload });
+
     case PROFILE_CREATOR_SET_BALANCE_NAME:
-      state = merge({}, state, { balanceName: action.payload });
-      break;
+      return merge({}, state, { balanceName: action.payload });
+
     case PROFILE_CREATOR_SET_BALANCE_AMOUNT:
-      state = merge({}, state, { balanceAmount: action.payload });
-      break;
+      return merge({}, state, { balanceAmount: action.payload });
     default:
-      break;
+      return state;
   }
-  return state;
 }

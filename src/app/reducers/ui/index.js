@@ -43,7 +43,10 @@ const generalUIReducer = ownReducer({
   settingsState: settingsReducer
 });
 
-export default function uiReducer(state: ?UIData | {} = defaultUIState, action: actionType) {
+export default function uiReducer(
+  state: ?UIData | {} = defaultUIState,
+  action: actionType
+) {
   switch (action.type) {
     case LOADED_UI_DATA:
       state = merge({}, state, action.payload);

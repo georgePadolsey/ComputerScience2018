@@ -4,11 +4,14 @@ import { AppContainer } from 'react-hot-loader';
 import Root from './containers/Root';
 import { history } from './store/configureStore';
 import getStore from './store/getStore';
+
 import './app.global.css';
 
+// start redux store
 const store = getStore();
 
 render(
+  // App container for everything
   <AppContainer>
     <Root store={store} history={history} />
   </AppContainer>,
