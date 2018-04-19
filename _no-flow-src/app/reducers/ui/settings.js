@@ -14,10 +14,8 @@ export default function addMainChartReducer(
 ) {
   switch (action.type) {
     case SETTINGS_SET_SHOW:
-      state = merge({}, state, { show: action.payload });
-      break;
+      return merge({}, state, { show: action.payload });
     default:
-      break;
+      return state;
   }
-  return state;
 }
