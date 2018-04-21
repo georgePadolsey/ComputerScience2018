@@ -1,0 +1,42 @@
+LABEL START
+
+display_content = ""
+IF users_first_time THEN
+	display_content = WELCOME_MESSAGE
+	users_first_time = FALSE
+ENDIF
+
+display_content = display_content + PROFILE_CHOICE_FORM
+
+# waiting for user to press button
+# for relevant profile type
+user_input = INPUT()
+
+IF user_input == "BALANCE" THEN
+	display_content = BALANCE_FORM
+ELSE IF user_input == "EXCHANGE" THEN
+	display_content = EXCHANGE_FORM
+ELSE IF user_input == "WALLET" THEN
+	display_content = WALLET_FORM
+ENDIF
+
+
+# subroutine to validate the form and if needed display an error message
+SUBROUTINE validate_form():
+	# function to check all inputs are not empty
+	valid_form = checkAllInputsAreNotEmpty() AND checkInputsHaveAppropriateInput()
+	
+	IF NOT valid_form THEN
+		display_content = display_content + ERROR_MESSAGE
+	ENDIF
+ENDSUBROUTINE
+
+WHILE USER_INPUTTING_DATA DO
+	call validate_form()
+ENDWHILE
+
+IF USER_ADDS_ANOTHER THEN
+	GOTO LABEL START
+ENDIF
+
+display_content = PROFILE_SETTINGS_FORM
